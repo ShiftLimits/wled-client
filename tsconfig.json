@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "lib": ["esnext", "DOM"],
+    "types": ["@types/node"],
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"]
+}
