@@ -1,3 +1,15 @@
+import { WLEDContext, WLEDLive } from './types.wled'
+
+export function isWLEDContext(object:any):object is WLEDContext {
+	let { state, info } = object
+	return !!state && !!info
+}
+
+export function isWLEDLive(object:any):object is WLEDLive {
+	let { leds, n } = object
+	return !!leds && !!n
+}
+
 export function deepMerge(target:object, ...sources:object[]) {
 	for (let source of sources) {
 		for (let property in source) {
