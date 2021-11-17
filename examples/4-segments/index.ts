@@ -59,8 +59,6 @@ async function init() {
 			segments.push(segment)
 		}
 
-	// segments.push(...Array.from({ length: max_segments - n_segments }, () => ({ stop: 0 }))) // Fill the remaining segments with delete commands
-
 		wled.setSegments(segments)
 		console.log(`Generated ${ n_segments } segments with ${ n_leds_per_segment } LEDs each.`)
 	}

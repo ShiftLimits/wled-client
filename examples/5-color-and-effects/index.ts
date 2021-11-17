@@ -1,6 +1,5 @@
 import WLEDClient from '../../dist'
 
-const sleep = (timeout:number) => new Promise(res => setTimeout(res, timeout))
 async function init() {
 	console.log('Running Basic Example...')
 
