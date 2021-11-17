@@ -6,6 +6,11 @@
   "browser": "dist/browser/wled-client.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist/**/*",
+		"readme.md"
+	],
   "scripts": {
     "build": "tsup && esbuild src/index.ts --bundle --minify --format=iife --platform=browser --global-name=exports \"--banner:js=var WLEDClient = (function () {\" \"--footer:js=return exports.default})()\" --outfile=dist/browser/wled-client.js"
   },
