@@ -254,7 +254,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * Create a new segment and adds it to the segment array.
 	 * @param {WLEDClientUpdatableSegment} data Every updatable parameter on the segment object except `id`
 	 */
-	createSegment(data:Exclude<WLEDClientUpdatableSegment, 'id'>) {
+	createSegment(data:Omit<WLEDClientUpdatableSegment, 'id'>) {
 		return this.updateState({
 			segments: [
 				...this.state.segments,
@@ -268,7 +268,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * @param {number} id ID of the segment to be updated
 	 * @param {WLEDClientUpdatableSegment} data Every updatable parameter on the segment object except `id`
 	 */
-	updateSegment(id:number, data:Exclude<WLEDClientUpdatableSegment, 'id'>) {
+	updateSegment(id:number, data:Omit<WLEDClientUpdatableSegment, 'id'>) {
 		return this.updateState({
 			segments: [
 				{ id, ...data	}
@@ -292,7 +292,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * Set the entire segment array.
 	 * @param {WLEDClientUpdatableSegment[]} segments Array of segment objects to replace the current array of segment objects
 	 */
-	async setSegments(segments:Exclude<WLEDClientUpdatableSegment, 'id'>[]) {
+	async setSegments(segments:Omit<WLEDClientUpdatableSegment, 'id'>[]) {
 		await this.clearSegments()
 		return this.updateState({	segments })
 	}
