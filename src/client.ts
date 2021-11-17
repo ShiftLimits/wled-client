@@ -261,6 +261,16 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	// Segments
 
 	/**
+	 * Set which segment should be considered the main one.
+	 * @param {number} id ID of the main segment
+	 */
+	setMainSegmentId(id:number) {
+		return this.updateState({
+			mainSegmentId: id
+		})
+	}
+
+	/**
 	 * Get a segment by its `id`.
 	 * @param {number} id ID of the desired segment
 	 */
