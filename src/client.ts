@@ -55,11 +55,13 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.WSAPI.on('update:context', ({ state, info, effects, palettes }) => {
 			let client_state = wledToClientState(state)
 			let client_info = wledToClientInfo(info)
+			let client_effects = effects ? effects : this.effects // Use old effects list if new ones were not passed
+			let client_palettes = palettes ? palettes : this.palettes // Use old palettes list if new ones were not passed
 			let context:WLEDClientContext = {
 				state: client_state,
 				info: client_info,
-				effects,
-				palettes
+				effects: client_effects,
+				palettes: client_palettes
 			}
 
 			Object.assign(this, context)
@@ -67,8 +69,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			this.emit<[WLEDClientContext]>('update:context', context)
 			this.emit<[WLEDClientState]>('update:state', client_state)
 			this.emit<[WLEDClientInfo]>('update:info', client_info)
-			this.emit<[WLEDClientInfo]>('update:effects', effects)
-			this.emit<[WLEDClientInfo]>('update:palettes', palettes)
+			this.emit<[WLEDClientInfo]>('update:effects', client_effects)
+			this.emit<[WLEDClientInfo]>('update:palettes', client_palettes)
 		})
 
 		this.JSONAPI = new WLEDJSONAPI(resolved_options)
