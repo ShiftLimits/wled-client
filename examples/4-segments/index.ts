@@ -68,4 +68,4 @@ async function init() {
 	setInterval(randomSegments, 2500)
 }
 
-init()
+init().catch(console.error)

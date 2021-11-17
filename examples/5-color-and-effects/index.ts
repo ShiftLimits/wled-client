@@ -30,4 +30,4 @@ async function init() {
 	rotatePalette()
 }
 
-init()
+init().catch(console.error)

@@ -61,4 +61,4 @@ async function init() {
 	wled.disconnect()
 }
 
-init()
+init().catch(console.error)
