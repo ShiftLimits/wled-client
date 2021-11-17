@@ -247,6 +247,16 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		})
 	}
 
+	/**
+	 * Duration of the crossfade between different colors/brightness levels.
+	 * @param {number} value Time in 100ms intervals (eg. 4 is 400ms), 0 to 255
+	 */
+	setTransitionTime(value:number) {
+		return this.updateState({
+			transitionTime: value
+		})
+	}
+
 	//
 	// Segments
 
