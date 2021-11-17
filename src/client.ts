@@ -314,4 +314,87 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	setPlaylist(playlist:WLEDClientPlaylist) {
 		return this.updateState({	playlist })
 	}
+
+	//
+	// Nightlight
+
+	/** Methods relating to the nightlight feature. */
+	nightlight = (() => {
+		const wled = this
+		return {
+			/**
+			 * State object of the nightlight feature
+			 * @alias WLEDClient.state.nightlight
+			 */
+			get state() { return wled.state.nightlight },
+
+			/**
+			 * Activate the nightlight. Depending on the set mode, the device will fade towards the target brightness over the set duration.
+			 * @param {number|WLEDClientNightlightState} with_state Optional. Duration if number is passed, otherwise nightlight state object containing other properties to set while activating the nightlight
+			 */
+			enable(with_state:number|Omit<Partial<WLEDClientNightlightState>, 'on'> = {}) {
+				if (typeof with_state == 'number') with_state = { duration: with_state }
+				return wled.updateState({
+					nightlight: {
+						on: true,
+						...with_state
+					}
+				})
+			},
+
+			/** Deactivate the nightlight. */
+			disable() {
+				return wled.updateState({
+					nightlight: {
+						on: false
+					}
+				})
+			},
+
+			/** Change the nightlight state to the opposite of what it currently is. */
+			toggle() {
+				return wled.updateState({
+					nightlight: {
+						on: !wled.state.nightlight.on
+					}
+				})
+			},
+
+			/**
+			 * Set the length of time the nightlight feature will remain active for.
+			 * @param {number} value Time in minutes, 1 to 255
+			 */
+			setDuration(value:number) {
+				return wled.updateState({
+					nightlight: {
+						duration: value
+					}
+				})
+			},
+
+			/**
+			 * Set the target brightness of the nightlight feature.
+			 * @param {number} value 0 to 255
+			 */
+			setTargetBrightness(value:number) {
+				return wled.updateState({
+					nightlight: {
+						targetBrightness: value
+					}
+				})
+			},
+
+			/**
+			 * Set the mode the nightlight will operate by.
+			 * @param {WLEDNightlightMode} mode
+			 */
+			setMode(mode:WLEDNightlightMode) {
+				return wled.updateState({
+					nightlight: {
+						mode
+					}
+				})
+			}
+		}
+	})()
 }
