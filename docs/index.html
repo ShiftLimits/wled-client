@@ -1,0 +1,64 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>wled-client</title><meta name="description" content="Documentation for wled-client"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">wled-client</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> wled-client</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#wled-client" id="wled-client" style="color: inherit; text-decoration: none;">
+  <h1>WLED Client</h1>
+</a>
+<p>A friendly interface for controlling your WLED devices from Node.js or the browser.</p>
+
+<a href="#about" id="about" style="color: inherit; text-decoration: none;">
+  <h2>About</h2>
+</a>
+<p>This is a JS/TS client library for the control of WLED devices. It offers a friendly simplified interface to send commands and receive data from your device, either piecemeal via WLED&#39;s JSON API or in real time via the WebSocket API. The full power of WLED&#39;s JSON API can also be harnessed through WLED Client by using <code>updateState</code>.</p>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<p>WLED Client is isomorphic, meaning it will behave identically in both the browser and Node.js.</p>
+
+<a href="#browser" id="browser" style="color: inherit; text-decoration: none;">
+  <h3>Browser</h3>
+</a>
+<p>Include the CDN script for WLED Client in your HTML:</p>
+<pre><code class="language-html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-2"> </span><span class="hl-3">src</span><span class="hl-2">=</span><span class="hl-4">&quot;https://unpkg.com/wled-client/dist/browser/wled-client.js&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
+</code></pre>
+<p>The <code>WLEDClient</code> class will now be available globally. See <a href="#usage">usage</a> for next steps.</p>
+
+<a href="#node" id="node" style="color: inherit; text-decoration: none;">
+  <h3>Node</h3>
+</a>
+<p>Install with your favorite Node.js package manager:</p>
+<pre><code class="language-bash"><span class="hl-5"># NPM</span><br/><span class="hl-6">$ npm install wled-client</span><br/><br/><span class="hl-5"># Yarn</span><br/><span class="hl-6">$ yarn add wled-client</span>
+</code></pre>
+<p>Then you can <code>require</code> or <code>import</code> WLED Client:</p>
+<pre><code class="language-ts"><span class="hl-7">import</span><span class="hl-6"> </span><span class="hl-8">WLEDClient</span><span class="hl-6"> </span><span class="hl-7">from</span><span class="hl-6"> </span><span class="hl-9">&#39;wled-client&#39;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hl-10">const</span><span class="hl-6"> </span><span class="hl-11">WLEDClient</span><span class="hl-6"> = </span><span class="hl-12">require</span><span class="hl-6">(</span><span class="hl-9">&#39;wled-client&#39;</span><span class="hl-6">)</span>
+</code></pre>
+<p>See <a href="#usage">usage</a> for next steps.</p>
+
+<a href="#versioning" id="versioning" style="color: inherit; text-decoration: none;">
+  <h3>Versioning</h3>
+</a>
+<p>WLED Client&#39;s versioning tracks WLED&#39;s version to determine what WLED API features are supported. If you have a device with WLED <code>0.12.0</code> installed, you will need WLED Client version starting with <code>0.12.0-*</code> to guarantee support.</p>
+<p>The version format for WLED Client looks like <code>[WLED Version]-[MAJOR].[MINOR]</code> and follows Semantic Versioning. This library began with support for WLED starting at version 0.12.0.</p>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+<p>Create a new instance of the <code>WLEDClient</code> class and pass in the IP of your WLED device:</p>
+<pre><code class="language-js"><span class="hl-10">const</span><span class="hl-6"> </span><span class="hl-11">wled</span><span class="hl-6"> = </span><span class="hl-10">new</span><span class="hl-6"> </span><span class="hl-12">WLEDClient</span><span class="hl-6">(</span><span class="hl-9">&#39;192.168.0.123&#39;</span><span class="hl-6">)</span>
+</code></pre>
+<p>Once the class is constructed, WLED Client will immediately try to fetch the full device context (state, info, effects, and palettes) via the JSON API. If WebSocket is enabled, then at the same time WLED Client will also try to establish a connection via the WebSocket API.</p>
+<p>When WLED Client has successfully fetched the context, the promise at <code>wled.isReady</code> will resolve.</p>
+<pre><code class="language-js"><span class="hl-10">async</span><span class="hl-6"> </span><span class="hl-10">function</span><span class="hl-6"> </span><span class="hl-12">init</span><span class="hl-6">() {</span><br/><span class="hl-6">    </span><span class="hl-10">const</span><span class="hl-6"> </span><span class="hl-11">wled</span><span class="hl-6"> = </span><span class="hl-10">new</span><span class="hl-6"> </span><span class="hl-12">WLEDClient</span><span class="hl-6">(</span><span class="hl-9">&#39;192.168.0.123&#39;</span><span class="hl-6">)</span><br/><span class="hl-6">    </span><span class="hl-7">await</span><span class="hl-6"> </span><span class="hl-8">wled</span><span class="hl-6">.</span><span class="hl-8">isReady</span><br/><br/><span class="hl-6">    </span><span class="hl-8">console</span><span class="hl-6">.</span><span class="hl-12">log</span><span class="hl-6">(</span><span class="hl-8">wled</span><span class="hl-6">.</span><span class="hl-8">info</span><span class="hl-6">.</span><span class="hl-8">version</span><span class="hl-6">) </span><span class="hl-5">// 0.12.0</span><br/><span class="hl-6">}</span><br/><span class="hl-12">init</span><span class="hl-6">().</span><span class="hl-12">catch</span><span class="hl-6">(</span><span class="hl-8">console</span><span class="hl-6">.</span><span class="hl-8">error</span><span class="hl-6">)</span>
+</code></pre>
+
+<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+  <h2>Documentation</h2>
+</a>
+<p>See the <a href="">documentation</a> page for detail</p>
+
+<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+  <h2>License</h2>
+</a>
+<p>WLED Client is <a href="LICENSE">MIT</a> licensed.</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/apis_json.html">apis/json</a></li><li class=" tsd-kind-module"><a href="modules/apis_websocket.html">apis/websocket</a></li><li class=" tsd-kind-module"><a href="modules/client.html">client</a></li><li class=" tsd-kind-module"><a href="modules/constants.html">constants</a></li><li class=" tsd-kind-module"><a href="modules/types.html">types</a></li><li class=" tsd-kind-module"><a href="modules/types_client.html">types.client</a></li><li class=" tsd-kind-module"><a href="modules/types_wled.html">types.wled</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li><li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
