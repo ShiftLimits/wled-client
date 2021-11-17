@@ -1,6 +1,4 @@
 import WLEDClient from '../../dist'
-import "isomorphic-fetch"
-import "isomorphic-ws"
 
 import { sleep, toggleExample } from '../common'
 
