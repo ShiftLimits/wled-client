@@ -1,3 +1,11 @@
+import { WLEDClientOptions } from './types.client'
+
+export const DEFAULT_OPTIONS:WLEDClientOptions = {
+	websocket: true,
+	secure: false,
+	host: ''
+}
+
 export enum WLEDEndpoints {
 	HTTP = 'win',
 	JSON = 'json',
