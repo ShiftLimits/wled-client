@@ -52,15 +52,21 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
 		this.WSAPI.on('live', (event) => this.emit<[WLEDClientLive]>('live', event))
-		this.WSAPI.on('update:context', (context) => {
-			Object.assign(this, {
-				state: wledToClientState(context.state),
-				info: wledToClientInfo(context.info)
-			})
+		this.WSAPI.on('update:context', ({ state, info, effects, palettes }) => {
+			let client_state = wledToClientState(state)
+			let client_info = wledToClientInfo(info)
+			let context:WLEDClientContext = {
+				state: client_state,
+				info: client_info,
+				effects,
+				palettes
+			}
+
+			Object.assign(this, context)
 
 			this.emit<[WLEDClientContext]>('update:context', context)
-			this.emit<[WLEDClientState]>('update:state', context.state)
-			this.emit<[WLEDClientInfo]>('update:info', context.info)
+			this.emit<[WLEDClientState]>('update:state', client_state)
+			this.emit<[WLEDClientInfo]>('update:info', client_info)
 		})
 
 		this.JSONAPI = new WLEDJSONAPI(resolved_options)
