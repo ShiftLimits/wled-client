@@ -405,4 +405,24 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			}
 		}
 	})()
+
+	//
+	// Live Data
+
+	/**
+	 * Ignore any live data if the device is currently being used to display the live data.
+	 * @param {boolean} until_reboot If `false` or `undefined`, the live data will be ignored until the live data stream ends. If `true` the device will ignore live data until it reboots.
+	 */
+	ignoreLiveData(until_reboot?:boolean) {
+		let liveDataOverride:WLEDLiveDataOverride = until_reboot ? WLEDLiveDataOverride.UNTIL_REBOOT : WLEDLiveDataOverride.UNTIL_END
+		return this.updateState({ liveDataOverride })
+	}
+
+	/** Allow live data to be displayed by the device. */
+	allowLiveData() {
+		return this.updateState({
+			liveDataOverride: WLEDLiveDataOverride.OFF
+		})
+	}
+
 }
