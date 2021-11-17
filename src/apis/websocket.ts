@@ -40,8 +40,8 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 	private init() {
 		this.available = true
 
-		this.websocket.addEventListener('message', (event:MessageEvent) => {
-			let message = JSON.parse(event.data)
+		this.websocket.addEventListener('message', (event) => {
+			let message = JSON.parse((event as any as MessageEvent).data)
 
 			if (isWLEDContext(message)) {
 				let { state, info } = message
@@ -51,7 +51,7 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 			}
 		})
 
-		this.websocket.addEventListener('close', (event:CloseEvent) => {
+		this.websocket.addEventListener('close', (event) => {
 			console.log(`WebSocket Closed`)
 			if (!event.wasClean) console.log('UNCLEAN CLOSE', event)
 			this.available = false
