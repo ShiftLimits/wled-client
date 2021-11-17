@@ -207,21 +207,6 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	}
 
 	/**
-	 * Set the effect applied to the device's main segment.
-	 * @param {number} effectId ID of the desired effect, as found in `effects`
-	 */
-	setEffect(effectId:number) {
-		return this.updateState({
-			segments:[
-				{
-					id: this.state.mainSegmentId,
-					effectId
-				}
-			]
-		})
-	}
-
-	/**
 	 * Set the palette applied to the device's main segment.
 	 * @param {number} paletteId ID of the desired palette, as found in `palettes`
 	 */
@@ -231,6 +216,24 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				{
 					id: this.state.mainSegmentId,
 					paletteId
+				}
+			]
+		})
+	}
+
+	//
+	// Effects 
+
+	/**
+	 * Set the effect applied to the device's main segment.
+	 * @param {number} effectId ID of the desired effect, as found in `effects`
+	 */
+	setEffect(effectId:number) {
+		return this.updateState({
+			segments:[
+				{
+					id: this.state.mainSegmentId,
+					effectId
 				}
 			]
 		})
