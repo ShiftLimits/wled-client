@@ -55,7 +55,7 @@ const wled = new WLEDClient('192.168.0.123')
 
 Once the class is constructed, WLED Client will immediately try to fetch the full device context (state, info, effects, and palettes) via the JSON API. If WebSocket is enabled, then at the same time WLED Client will also try to establish a connection via the WebSocket API.
 
-When WLED Client has successfully fetched the context, the promise at `wled.isReady` will resolve.
+When WLED Client has successfully fetched the device context, the promise at `wled.isReady` will resolve. Then the device's state, info, effects, and palettes will be accessible. As long as the WebSocket API is connected updates to the device context will be received asynchronously, so changes made from outside WLED Client (like the WLED App) will be automatically applied to the client instance. You can always manually refetch the context using the `wled.refreshContext()` method.
 
 ```js
 async function init() {
@@ -66,6 +66,42 @@ async function init() {
 }
 init().catch(console.error)
 ```
+
+If you're familiar with WLED's JSON API, you can make an update to the device state in a similar way using the `wled.updateState()` method. This method accepts an object with a friendly (verbose) interface that matches 1:1 with the WLED JSON API.
+
+```js
+async function init() {
+	const wled = new WLEDClient('192.168.0.123')
+	await wled.isReady
+
+	console.log(wled.state.brightness) // 255
+	await wled.updateState({
+		brightness: 128
+	})
+	console.log(wled.state.brightness) // 128
+}
+init().catch(console.error)
+```
+
+If you'd rather be more direct, WLED Client offers simple methods to execute common commands as well.
+
+```js
+async function init() {
+	const wled = new WLEDClient('192.168.0.123')
+	await wled.isReady
+
+	console.log(wled.state.brightness) // 255
+	await wled.setBrightness(128)
+	console.log(wled.state.brightness) // 128
+}
+init().catch(console.error)
+```
+
+See the [WLEDClient class](https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html) page for a list of methods. At any point you can run any method that updates the device's state, regardless of WLED Client's ready state. If the WebSocket is not connected, state updates will be sent via the JSON API over HTTP.
+
+## Examples
+
+To see how WLED Client handles various use cases, there are several example scripts in the [`/examples` directory](https://github.com/ShiftLimits/wled-client/tree/main/examples).
 
 ## Documentation
 
