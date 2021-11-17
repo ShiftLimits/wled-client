@@ -38,6 +38,11 @@ export interface WLEDClientOptions {
 // Client Segment Interfaces
 //
 
+
+/**
+ * Segment state that are only available when sending commands.
+ * @typedef {Object} WLEDClientSegmentSendOnly
+ */
 export interface WLEDClientSegmentSendOnly {
 	/** Zero-indexed ID of the segment. May be omitted, in that case the ID will be inferred from the order of the segment objects in the seg array. */
 	id?:number
@@ -46,6 +51,11 @@ export interface WLEDClientSegmentSendOnly {
 	i?:number|(RGBColor|RGBWColor)[]
 }
 
+
+/**
+ * Segment state that can be both set and get.
+ * @typedef {Object} WLEDClientSegment
+ */
 export interface WLEDClientSegment {
 	/**
 	 * LED index that the segment starts at.
@@ -130,12 +140,20 @@ export interface WLEDClientSegment {
 	loxoneSecondaryColor:number
 }
 
+/**
+ * Every segment state key that can be set.
+ * @typedef {Object} WLEDClientUpdatableSegment
+ */
 export type WLEDClientUpdatableSegment = PartialDeep<WLEDClientSegment> & WLEDClientSegmentSendOnly
 
 //
 // Playlist Interfaces
 //
 
+/**
+ * Playlist object used when creating a playlist.
+ * @typedef {Object} WLEDClientPlaylist
+ */
 export interface WLEDClientPlaylist {
 	/** Array of preset ID integers to be applied in order. */
 	presets:number[]
@@ -157,6 +175,10 @@ export interface WLEDClientPlaylist {
 // Client State Interfaces
 //
 
+/**
+ * Playlist object used when creating a playlist.
+ * @typedef {Object} WLEDClientStateSendOnly
+ */
 export interface WLEDClientStateSendOnly {
 	/** Transition time for the current API call only. */
 	temporaryTransition?:number
