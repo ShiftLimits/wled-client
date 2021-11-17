@@ -12,5 +12,16 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false
   },
+  "typedocOptions": {
+    "entryPoints": [
+      "src/client.ts",
+      "src/constants.ts",
+      "src/apis/json.ts",
+      "src/apis/websocket.ts",
+      "src/types.wled.ts",
+      "src/types.client.ts",
+      "src/types.ts"],
+    "out": "docs"
+  },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"]
 }

@@ -6,12 +6,13 @@
   "browser": "dist/browser/wled-client.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"files": [
-		"dist/**/*",
-		"readme.md"
-	],
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "readme.md"
+  ],
   "scripts": {
+    "gen:docs": "typedoc",
     "build": "tsup && esbuild src/index.ts --bundle --minify --format=iife --platform=browser --global-name=exports \"--banner:js=var WLEDClient = (function () {\" \"--footer:js=return exports.default})()\" --outfile=dist/browser/wled-client.js"
   },
   "gitHooks": {
@@ -23,6 +24,7 @@
     "esbuild": "^0.13.14",
     "tsup": "^5.7.0",
     "type-fest": "^2.5.3",
+    "typedoc": "^0.22.9",
     "typescript": "^4.4.4",
     "yorkie": "^2.0.0"
   },
