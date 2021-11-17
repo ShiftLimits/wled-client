@@ -67,6 +67,15 @@ async function init() {
 init().catch(console.error)
 ```
 
+## Documentation
+
+See the [documentation](https://shiftlimits.github.io/wled-client/) page for details.
+
+### Of Interest
+- [WLEDClient class](https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html)
+- [Friendly interfaces](https://shiftlimits.github.io/wled-client/modules/types_client.html)
+- [WLED interfaces](https://shiftlimits.github.io/wled-client/modules/types_wled.html)
+
 ## License
 
 WLED Client is [MIT](LICENSE) licensed.
