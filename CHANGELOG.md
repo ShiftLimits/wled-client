@@ -13,7 +13,7 @@ Continuing to flesh out the interface and patch bugs.
 ### Added
 - Add `nightlight` object to client instance containing methods for controlling the nightlight feature
 - Add `6-nightlight` example to demonstrate nightlight feature usage
-- Add `setTransitionTime` method for control over the time transitions take when swa--2334
+- Add `setTransitionTime` method for control over the crossfade time between effects or colors
 - Add `setMainSegmentId` method to change which segment is considered the main segment
 - Add `ignoreLiveData` and `allowLiveData` methods to override when live display data is output by the device
 
