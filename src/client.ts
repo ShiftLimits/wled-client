@@ -85,12 +85,23 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	/** Get the latest state from the device. */
 	async refreshContext() {
 		let { state, info, effects, palettes } = await this.JSONAPI.getAll()
-		Object.assign(this, {
-			state: wledToClientState(state),
-			info: wledToClientInfo(info),
-			effects,
-			palettes
-		})
+		let client_state = wledToClientState(state)
+		let client_info = wledToClientInfo(info)
+		let client_effects = effects ? effects : this.effects // Use old effects list if new ones were not passed
+		let client_palettes = palettes ? palettes : this.palettes // Use old palettes list if new ones were not passed
+
+		let context:WLEDClientContext = {
+			state: client_state,
+			info: client_info,
+			effects: client_effects,
+			palettes: client_palettes
+		}
+		Object.assign(this, context)
+		this.emit<[WLEDClientContext]>('update:context', context)
+		this.emit<[WLEDClientState]>('update:state', client_state)
+		this.emit<[WLEDClientInfo]>('update:info', client_info)
+		this.emit<[WLEDClientInfo]>('update:effects', client_effects as any)
+		this.emit<[WLEDClientInfo]>('update:palettes', client_palettes as any)
 	}
 
 	/**
