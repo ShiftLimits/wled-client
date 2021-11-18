@@ -15,6 +15,8 @@ Include the CDN script for WLED Client in your HTML:
 <script src="https://unpkg.com/wled-client/dist/browser/wled-client.js"></script>
 ```
 
+You can also [download](https://unpkg.com/wled-client/dist/browser/wled-client.js) this script directly to use it where you please.
+
 The `WLEDClient` class will now be available globally. See [usage](#usage) for next steps.
 
 ### Node
