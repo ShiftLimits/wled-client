@@ -211,12 +211,6 @@ export interface WLEDClientStateReceiveOnly {
 	}
 }
 
-export interface WLEDClientPresetCycleState {
-	min:number
-	max:number
-	time:number
-}
-
 export interface WLEDClientNightlightState {
 	/** Whether or not nightlight is currently active. */
 	on:boolean
@@ -226,12 +220,6 @@ export interface WLEDClientNightlightState {
 	 * @type {number} 1 to 255
 	 */
 	duration:number
-
-	/**
-	 * If `true`, the light will gradually dim over the course of the nightlight duration. If `false`, it will instantly turn to the target brightness once the duration has elapsed.
-	 * @deprecated Will be removed in 0.13, use `mode` instead
-	 */
-	fade:boolean
 
 	/**
 	 * Nightlight mode
@@ -264,12 +252,6 @@ export interface WLEDClientExchangeableState {
 
 	/** ID of the device's current playlist. */
 	playlistId:number
-
-	/**
-	 * Preset Cycle state object.
-	 * @deprecated Will be removed in 0.13, use playlists instead
-	 */
-	presetCycle:WLEDClientPresetCycleState
 
 	/** Object containing the device's nightlight state. */
 	nightlight:WLEDClientNightlightState
@@ -326,12 +308,6 @@ export interface WLEDClientInfoLEDs {
 
 	/** `true` if a white channel slider should be displayed. */
 	whiteValueInput:boolean
-
-	/**
-	 * One or more LED strip pins.
-	 * @deprecated Will be removed in 0.13
-	 */
-	pin:[number]&number[]
 
 	/**
 	 * Current LED power usage in milliamps as determined by the ABL. `0` if ABL is disabled.
