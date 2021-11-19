@@ -50,6 +50,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
 
+		const initial_context = { state: {}, info: {}, effects: [], palettes: [] }
+		Object.assign(this, initial_context)
+
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
 		this.WSAPI.on('live', (event) => this.emit<[WLEDClientLive]>('live', event))
 		this.WSAPI.on('update:context', ({ state, info, effects, palettes }) => {
