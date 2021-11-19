@@ -180,7 +180,10 @@ export interface WLEDClientPlaylist {
  * @typedef {Object} WLEDClientStateSendOnly
  */
 export interface WLEDClientStateSendOnly {
-	/** Transition time for the current API call only. */
+	/**
+	 * Transition time in 100ms intervals (eg. 4 is 400ms), for the current API call only.
+	 * @type {number} 0 to 255
+	 */
 	temporaryTransition?:number
 
 	/** UDP Sync state object. */
@@ -256,7 +259,10 @@ export interface WLEDClientExchangeableState {
 	 */
 	brightness:number
 
-	/** Device's current transition time. */
+	/**
+	 * Device's current transition time in 100ms intervals (eg. 4 is 400ms).
+	 * @type {number} 0 to 255
+	 */
 	transitionTime:number
 
 	/** ID of the device's current preset. */
