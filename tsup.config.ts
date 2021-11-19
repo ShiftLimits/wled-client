@@ -5,9 +5,9 @@ export const tsup:Options = {
   splitting: true,
   sourcemap: true,
 	minify: true,
+	outDir: 'dist/node',
 	format: ['cjs', 'esm'],
-	globalName: 'WLEDClient',
-  entryPoints: [
-		'src/index.ts'
-	]
+  entryPoints: {
+		'wled-client': 'src/index.ts'
+	}
 }
