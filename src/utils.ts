@@ -24,6 +24,10 @@ export function deepMerge(target:object, ...sources:object[]) {
 	}
 }
 
+export function deepClone(object:{}|[]) {
+	return deepCloneTransform(object)
+}
+
 export function deepCloneTransform(object:{}|[], transformer?:(key:string, value:any, path?:string)=>[string, any], key_path?:string, stack?:Map<any, any>) {
 	const isArray = Array.isArray(object)
 	const cloned_object:{[key:string]:any} =  isArray ? [] : {}
