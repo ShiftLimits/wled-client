@@ -10,8 +10,14 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 	available = false
 	websocket:WebSocket
 
+	private reconnect = true
+
 	constructor({ secure, host, port, websocket }:WLEDClientOptions) {
 		super()
+
+		if (websocket && typeof websocket == 'object') {
+			if (typeof websocket.reconnect == 'boolean') this.reconnect = websocket.reconnect
+		}
 
 		this.api_endpoint = `${secure ? 'wss':'ws'}://${host}${port ? ':'+port : ''}/${ WLEDEndpoints.WS }`
 	}
@@ -53,12 +59,22 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 
 		this.websocket.addEventListener('close', (event) => {
 			console.log(`WebSocket Closed`)
-			if (!event.wasClean) console.log('UNCLEAN CLOSE', event)
+			if (!event.wasClean) {
+				console.log('UNCLEAN CLOSE', event)
+				if (this.reconnect) setTimeout(() => {
+					this.connect()
+				}, 100)
+			}
 			this.available = false
 		})
 		this.websocket.addEventListener('error', (error) => {
 			console.error(`WebSocket Error: ${ error }`)
+			this.emit('error', error)
 			this.available = false
+
+			if (this.reconnect) setTimeout(() => {
+				this.connect()
+			}, 100)
 		})
 	}
 
