@@ -107,12 +107,9 @@ To see how WLED Client handles various use cases, there are several example scri
 
 ## Documentation
 
-See the [documentation](https://shiftlimits.github.io/wled-client/) page for details.
+There is a wonderfully done documentation for the WLED JSON API to be found at the [WLED knowledge base](https://kno.wled.ge/interfaces/json-api/). WLED Client implements this with only slightly more verbose key names. 
 
-### Of Interest
-- [WLEDClient class](https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html)
-- [Friendly interfaces](https://shiftlimits.github.io/wled-client/modules/types_client.html)
-- [WLED interfaces](https://shiftlimits.github.io/wled-client/modules/types_wled.html)
+See the [API documentation](https://shiftlimits.github.io/wled-client/) page for a detailed run down of WLED Client's structure. The [WLEDClient class](https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html) docs has a quick list of properties and methods you can use. It may also help to check out the type definitions for [WLED Client](https://github.com/ShiftLimits/wled-client/blob/main/src/types.client.ts) and compare them to the type definitions for [WLED itself](https://github.com/ShiftLimits/wled-client/blob/main/src/types.wled.ts).
 
 ## License
 
