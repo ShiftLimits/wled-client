@@ -43,6 +43,11 @@ const WLEDClient = require('wled-client')
 
 See [usage](#usage) for next steps.
 
+### Other Environments
+Under the hood, WLED Client uses the `fetch`, `WebSocket`, and `EventTarget` APIs to achieve the desired behavior. WLED Client is primarily meant to be used in the browser where these APIs are provided by the browser's execution environment. In order to work on node, each API has been polyfilled.
+
+If your execution environment includes these APIs, you can use the browser script out of the box. Otherwise you'll need to add your own polyfills to make WLED Client work in your desired environment.
+
 ### Versioning
 
 WLED Client's versioning tracks WLED's version to determine what WLED API features are supported. If you have a device with WLED `0.12.0` installed, you will need WLED Client version starting with `0.12.0-*` to guarantee support.
