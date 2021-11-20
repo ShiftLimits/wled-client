@@ -1,4 +1,4 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLive, WLEDClientNightlightState } from './types.client';
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLive, WLEDClientNightlightState, WLEDClientSendOptions } from './types.client';
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
@@ -111,7 +111,14 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * Make an update to the state object with multiple values.
 	 * @param {WLEDClientUpdatableState} state Partial state object of values to update
 	 */
-	async updateState(state:WLEDClientUpdatableState) {
+	async updateState(state:WLEDClientUpdatableState, options?:WLEDClientSendOptions) {
+		if (options) { // Handle options passed for this call only
+			const { transition, noSync } = options
+
+			if (transition) state.temporaryTransition = transition
+			if (noSync) state.udpSync = { ...(state.udpSync || {}), noSync }
+		}
+
 		const wled_state = clientToWLEDState(state) // Transform the client state object into the WLED API state object
 
 		if (this.WSAPI.available) {
@@ -153,18 +160,18 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	// Device Power
 
 	/** Set the device's power state to on. */
-	turnOn() {
-		return this.updateState({ on: true })
+	turnOn(options?:WLEDClientSendOptions) {
+		return this.updateState({ on: true }, options)
 	}
 
 	/** Set the device's power state to off. */
-	turnOff() {
-		return this.updateState({ on: false })
+	turnOff(options?:WLEDClientSendOptions) {
+		return this.updateState({ on: false }, options)
 	}
 
 	/** Change the device's power state to the opposite of what it currently is. */
-	toggle() {
-		return this.updateState({ on: !this.state.on })
+	toggle(options?:WLEDClientSendOptions) {
+		return this.updateState({ on: !this.state.on }, options)
 	}
 
 	//
@@ -174,8 +181,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * Set the device's master brightness.
 	 * @param value Any integer between 0 and 255
 	 */
-	setBrightness(value:number) {
-		return this.updateState({ brightness: value })
+	setBrightness(value:number, options?:WLEDClientSendOptions) {
+		return this.updateState({ brightness: value }, options)
 	}
 
 	/**
@@ -183,13 +190,13 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * @param {RGBColor|RGBWColor} color RGB or RGBW color array
 	 * @alias setPrimaryColor
 	 */
-	setColor(color:RGBColor|RGBWColor) { return this.setPrimaryColor(color) }
+	setColor(color:RGBColor|RGBWColor, options?:WLEDClientSendOptions) { return this.setPrimaryColor(color, options) }
 
 	/**
 	 * Set the primary color of the device's main segment.
 	 * @param {RGBColor|RGBWColor} color RGB or RGBW color array
 	 */
-	setPrimaryColor(color:RGBColor|RGBWColor) {
+	setPrimaryColor(color:RGBColor|RGBWColor, options?:WLEDClientSendOptions) {
 		return this.updateState({
 			segments:[
 				{
@@ -197,14 +204,14 @@ export class WLEDClient extends IsomorphicEventEmitter {
 					colors: [color]
 				}
 			]
-		})
+		}, options)
 	}
 
 	/**
 	 * Set the secondary color of the device's main segment.
 	 * @param {RGBColor|RGBWColor} color RGB or RGBW color array
 	 */
-	setSecondaryColor(color:RGBColor|RGBWColor) {
+	setSecondaryColor(color:RGBColor|RGBWColor, options?:WLEDClientSendOptions) {
 		return this.updateState({
 			segments:[
 				{
@@ -212,14 +219,14 @@ export class WLEDClient extends IsomorphicEventEmitter {
 					colors: [undefined, color]
 				}
 			]
-		})
+		}, options)
 	}
 
 	/**
 	 * Set the tertiary color of the device's main segment.
 	 * @param {RGBColor|RGBWColor} color RGB or RGBW color array
 	 */
-	setTertiaryColor(color:RGBColor|RGBWColor) {
+	setTertiaryColor(color:RGBColor|RGBWColor, options?:WLEDClientSendOptions) {
 		return this.updateState({
 			segments:[
 				{
@@ -227,7 +234,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 					colors: [undefined, undefined, color]
 				}
 			]
-		})
+		}, options)
 	}
 
 	/**
@@ -312,12 +319,12 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * @param {number} id ID of the segment to be updated
 	 * @param {WLEDClientUpdatableSegment} data Every updatable parameter on the segment object except `id`
 	 */
-	updateSegment(id:number, data:Omit<WLEDClientUpdatableSegment, 'id'>) {
+	updateSegment(id:number, data:Omit<WLEDClientUpdatableSegment, 'id'>, options?:WLEDClientSendOptions) {
 		return this.updateState({
 			segments: [
 				{ id, ...data	}
 			]
-		})
+		}, options)
 	}
 
 	/**
