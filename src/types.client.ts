@@ -489,3 +489,17 @@ export interface WLEDClientContext {
 	/** List of color palettes available on the device. */
 	palettes:WLEDClientPalettes
 }
+
+/**
+ * Optional properties you can set when using sending this command.
+ */
+export interface WLEDClientSendOptions {
+	/**
+	 * Transition time in 100ms intervals (eg. 4 is 400ms), for the current API call only.
+	 * @type {number} 0 to 255
+	 */
+	transition?:number
+
+	/** Don't send a UDP Sync broadcast packet for the current API call only. */
+	noSync?:boolean
+}
