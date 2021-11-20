@@ -5,7 +5,7 @@ import { WLEDWebsocketAPI } from './apis/websocket'
 import { wledToClientState, wledToClientInfo, clientToWLEDState } from './adapters'
 import { RGBWColor, RGBColor } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
-import { deepMerge } from './utils'
+import { deepMerge, deepClone } from './utils';
 
 
 /**
@@ -50,7 +50,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
 
-		const initial_context = { state: {}, info: {}, effects: [], palettes: [] }
+		const initial_context = { state: { nightlight: {} }, info: {}, effects: [], palettes: [] }
 		Object.assign(this, initial_context)
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
@@ -466,6 +466,23 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		return this.updateState({
 			liveDataOverride: WLEDLiveDataOverride.OFF
 		})
+	}
+
+	//
+	// Presets
+
+	getPreset() {}
+
+	updatePreset() {}
+
+	saveCurrentAsPreset() {
+
+	}
+
+	/** Saves */
+	async savePreset(preset:WLEDClientState) {
+		const current_state = deepClone(this.state)
+		await this.updateState({})
 	}
 
 }
