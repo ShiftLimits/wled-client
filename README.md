@@ -2,6 +2,8 @@
 
 A friendly JS interface for controlling your [WLED](https://github.com/Aircoookie/WLED) devices from Node.js or the browser.
 
+**Note**: This is under early active development and may be subject to breaking changes until it reaches a stable version **0.12.0-1.0**.
+
 ## About
 
 This is a JS/TS client library for the control of [WLED](https://github.com/Aircoookie/WLED) devices. It offers a friendly simplified interface to send commands and receive data from your device, either piecemeal via WLED's JSON API or in real time via the WebSocket API. The full power of WLED's JSON API can also be harnessed through WLED Client by using `updateState`.
