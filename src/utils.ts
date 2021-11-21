@@ -33,7 +33,7 @@ export function deepCloneTransform(object:{}|[], transformer?:(key:string, value
 	const cloned_object:{[key:string]:any} =  isArray ? [] : {}
 
 	for (let [key, value] of Object.entries<any>(object)) {
-		const current_key_path = (key_path ? key_path+(isArray ? '' : '.') : '')+(isArray ? '['+key+']' : key)
+		const current_key_path = (key_path ? key_path+'.' : '')+key
 
 		let cloned_value:any
 		if (typeof value == 'object' || Array.isArray(value)) {
