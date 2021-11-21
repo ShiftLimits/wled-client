@@ -103,8 +103,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.emit<[WLEDClientContext]>('update:context', context)
 		this.emit<[WLEDClientState]>('update:state', client_state)
 		this.emit<[WLEDClientInfo]>('update:info', client_info)
-		this.emit<[WLEDClientInfo]>('update:effects', client_effects as any)
-		this.emit<[WLEDClientInfo]>('update:palettes', client_palettes as any)
+		this.emit<[WLEDClientEffects]>('update:effects', client_effects as any)
+		this.emit<[WLEDClientPalettes]>('update:palettes', client_palettes as any)
 	}
 
 	/**
