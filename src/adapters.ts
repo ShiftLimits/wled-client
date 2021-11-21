@@ -1,10 +1,16 @@
 import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState } from './types.client'
 import { deepCloneTransform } from './utils'
 
+const key_regexes = {}
 function keyTransformer(transform_map:{[key:string]:any}) {
 	return (key:string, value:any, path?:string):[string, any] => {
-		const current_key_path = ((path ? path+'.' : '')+key).replace(/\[[0-9]+\]/g, '[]')
-		const transformed_key_path = transform_map[current_key_path]||key
+		const current_key_path = ((path ? path+'.' : '')+key)//.replaceAll(/\[[0-9]+\]/g, '[]') 
+
+		const transform_map_key = Object.keys(transform_map).find((transform_key) => {
+			if (!key_regexes[transform_key]) key_regexes[transform_key] = new RegExp('^'+(transform_key).replaceAll('.', '\\.').replaceAll('*', '[^_]+')+'$', 'm')
+			return !!current_key_path.match(key_regexes[transform_key])
+		})
+		const transformed_key_path = transform_map_key ? transform_map[transform_map_key] : key
 
 		let split_path = transformed_key_path.split('.')
 		let transformed_key = split_path[split_path.length-1]
@@ -99,24 +105,24 @@ const WLED_TO_CLIENT_STATE_MAP = {
 	'lor': 'liveDataOverride',
 	'mainseg': 'mainSegmentId',
 	'seg': 'segments',
-	'seg[].id': 'segments[].id',
-	'seg[].start': 'segments[].start',
-	'seg[].stop': 'segments[].stop',
-	'seg[].len': 'segments[].length',
-	'seg[].grp': 'segments[].grouping',
-	'seg[].spc': 'segments[].spacing',
-	'seg[].col': 'segments[].colors',
-	'seg[].fx': 'segments[].effectId',
-	'seg[].sx': 'segments[].effectSpeed',
-	'seg[].ix': 'segments[].effectIntensity',
-	'seg[].pal': 'segments[].paletteId',
-	'seg[].sel': 'segments[].selected',
-	'seg[].rev': 'segments[].reverse',
-	'seg[].on': 'segments[].on',
-	'seg[].bri': 'segments[].brightness',
-	'seg[].mi': 'segments[].mirror',
-	'seg[].lx': 'segments[].loxonePrimaryColor',
-	'seg[].ly': 'segments[].loxoneSecondaryColor',
+	'seg.*.id': 'segments.*.id',
+	'seg.*.start': 'segments.*.start',
+	'seg.*.stop': 'segments.*.stop',
+	'seg.*.len': 'segments.*.length',
+	'seg.*.grp': 'segments.*.grouping',
+	'seg.*.spc': 'segments.*.spacing',
+	'seg.*.col': 'segments.*.colors',
+	'seg.*.fx': 'segments.*.effectId',
+	'seg.*.sx': 'segments.*.effectSpeed',
+	'seg.*.ix': 'segments.*.effectIntensity',
+	'seg.*.pal': 'segments.*.paletteId',
+	'seg.*.sel': 'segments.*.selected',
+	'seg.*.rev': 'segments.*.reverse',
+	'seg.*.on': 'segments.*.on',
+	'seg.*.bri': 'segments.*.brightness',
+	'seg.*.mi': 'segments.*.mirror',
+	'seg.*.lx': 'segments.*.loxonePrimaryColor',
+	'seg.*.ly': 'segments.*.loxoneSecondaryColor',
 	'playlist': 'playlist',
 	'playlist.ps': 'playlist.presets',
 	'playlist.dur': 'playlist.durations',
