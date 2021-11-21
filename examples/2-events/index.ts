@@ -1,4 +1,4 @@
-import WLEDClient from '../../dist'
+import { WLEDClient } from '../../'
 import { sleep, toggleExample } from '../common'
 
 function init() {

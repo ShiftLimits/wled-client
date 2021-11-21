@@ -1,4 +1,4 @@
-import WLEDClient from "../dist"
+import { WLEDClient } from '../'
 
 export const sleep = (timeout:number) => new Promise(res => setTimeout(res, timeout))
 
