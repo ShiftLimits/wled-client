@@ -72,8 +72,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			this.emit<[WLEDClientContext]>('update:context', context)
 			this.emit<[WLEDClientState]>('update:state', client_state)
 			this.emit<[WLEDClientInfo]>('update:info', client_info)
-			this.emit<[WLEDClientInfo]>('update:effects', client_effects)
-			this.emit<[WLEDClientInfo]>('update:palettes', client_palettes)
+			if (effects) this.emit<[WLEDClientContext]>('update:effects', client_effects)
+			if (palettes) this.emit<[WLEDClientPalettes]>('update:palettes', client_palettes)
 		})
 
 		this.JSONAPI = new WLEDJSONAPI(resolved_options)
