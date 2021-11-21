@@ -35,10 +35,10 @@ $ yarn add wled-client
 Then you can `require` or `import` WLED Client:
 
 ```ts
-import WLEDClient from 'wled-client'
+import { WLEDClient } from 'wled-client'
 ```
 ```js
-const WLEDClient = require('wled-client')
+const { WLEDClient } = require('wled-client')
 ```
 
 See [usage](#usage) for next steps.

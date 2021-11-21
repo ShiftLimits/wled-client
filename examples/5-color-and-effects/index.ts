@@ -1,4 +1,4 @@
-import WLEDClient from '../../dist'
+import { WLEDClient } from '../../'
 
 async function init() {
 	console.log('Running Basic Example...')

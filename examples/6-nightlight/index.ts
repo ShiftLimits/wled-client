@@ -1,4 +1,4 @@
-import WLEDClient, { WLEDNightlightMode } from '../../dist'
+import { WLEDClient, WLEDNightlightMode } from '../../'
 
 import { sleep, toggleExample } from '../common'
 

@@ -1,4 +1,4 @@
-import WLEDClient, { WLEDClientSegment } from '../../dist'
+import { WLEDClient, WLEDClientSegment } from '../../'
 
 const sleep = (timeout:number) => new Promise(res => setTimeout(res, timeout))
 async function init() {
