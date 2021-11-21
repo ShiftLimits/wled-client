@@ -110,6 +110,8 @@ See the [WLEDClient class](https://shiftlimits.github.io/wled-client/classes/cli
 
 ## Examples
 
+[Twitch integration](https://github.com/JeffSchofield/twitch-wled) example using [tmi.js](https://github.com/tmijs/tmi.js). Contains detailed instructions if you're new to Node.js.
+
 To see how WLED Client handles various use cases, there are several example scripts in the [`/examples` directory](https://github.com/ShiftLimits/wled-client/tree/main/examples).
 
 ## Documentation
