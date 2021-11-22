@@ -382,6 +382,12 @@ export interface WLEDInfo {
 		/** Received signal strength indicator. */
 		rssi:number
 
+		/** Strength of the signal produced. Exists only if debug mode is enabled on the device. */
+		txPower?:number
+
+		/** True if modem sleep is enabled. Exists only if debug mode is enabled on the device. */
+		sleep?:boolean
+
 		/**
 		 * Relative signal quality of the current connection.
 		 * @type {number} 0 to 100
@@ -412,6 +418,15 @@ export interface WLEDInfo {
 
 	/** Bit field of options that WLED is configured with. */
 	opt:number
+
+	/** Reason for reset. Exists only if debug mode is enabled on the device.  */
+	resetReason?:string
+
+	/** Reason for reset. Exists only if debug mode is enabled on the device.  */
+	resetReason0?:string
+
+	/** Reason for reset. Exists only if debug mode is enabled on the device.  */
+	resetReason1?:string
 
 	/**
 	 * Version of LwIP. `1` or `2` on ESP8266, `0` (does not apply) on ESP32.
