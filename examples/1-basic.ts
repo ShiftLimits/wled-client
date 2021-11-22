@@ -1,6 +1,6 @@
-import { WLEDClient } from '../../'
+import { WLEDClient } from '../'
 
-import { sleep, toggleExample } from '../common'
+import { sleep, toggleExample, setInitialState } from './common';
 
 async function init() {
 	console.log('Running Basic Example...')
@@ -10,10 +10,7 @@ async function init() {
 	console.log(`Device ready: version ${wled.info.version}`)
 
 	console.log('Setting initial state...')
-	await wled.updateState({
-		on: true,
-		brightness: 255
-	})
+	await setInitialState(wled)
 
 	await sleep(1000)
 

@@ -1,10 +1,14 @@
-import { WLEDClient } from '../../'
+import { WLEDClient } from '../'
+import { setInitialState } from './common'
 
 async function init() {
-	console.log('Running Basic Example...')
+	console.log('Running Color and Effects Example...')
 
 	const wled = new WLEDClient('192.168.80.103')
 	await wled.isReady
+
+	console.log('Setting initial state...')
+	await setInitialState(wled)
 
 	console.log('Beginning effects rotation...')
 	let effect_id = 0

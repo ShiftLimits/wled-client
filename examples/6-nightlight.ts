@@ -1,19 +1,15 @@
-import { WLEDClient, WLEDNightlightMode } from '../../'
-
-import { sleep, toggleExample } from '../common'
+import { WLEDClient, WLEDNightlightMode } from '../'
+import { sleep, setInitialState } from './common'
 
 async function init() {
-	console.log('Running Basic Example...')
+	console.log('Running Nightlight Example...')
 
 	const wled = new WLEDClient('192.168.80.103')
 	await wled.isReady
 	console.log(`Device ready: version ${wled.info.version}`)
 
 	console.log('Setting initial state...')
-	await wled.updateState({
-		on: true,
-		brightness: 255
-	})
+	await setInitialState(wled)
 
 	await sleep(1000)
 
