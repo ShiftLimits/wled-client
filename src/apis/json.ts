@@ -1,13 +1,15 @@
-import { WLEDState, WLEDPalettes, WLEDEffects, WLEDInfo, WLEDUpdatableState, WLEDLive, WLEDContext } from '../types.wled';
+import { WLEDState, WLEDPalettes, WLEDEffects, WLEDInfo, WLEDUpdatableState, WLEDLive, WLEDContext, WLEDPresets } from '../types.wled';
 import { WLEDClientOptions } from '../types.client'
 import { WLEDEndpoints } from '../constants'
 import { fetch } from '@js-bits/fetch'
 
 export class WLEDJSONAPI {
 	private readonly api_endpoint:string
+	private readonly authority:string
 
 	constructor({ secure, host, port }:WLEDClientOptions) {
-		this.api_endpoint = `${secure ? 'https':'http'}://${host}${port ? ':'+port : ''}/${ WLEDEndpoints.JSON }`
+		this.authority = `${secure ? 'https':'http'}://${host}${port ? ':'+port : ''}`
+		this.api_endpoint = `${this.authority}/${ WLEDEndpoints.JSON }`
 	}
 
 	handleErrors(response:Response) {
@@ -49,6 +51,12 @@ export class WLEDJSONAPI {
 		let response = await fetch(`${this.api_endpoint}/live`).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDLive
+	}
+
+	async getPresets() {
+		let response = await fetch(`${this.authority}/presets.json`).then(this.handleErrors)
+		let object = await response.json()
+		return object as WLEDPresets
 	}
 
 	async updateState(state:WLEDUpdatableState) {

@@ -192,6 +192,21 @@ export interface WLEDClientStateSendOnly {
 		noSync?:boolean
 	}
 
+	/** ID of the preset slot to save to. */
+	savePresetId?:number
+
+	/** ID of the preset to delete. */
+	deletePresetId?:number
+
+	/** Sets flag includeBri */
+	includeBrightness?:boolean
+
+	/** Sets flag segmentBounds */
+	segmentBounds?:boolean
+
+	/** Build new state when saving preset. */
+	overwriteState?:boolean
+
 	/** If set to `true` in a JSON POST command, the response will contain the full JSON state object. */
 	returnFullState?:boolean
 
@@ -479,6 +494,67 @@ export interface WLEDClientLive {
 	n:number
 }
 
+//
+// Presets
+//
+
+
+export interface WLEDClientCurrentStatePreset {
+	/**
+	 * Name
+	 */
+	name:string
+
+	/**
+	 * Quick load label
+	 */
+	label?:string
+
+	/** Sets flag includeBri */
+	includeBrightness?:boolean
+
+	/** Sets flag segmentBounds */
+	segmentBounds?:boolean
+}
+export interface WLEDClientPreset {
+	/**
+	 * Name
+	 */
+	name:string
+
+	/**
+	 * Quick load label
+	 */
+	label:string
+
+	/**
+	 * Device's power state
+	 */
+	on:boolean
+
+	/**
+	 * Brightness
+	 */
+	brightness:number
+
+	/**
+	 * Transition time
+	 */
+	transition:number
+
+	/**
+	 * Main segment ID
+	 */
+	mainSegment:number
+
+	/**
+	 * Segments configuration
+	 */
+	segments:WLEDClientSegment[]
+}
+
+export type WLEDClientPresets = { [key:number]: WLEDClientPreset }
+
 export interface WLEDClientContext {
 	/** WLED Client state object. */
 	state:WLEDClientState
@@ -488,6 +564,8 @@ export interface WLEDClientContext {
 	effects:WLEDClientEffects
 	/** List of color palettes available on the device. */
 	palettes:WLEDClientPalettes
+	/** List of presets saved on the device. */
+	presets:WLEDClientPresets
 }
 
 /**
