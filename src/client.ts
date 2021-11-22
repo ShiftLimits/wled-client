@@ -496,7 +496,17 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	}
 
 	/**
-	 * Saves a preset using the device's current state.
+	 * Activate a new preset.
+	 * @param {number} id ID of the desired preset
+	 */
+	setPreset(id:number) {
+		return this.updateState({
+			presetId: id
+		})
+	}
+
+	/**
+	 * Save a preset using the device's current state.
 	 * @param {number} id
 	 * @param {WLEDClientCurrentStatePreset} preset
 	 */
@@ -512,7 +522,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	}
 
 	/**
-	 * Saves a preset.
+	 * Save a preset.
 	 * @param {number} id
 	 * @param {WLEDClientPreset} preset
 	 */
