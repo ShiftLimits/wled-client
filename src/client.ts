@@ -1,8 +1,8 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLive, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset } from './types.client';
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLive, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions } from './types.client';
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
-import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets } from './adapters';
+import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions } from './adapters';
 import { RGBWColor, RGBColor } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
 import { deepMerge, deepClone } from './utils';
@@ -26,6 +26,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 	/** List of presets save on this device. */
 	public readonly presets:WLEDClientPresets = {}
+
+	/** Options that are set on the device. */
+	public readonly deviceOptions:WLEDClientDeviceOptions
 
 	/** Promise that is resolved when a successful connection has been made and the state has been retrieved. */
 	public readonly isReady:Promise<boolean>
@@ -53,7 +56,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
 
-		const initial_context = { state: { nightlight: {} }, info: {}, effects: [], palettes: [], presets: {} }
+		const initial_context = { state: { nightlight: {} }, info: {}, effects: [], palettes: [], presets: {}, options: {} }
 		Object.assign(this, initial_context)
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
@@ -71,8 +74,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				presets: this.presets
 			}
 
-			Object.assign(this, context)
-
+			Object.assign(this, { ...context, deviceOptions: wledToClientDeviceOptions(client_info.options) })
 			this.emit<[WLEDClientContext]>('update:context', context)
 			this.emit<[WLEDClientState]>('update:state', client_state)
 			this.emit<[WLEDClientInfo]>('update:info', client_info)
@@ -107,7 +109,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			palettes: client_palettes,
 			presets: client_presets
 		}
-		Object.assign(this, context)
+
+		Object.assign(this, { ...context, deviceOptions: wledToClientDeviceOptions(client_info.options) })
 		this.emit<[WLEDClientContext]>('update:context', context)
 		this.emit<[WLEDClientState]>('update:state', client_state)
 		this.emit<[WLEDClientInfo]>('update:info', client_info)

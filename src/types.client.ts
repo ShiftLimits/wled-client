@@ -475,6 +475,9 @@ export interface WLEDClientInfo {
 	 */
 	syncToggleReceive:boolean
 
+	/** Bit field of options that WLED is configured with. */
+	options:number
+
 	/**
 	 * Version of LwIP. `1` or `2` on ESP8266, `0` (does not apply) on ESP32.
 	 * @deprecated Will be removed in 0.14
@@ -557,6 +560,35 @@ export interface WLEDClientPreset {
 }
 
 export type WLEDClientPresets = { [key:number]: WLEDClientPreset }
+
+//
+// Device Options
+
+export interface WLEDClientDeviceOptions {
+	/** Device has debug mode enabled. */
+	debug:boolean
+
+	/** Device has support for Alexa. */
+	alexa:boolean
+
+	/** Device has support for Blynk IoT platform. */
+	blynk:boolean
+
+	/** Device has support for Cronixie clock kit. */
+	cronixie:boolean
+
+	/** Device has filesystem. */
+	filesystem:boolean
+
+	/** Device has support for Hue Sync. */
+	huesync:boolean
+
+	/** Device has support for Adalight. */
+	adalight:boolean
+
+	/** Device has support for Over The Air updates. */
+	OTA:boolean
+}
 
 export interface WLEDClientContext {
 	/** WLED Client state object. */

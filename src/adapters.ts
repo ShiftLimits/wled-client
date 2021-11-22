@@ -1,6 +1,7 @@
-import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState, WLEDClientPresets } from './types.client';
+import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState, WLEDClientPresets, WLEDClientDeviceOptions } from './types.client'
 import { deepCloneTransform } from './utils'
 import { WLEDPresets } from './types.wled'
+import { WLEDDeviceOptionMasks } from './constants'
 
 const key_regexes = {}
 function keyTransformer(transform_map:{[key:string]:any}) {
@@ -57,7 +58,7 @@ const WLED_TO_CLIENT_INFO_MAP = {
 	'core': 'core',
 	'freeheap': 'freeheap',
 	'uptime': 'uptime',
-	'opt': 'opt',
+	'opt': 'options',
 	'brand': 'brand',
 	'product': 'product',
 	'mac': 'mac',
@@ -200,4 +201,20 @@ export function wledToClientPresets(presets:WLEDPresets):WLEDClientPresets {
 
 export function clientToWLEDPresets(presets:WLEDClientPresets):WLEDPresets {
 	return deepCloneTransform(presets, clientToWLEDPresetTransformer) as WLEDPresets
+}
+
+//
+// Device Options
+
+export function wledToClientDeviceOptions(options:number):WLEDClientDeviceOptions {
+	return {
+		debug: !!(options & WLEDDeviceOptionMasks.DEBUG),
+		alexa: !!(options & WLEDDeviceOptionMasks.DISABLE_ALEXA),
+		blynk: !!(options & WLEDDeviceOptionMasks.DISABLE_BLYNK),
+		cronixie: !!(options & WLEDDeviceOptionMasks.DISABLE_CRONIXIE),
+		filesystem: !!(options & WLEDDeviceOptionMasks.DISABLE_FILESYSTEM),
+		huesync: !!(options & WLEDDeviceOptionMasks.DISABLE_HUESYNC),
+		adalight: !(options & WLEDDeviceOptionMasks.ENABLE_ADALIGHT),
+		OTA: !!(options & WLEDDeviceOptionMasks.DISABLE_OTA)
+	}
 }
