@@ -410,6 +410,9 @@ export interface WLEDInfo {
 	/** If `true`, an UI with only a single button for toggling sync should toggle receive+send, otherwise send only. */
 	str:boolean
 
+	/** Bit field of options that WLED is configured with. */
+	opt:number
+
 	/**
 	 * Version of LwIP. `1` or `2` on ESP8266, `0` (does not apply) on ESP32.
 	 * @deprecated Will be removed in 0.14
