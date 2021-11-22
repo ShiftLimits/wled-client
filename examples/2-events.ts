@@ -1,5 +1,5 @@
-import { WLEDClient } from '../../'
-import { sleep, toggleExample } from '../common'
+import { WLEDClient } from '../'
+import { sleep, toggleExample, setInitialState } from './common';
 
 function init() {
 	console.log('Running Events Example...')
@@ -13,10 +13,7 @@ function init() {
 		})
 
 		console.log('Setting initial state...')
-		wled.updateState({
-			on: true,
-			brightness: 255
-		})
+		setInitialState(wled)
 		.then(() => sleep(1000))
 		.then(() => {
 			console.log('Running toggle example...')

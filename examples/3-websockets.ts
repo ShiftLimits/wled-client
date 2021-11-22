@@ -1,5 +1,5 @@
-import { WLEDClient } from '../../'
-import { sleep, toggleExample } from '../common'
+import { WLEDClient } from '../'
+import { sleep, toggleExample, setInitialState } from './common'
 
 async function init() {
 	console.log('Running WebSocket Example...')
@@ -17,6 +17,11 @@ async function init() {
 	console.log('Starting live stream')
 	await wled.startLiveStream()
 
+	console.log('Setting initial state...')
+	await setInitialState(wled)
+	await wled.setEffect(8)
+	await sleep(1000)
+	await toggleExample(wled)
 	await sleep(2500)
 
 	console.log('Stopping live stream')
@@ -25,6 +30,10 @@ async function init() {
 	await sleep(1000)
 	console.log('Disconnecting from WebSocket...')
 	wled.disconnect()
+	await sleep(1000)
+
+	console.log('Re-setting state...')
+	await setInitialState(wled)
 	await sleep(1000)
 
 	console.log('Running toggle example via JSON...')
@@ -45,11 +54,8 @@ async function init() {
 	await wled_json.isReady
 	console.log(`Device ready: version ${wled_json.info.version}`)
 
-	console.log('Setting initial state...')
-	await wled_json.updateState({
-		on: true,
-		brightness: 255
-	})
+	console.log('Re-setting state...')
+	await setInitialState(wled)
 
 	await sleep(1000)
 
