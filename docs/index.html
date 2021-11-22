@@ -2,12 +2,13 @@
 <a href="#wled-client" id="wled-client" style="color: inherit; text-decoration: none;">
   <h1>WLED Client</h1>
 </a>
-<p>A friendly interface for controlling your WLED devices from Node.js or the browser.</p>
+<p>A friendly JS interface for controlling your <a href="https://github.com/Aircoookie/WLED">WLED</a> devices from Node.js or the browser.</p>
+<p><strong>Note</strong>: This is under early active development and may be subject to breaking changes until it reaches a stable version <strong>0.12.0-1.0</strong>.</p>
 
 <a href="#about" id="about" style="color: inherit; text-decoration: none;">
   <h2>About</h2>
 </a>
-<p>This is a JS/TS client library for the control of WLED devices. It offers a friendly simplified interface to send commands and receive data from your device, either piecemeal via WLED&#39;s JSON API or in real time via the WebSocket API. The full power of WLED&#39;s JSON API can also be harnessed through WLED Client by using <code>updateState</code>.</p>
+<p>This is a JS/TS client library for the control of <a href="https://github.com/Aircoookie/WLED">WLED</a> devices. It offers a friendly simplified interface to send commands and receive data from your device, either piecemeal via WLED&#39;s JSON API or in real time via the WebSocket API. The full power of WLED&#39;s JSON API can also be harnessed through WLED Client by using <code>updateState</code>.</p>
 
 <a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
   <h2>Installation</h2>
@@ -17,10 +18,14 @@
 <a href="#browser" id="browser" style="color: inherit; text-decoration: none;">
   <h3>Browser</h3>
 </a>
-<p>Include the CDN script for WLED Client in your HTML:</p>
+<p>For a fast and traditional start, you can include the CDN script for WLED Client in your HTML:</p>
 <pre><code class="language-html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-2"> </span><span class="hl-3">src</span><span class="hl-2">=</span><span class="hl-4">&quot;https://unpkg.com/wled-client/dist/browser/wled-client.js&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
 </code></pre>
-<p>The <code>WLEDClient</code> class will now be available globally. See <a href="#usage">usage</a> for next steps.</p>
+<p>Or you can also <a href="https://unpkg.com/wled-client/dist/browser/wled-client.js">download</a> this script directly to use it locally where you please. Either way, the <code>WLEDClient</code> class will now be available globally.</p>
+<p>For a more modern approach, you can use the ES Module version of WLED Client provided by the CDN:</p>
+<pre><code class="language-html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-2"> </span><span class="hl-3">src</span><span class="hl-2">=</span><span class="hl-4">&quot;https://unpkg.com/wled-client/dist/browser/wled-client.mjs&quot;</span><span class="hl-2"> </span><span class="hl-3">type</span><span class="hl-2">=</span><span class="hl-4">&quot;module&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
+</code></pre>
+<p>See <a href="#usage">usage</a> for next steps.</p>
 
 <a href="#node" id="node" style="color: inherit; text-decoration: none;">
   <h3>Node</h3>
@@ -29,11 +34,17 @@
 <pre><code class="language-bash"><span class="hl-5"># NPM</span><br/><span class="hl-6">$ npm install wled-client</span><br/><br/><span class="hl-5"># Yarn</span><br/><span class="hl-6">$ yarn add wled-client</span>
 </code></pre>
 <p>Then you can <code>require</code> or <code>import</code> WLED Client:</p>
-<pre><code class="language-ts"><span class="hl-7">import</span><span class="hl-6"> </span><span class="hl-8">WLEDClient</span><span class="hl-6"> </span><span class="hl-7">from</span><span class="hl-6"> </span><span class="hl-9">&#39;wled-client&#39;</span>
+<pre><code class="language-ts"><span class="hl-7">import</span><span class="hl-6"> { </span><span class="hl-8">WLEDClient</span><span class="hl-6"> } </span><span class="hl-7">from</span><span class="hl-6"> </span><span class="hl-9">&#39;wled-client&#39;</span>
 </code></pre>
-<pre><code class="language-js"><span class="hl-10">const</span><span class="hl-6"> </span><span class="hl-11">WLEDClient</span><span class="hl-6"> = </span><span class="hl-12">require</span><span class="hl-6">(</span><span class="hl-9">&#39;wled-client&#39;</span><span class="hl-6">)</span>
+<pre><code class="language-js"><span class="hl-10">const</span><span class="hl-6"> { </span><span class="hl-11">WLEDClient</span><span class="hl-6"> } = </span><span class="hl-12">require</span><span class="hl-6">(</span><span class="hl-9">&#39;wled-client&#39;</span><span class="hl-6">)</span>
 </code></pre>
 <p>See <a href="#usage">usage</a> for next steps.</p>
+
+<a href="#other-environments" id="other-environments" style="color: inherit; text-decoration: none;">
+  <h3>Other Environments</h3>
+</a>
+<p>Under the hood, WLED Client uses the <code>fetch</code>, <code>WebSocket</code>, and <code>EventTarget</code> APIs to achieve the desired behavior. WLED Client is primarily meant to be used in the browser where these APIs are provided by the browser&#39;s execution environment. In order to work on node, each API has been polyfilled.</p>
+<p>If your execution environment includes these APIs, you can use the browser script out of the box. Otherwise you&#39;ll need to add your own polyfills to make WLED Client work in your desired environment.</p>
 
 <a href="#versioning" id="versioning" style="color: inherit; text-decoration: none;">
   <h3>Versioning</h3>
@@ -62,21 +73,14 @@
 <a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
   <h2>Examples</h2>
 </a>
+<p><a href="https://github.com/JeffSchofield/twitch-wled">Twitch integration</a> example using <a href="https://github.com/tmijs/tmi.js">tmi.js</a>. Contains detailed instructions if you&#39;re new to Node.js.</p>
 <p>To see how WLED Client handles various use cases, there are several example scripts in the <a href="https://github.com/ShiftLimits/wled-client/tree/main/examples"><code>/examples</code> directory</a>.</p>
 
 <a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
   <h2>Documentation</h2>
 </a>
-<p>See the <a href="https://shiftlimits.github.io/wled-client/">documentation</a> page for details.</p>
-
-<a href="#of-interest" id="of-interest" style="color: inherit; text-decoration: none;">
-  <h3>Of Interest</h3>
-</a>
-<ul>
-<li><a href="https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html">WLEDClient class</a></li>
-<li><a href="https://shiftlimits.github.io/wled-client/modules/types_client.html">Friendly interfaces</a></li>
-<li><a href="https://shiftlimits.github.io/wled-client/modules/types_wled.html">WLED interfaces</a></li>
-</ul>
+<p>There is a wonderfully done documentation for the WLED JSON API to be found at the <a href="https://kno.wled.ge/interfaces/json-api/">WLED knowledge base</a>. WLED Client implements this with only slightly more verbose key names. </p>
+<p>See the <a href="https://shiftlimits.github.io/wled-client/">API documentation</a> page for a detailed run down of WLED Client&#39;s structure. The <a href="https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html">WLEDClient class</a> docs has a quick list of properties and methods you can use. It may also help to check out the type definitions for <a href="https://github.com/ShiftLimits/wled-client/blob/main/src/types.client.ts">WLED Client</a> and compare them to the type definitions for <a href="https://github.com/ShiftLimits/wled-client/blob/main/src/types.wled.ts">WLED itself</a>.</p>
 
 <a href="#license" id="license" style="color: inherit; text-decoration: none;">
   <h2>License</h2>
