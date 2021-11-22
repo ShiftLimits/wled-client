@@ -11,15 +11,21 @@ This is a JS/TS client library for the control of [WLED](https://github.com/Airc
 ## Installation
 WLED Client is isomorphic, meaning it will behave identically in both the browser and Node.js.
 ### Browser
-Include the CDN script for WLED Client in your HTML:
+For a fast and traditional start, you can include the CDN script for WLED Client in your HTML:
 
 ```html
 <script src="https://unpkg.com/wled-client/dist/browser/wled-client.js"></script>
 ```
 
-You can also [download](https://unpkg.com/wled-client/dist/browser/wled-client.js) this script directly to use it where you please.
+Or you can also [download](https://unpkg.com/wled-client/dist/browser/wled-client.js) this script directly to use it locally where you please. Either way, the `WLEDClient` class will now be available globally.
 
-The `WLEDClient` class will now be available globally. See [usage](#usage) for next steps.
+For a more modern approach, you can use the ES Module version of WLED Client provided by the CDN:
+
+```html
+<script src="https://unpkg.com/wled-client/dist/browser/wled-client.mjs" type="module"></script>
+```
+
+See [usage](#usage) for next steps.
 
 ### Node
 Install with your favorite Node.js package manager:
