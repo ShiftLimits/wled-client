@@ -515,7 +515,6 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		await this.updateState({
 			savePresetId: id,
 			...preset,
-			returnFullState:true,
 			time: new Date().getTime()
 		}, { method: 'json' })
 		// To Do: Build and add new preset object
