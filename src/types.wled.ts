@@ -163,6 +163,9 @@ export interface WLEDStateSendOnly {
 }
 
 export interface WLEDStateReceiveOnly {
+	/** Error flag that may be set when some issues are encountered in WLED. */
+	error:string,
+
 	nightlight:{
 		/** Remaining nightlight duration in seconds, `-1` if not active. */
 		rem:number

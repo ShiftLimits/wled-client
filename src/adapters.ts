@@ -81,6 +81,7 @@ export function clientToWLEDInfo(info:Partial<WLEDClientInfo>):{} {
 // State Adapters
 
 const WLED_TO_CLIENT_STATE_MAP = {
+	'error': 'error',
 	'on': 'on',
 	'bri': 'brightness',
 	'transition': 'transition',
