@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Getting close to feature parity with the 0.12.0 API.
 
 ### Added
+- Add support for fetching presets to the JSON API
+- Add `getPreset`, `savePreset`, `saveStateAsPreset`, and `deletePreset` methods for working with WLED presets
 - Add reconnection logic for the websocket connection, controlled by passing `{ websocket: { reconnect: [true|false] }}` using client options
 - Add ESM export for the browser environment so you can use it with the modern modules system now in most browsers
+
 ### Changed
 - **Breaking:** Move `WLEDClient` from default export to a named export. This breaks import or require statements. Please change `import WLEDClient from 'wled-client'` to `import { WLEDClient } from 'wled-client'` and change `const WLEDClient = require('wled-client')` to `const { WLEDClient } = require('wled-client')`
 - Update `turnOn`, `turnOff`, `toggle`, `setBrightness`, `set[Ordinal]Color`, `updateState`, and `updateSegment` methods to support some one-time state change properties, such as `transition` or `noSync`, which control the transition for the current method - for example turn on the lights over 100 seconds - or preventing the method from syncing to other devices respectively

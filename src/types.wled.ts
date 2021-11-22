@@ -132,6 +132,21 @@ export interface WLEDStateSendOnly {
 		nn:boolean
 	}
 
+	/** ID of the preset slot to save to. */
+	psave:number
+
+	/** ID of the preset to delete. */
+	pdel:number
+
+	/** Sets flag includeBri */
+	ib:boolean
+
+	/** Sets flag segmentBounds */
+	sb:boolean
+
+	/** Build new state when saving preset. */
+	o:boolean
+
 	/** If set to `true` in a JSON POST command, the response will contain the full JSON state object. */
 	v:boolean
 
@@ -413,6 +428,49 @@ export interface WLEDLive {
 	/** If the number of LEDs is more than device's supported number of live LEDs, then WLED will send every `n`th LED. */
 	n:number
 }
+
+//
+// Presets
+//
+
+export interface WLEDPreset {
+	/**
+	 * Name
+	 */
+	n:string
+
+	/**
+	 * Quick load label
+	 */
+	ql:string
+
+	/**
+	 * Device's power state
+	 */
+	on:boolean
+
+	/**
+	 * Brightness
+	 */
+	bri:number
+
+	/**
+	 * Transition time
+	 */
+	transition:number
+
+	/**
+	 * Main segment ID
+	 */
+	mainseg:number
+
+	/**
+	 * Segments configuration
+	 */
+	segments:WLEDSegment[]
+}
+
+export type WLEDPresets = { [key:number]: WLEDPreset } // WLED returns an object from the presets file
 
 export interface WLEDContext {
 	/** WLED state object. */

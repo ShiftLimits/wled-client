@@ -1,5 +1,6 @@
-import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState } from './types.client'
+import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState, WLEDClientPresets } from './types.client';
 import { deepCloneTransform } from './utils'
+import { WLEDPresets } from './types.wled'
 
 const key_regexes = {}
 function keyTransformer(transform_map:{[key:string]:any}) {
@@ -85,7 +86,13 @@ const WLED_TO_CLIENT_STATE_MAP = {
 	'transition': 'transition',
 	'tt': 'temporaryTransition',
 	'ps': 'presetId',
-	'psave': 'psave',
+	'n': 'name',
+	'psave': 'savePresetId',
+	'pdel': 'deletePresetId',
+	'ib': 'includeBrightness',
+	'sb': 'segmentBounds',
+	'o': 'overwriteState',
+	'ql': 'label',
 	'pl': 'playlistId',
 	'ccnf': 'presetCycle',
 	'ccnf.min': 'presetCycle.min',
@@ -147,4 +154,49 @@ export function wledToClientState(state:{}):WLEDClientState {
 
 export function clientToWLEDState(state:Partial<WLEDClientState|WLEDClientUpdatableState>):{} {
 	return deepCloneTransform(state, clientToWLEDStateTransformer)
+}
+
+//
+// Preset Adapters
+
+const WLED_TO_CLIENT_PRESET_MAP = {
+	'*.n': '*.name',
+	'*.ql': '*.label',
+	'*.on': '*.on',
+	'*.bri': '*.brightness',
+	'*.transition': '*.transition',
+	'*.mainseg': '*.mainSegment',
+	'*.seg': '*.segments',
+	'*.seg.*.id': '*.segments.*.id',
+	'*.seg.*.start': '*.segments.*.start',
+	'*.seg.*.stop': '*.segments.*.stop',
+	'*.seg.*.len': '*.segments.*.length',
+	'*.seg.*.grp': '*.segments.*.grouping',
+	'*.seg.*.spc': '*.segments.*.spacing',
+	'*.seg.*.col': '*.segments.*.colors',
+	'*.seg.*.fx': '*.segments.*.effectId',
+	'*.seg.*.sx': '*.segments.*.effectSpeed',
+	'*.seg.*.ix': '*.segments.*.effectIntensity',
+	'*.seg.*.pal': '*.segments.*.paletteId',
+	'*.seg.*.sel': '*.segments.*.selected',
+	'*.seg.*.rev': '*.segments.*.reverse',
+	'*.seg.*.on': '*.segments.*.on',
+	'*.seg.*.bri': '*.segments.*.brightness',
+	'*.seg.*.mi': '*.segments.*.mirror',
+	'*.seg.*.lx': '*.segments.*.loxonePrimaryColor',
+	'*.seg.*.ly': '*.segments.*.loxoneSecondaryColor',
+}
+const CLIENT_TO_WLED_PRESET_MAP = Object.fromEntries(
+	Object.entries(WLED_TO_CLIENT_PRESET_MAP).map(([key, value]) => [value, key]) // Flip key/value of above constant
+)
+
+const wledToClientPresetTransformer = keyTransformer(WLED_TO_CLIENT_PRESET_MAP)
+const clientToWLEDPresetTransformer = keyTransformer(CLIENT_TO_WLED_PRESET_MAP)
+
+export function wledToClientPresets(presets:WLEDPresets):WLEDClientPresets {
+	return deepCloneTransform(presets, wledToClientPresetTransformer) as WLEDClientPresets
+}
+
+export function clientToWLEDPresets(presets:WLEDClientPresets):WLEDPresets {
+	return deepCloneTransform(presets, clientToWLEDPresetTransformer) as WLEDPresets
 }

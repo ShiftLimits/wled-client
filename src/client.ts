@@ -1,8 +1,8 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLive, WLEDClientNightlightState, WLEDClientSendOptions } from './types.client';
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLive, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset } from './types.client';
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
-import { wledToClientState, wledToClientInfo, clientToWLEDState } from './adapters'
+import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets } from './adapters';
 import { RGBWColor, RGBColor } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
 import { deepMerge, deepClone } from './utils';
@@ -23,6 +23,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 	/** List of color palettes available for this device. */
 	public readonly palettes:WLEDClientPalettes = []
+
+	/** List of presets save on this device. */
+	public readonly presets:WLEDClientPresets = {}
 
 	/** Promise that is resolved when a successful connection has been made and the state has been retrieved. */
 	public readonly isReady:Promise<boolean>
@@ -50,7 +53,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
 
-		const initial_context = { state: { nightlight: {} }, info: {}, effects: [], palettes: [] }
+		const initial_context = { state: { nightlight: {} }, info: {}, effects: [], palettes: [], presets: {} }
 		Object.assign(this, initial_context)
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
@@ -64,7 +67,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				state: client_state,
 				info: client_info,
 				effects: client_effects,
-				palettes: client_palettes
+				palettes: client_palettes,
+				presets: this.presets
 			}
 
 			Object.assign(this, context)
@@ -88,16 +92,20 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	/** Get the latest state from the device. */
 	async refreshContext() {
 		let { state, info, effects, palettes } = await this.JSONAPI.getAll()
+		let presets = await this.JSONAPI.getPresets()
+
 		let client_state = wledToClientState(state)
 		let client_info = wledToClientInfo(info)
 		let client_effects = effects ? effects : this.effects // Use old effects list if new ones were not passed
 		let client_palettes = palettes ? palettes : this.palettes // Use old palettes list if new ones were not passed
+		let client_presets = wledToClientPresets(presets)
 
 		let context:WLEDClientContext = {
 			state: client_state,
 			info: client_info,
 			effects: client_effects,
-			palettes: client_palettes
+			palettes: client_palettes,
+			presets: client_presets
 		}
 		Object.assign(this, context)
 		this.emit<[WLEDClientContext]>('update:context', context)
@@ -105,6 +113,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.emit<[WLEDClientInfo]>('update:info', client_info)
 		this.emit<[WLEDClientEffects]>('update:effects', client_effects as any)
 		this.emit<[WLEDClientPalettes]>('update:palettes', client_palettes as any)
+		this.emit<[WLEDClientPresets]>('update:presets', client_palettes as any)
 	}
 
 	/**
@@ -475,18 +484,54 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	//
 	// Presets
 
-	getPreset() {}
-
-	updatePreset() {}
-
-	saveCurrentAsPreset() {
-
+	/**
+	 * Get a preset by its ID.
+	 * @param {number} id ID of the desired preset
+	 */
+	getPreset(id:number) {
+		return this.presets[id]
 	}
 
-	/** Saves */
-	async savePreset(preset:WLEDClientState) {
-		const current_state = deepClone(this.state)
-		await this.updateState({})
+	/**
+	 * Saves a preset using the device's current state.
+	 * @param {number} id
+	 * @param {WLEDClientCurrentStatePreset} preset
+	 */
+	async saveStateAsPreset(id:number, preset:WLEDClientCurrentStatePreset) {
+		preset = Object.assign({ includeBrightness: true, segmentBounds: true }, preset)
+		await this.updateState({
+			savePresetId: id,
+			...preset,
+			returnFullState:true,
+			time: new Date().getTime()
+		}, { method: 'json' })
+		// To Do: Build and add new preset object
+	}
+
+	/**
+	 * Saves a preset.
+	 * @param {number} id
+	 * @param {WLEDClientPreset} preset
+	 */
+	async savePreset(id:number, preset:WLEDClientPreset) {
+		await this.updateState({
+			savePresetId: id,
+			overwriteState: true,
+			...preset
+		}, { method: 'json' })
+
+		this.presets[id] = preset
+	}
+
+	/**
+	 * Delete a preset by its ID.
+	 * @param {number} id ID of the preset to delete
+	 */
+	async deletePreset(id:number) {
+		await this.updateState({
+			deletePresetId: id
+		})
+		delete this.presets[id]
 	}
 
 }
