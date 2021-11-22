@@ -463,32 +463,32 @@ export interface WLEDPreset {
 	/**
 	 * Quick load label
 	 */
-	ql:string
+	ql?:string
 
 	/**
 	 * Device's power state
 	 */
-	on:boolean
+	on?:boolean
 
 	/**
 	 * Brightness
 	 */
-	bri:number
+	bri?:number
 
 	/**
 	 * Transition time
 	 */
-	transition:number
+	transition?:number
 
 	/**
 	 * Main segment ID
 	 */
-	mainseg:number
+	mainseg?:number
 
 	/**
 	 * Segments configuration
 	 */
-	segments:WLEDSegment[]
+	segments?:WLEDSegment[]
 }
 
 export type WLEDPresets = { [key:number]: WLEDPreset } // WLED returns an object from the presets file
