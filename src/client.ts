@@ -112,16 +112,18 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 * @param {WLEDClientUpdatableState} state Partial state object of values to update
 	 */
 	async updateState(state:WLEDClientUpdatableState, options?:WLEDClientSendOptions) {
+		let use_method:'ws'|'json'|undefined
 		if (options) { // Handle options passed for this call only
-			const { transition, noSync } = options
+			const { transition, noSync, method } = options
 
 			if (transition) state.temporaryTransition = transition
 			if (noSync) state.udpSync = { ...(state.udpSync || {}), noSync }
+			if (method) use_method = method
 		}
 
 		const wled_state = clientToWLEDState(state) // Transform the client state object into the WLED API state object
 
-		if (this.WSAPI.available) {
+		if ((!use_method || use_method != 'json') && this.WSAPI.available) {
 			try {
 				await this.WSAPI.updateState(wled_state)
 				deepMerge(this.state, state)
@@ -131,9 +133,11 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			}
 		}
 
-		await this.JSONAPI.updateState(wled_state)
-		deepMerge(this.state, state)
-		this.emit<[WLEDClientState]>('update:state', this.state)
+		if (!use_method || use_method != 'ws') {
+			await this.JSONAPI.updateState(wled_state)
+			deepMerge(this.state, state)
+			this.emit<[WLEDClientState]>('update:state', this.state)
+		}
 	}
 
 	/** Connect to the device's WebSocket API. */
