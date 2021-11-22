@@ -502,4 +502,7 @@ export interface WLEDClientSendOptions {
 
 	/** Don't send a UDP Sync broadcast packet for the current API call only. */
 	noSync?:boolean
+
+	/** Choose which API to use. */
+	method?: 'ws'|'json'
 }
