@@ -10,6 +10,7 @@ Getting close to feature parity with the 0.12.0 API.
 ### Added
 - Add support for fetching presets to the JSON API
 - Add `getPreset`, `savePreset`, `saveStateAsPreset`, and `deletePreset` methods for working with WLED presets
+- Add `7-presets` example to demonstrate preset methods usage
 - Add `deviceOptions` property which shows the `info.options` bit field value as a friendly object of booleans
 - Add support for debug-only info properties which are filled in if your device is in debug mode
 - Add reconnection logic for the websocket connection, controlled by passing `{ websocket: { reconnect: [true|false] }}` using client options
