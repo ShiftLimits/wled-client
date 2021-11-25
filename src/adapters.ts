@@ -1,6 +1,6 @@
 import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState, WLEDClientPresets, WLEDClientDeviceOptions } from './types.client'
 import { deepCloneTransform } from './utils'
-import { WLEDPresets } from './types.wled'
+import { WLEDPresets, WLEDInfo } from './types.wled'
 import { WLEDDeviceOptionMasks } from './constants'
 
 const key_regexes = {}
@@ -210,7 +210,7 @@ export function clientToWLEDPresets(presets:WLEDClientPresets):WLEDPresets {
 //
 // Device Options
 
-export function wledToClientDeviceOptions(options:number):WLEDClientDeviceOptions {
+export function wledToClientDeviceOptions(options:WLEDInfo['opt']):WLEDClientDeviceOptions {
 	return {
 		debug: !!(options & WLEDDeviceOptionMasks.DEBUG),
 		alexa: !!(options & WLEDDeviceOptionMasks.DISABLE_ALEXA),
