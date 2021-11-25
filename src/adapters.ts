@@ -35,7 +35,7 @@ const WLED_TO_CLIENT_INFO_MAP = {
 	'leds.pwr': 'leds.currentPower',
 	'leds.maxpwr': 'leds.maxPower',
 	'leds.maxseg': 'leds.maxSegments',
-	'str': 'str',
+	'str': 'syncToggleReceive',
 	'name': 'name',
 	'udpport': 'udpPort',
 	'live': 'live',
@@ -66,7 +66,7 @@ const WLED_TO_CLIENT_INFO_MAP = {
 	'resetReason1': 'resetReason1',
 	'brand': 'brand',
 	'product': 'product',
-	'mac': 'mac',
+	'mac': 'mac'
 }
 const CLIENT_TO_WLED_INFO_MAP = Object.fromEntries(
 	Object.entries(WLED_TO_CLIENT_INFO_MAP).map(([key, value]) => [value, key]) // Flip key/value of above constant
@@ -145,8 +145,7 @@ const WLED_TO_CLIENT_STATE_MAP = {
 	'playlist.end': 'playlist.end',
 	'v': 'returnFullState',
 	'rb': 'reboot',
-	'time': 'time',
-	'str': 'syncToggleReceive'
+	'time': 'time'
 }
 const CLIENT_TO_WLED_STATE_MAP = Object.fromEntries(
 	Object.entries(WLED_TO_CLIENT_STATE_MAP).map(([key, value]) => [value, key]) // Flip key/value of above constant
