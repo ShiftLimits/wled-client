@@ -224,76 +224,76 @@ export interface WLEDClientStateSendOnly {
 
 export interface WLEDClientStateReceiveOnly {
 	/** Error flag that may be set when some issues are encountered in WLED. */
-	error:string,
+	error?:string,
 
 	nightlight:{
 		/** Remaining nightlight duration in seconds, `-1` if not active. */
-		remaining:number
+		remaining?:number
 	}
 }
 
 export interface WLEDClientPresetCycleState {
-	min:number
-	max:number
-	time:number
+	min?:number
+	max?:number
+	time?:number
 }
 
 export interface WLEDClientNightlightState {
 	/** Whether or not nightlight is currently active. */
-	on:boolean
+	on?:boolean
 
 	/**
 	 * Duration of the nightlight in minutes.
 	 * @type {number} 1 to 255
 	 */
-	duration:number
+	duration?:number
 
 	/**
 	 * If `true`, the light will gradually dim over the course of the nightlight duration. If `false`, it will instantly turn to the target brightness once the duration has elapsed.
 	 * @deprecated Will be removed in 0.13, use `mode` instead
 	 */
-	fade:boolean
+	fade?:boolean
 
 	/**
 	 * Nightlight mode
 	 * @type {WLEDNightlightMode} 0: Instant, 1: Fade, 2: Color fade, 3: Sunrise
 	 */
-	mode:WLEDNightlightMode
+	mode?:WLEDNightlightMode
 
 	/**
 	 * Target brightness of the nightlight
 	 * @type {number} 0 to 255
 	 */
-	targetBrightness:number
+	targetBrightness?:number
 }
 
 export interface WLEDClientExchangeableState {
 	/** Device's current power state. */
-	on:boolean
+	on?:boolean
 
 	/**
 	 * Device's current brightness.
 	 * @type {number} Between 0 and 255.
 	 */
-	brightness:number
+	brightness?:number
 
 	/**
 	 * Device's current transition time in 100ms intervals (eg. 4 is 400ms).
 	 * @type {number} 0 to 255
 	 */
-	transitionTime:number
+	transitionTime?:number
 
 	/** ID of the device's current preset. */
-	presetId:number
+	presetId?:number
 
 	/** ID of the device's current playlist. */
-	playlistId:number
+	playlistId?:number
 
 	/**
 	 * Preset Cycle state object.
 	 * @deprecated Will be removed in 0.13, use playlists instead
 	 */
-	presetCycle:WLEDClientPresetCycleState
+	presetCycle?:WLEDClientPresetCycleState
 
 	/** Object containing the device's nightlight state. */
 	nightlight:WLEDClientNightlightState
@@ -301,23 +301,23 @@ export interface WLEDClientExchangeableState {
 	/** UDP Sync state object. */
 	udpSync: {
 		/** Send UDP Sync broadcast packet on state change. */
-		send:boolean
+		send?:boolean
 
 		/** Receive UDP Sync broadcast packets. */
-		receive:boolean
+		receive?:boolean
 	}
 
 	/**
 	 * Live data override.
 	 * @type {WLEDLiveDataOverride} 0: Off, 1: Override until data ends, 2: Override until reboot
 	 */
-	liveDataOverride:WLEDLiveDataOverride
+	liveDataOverride?:WLEDLiveDataOverride
 
 	/**
 	 * ID of the main segment.
 	 * @type {number} 0 to `info.leds.maxSegments`-1
 	 */
-	mainSegmentId:number
+	mainSegmentId?:number
 
 	/**
 	 * Array of segments.
@@ -337,113 +337,113 @@ export interface WLEDClientInfoLEDs {
 	 * Total number of LEDs.
 	 * @type {number} 1 to 1200
 	 */
-	count:number
+	count?:number
 
 	/**
 	 * Current frames per second.
 	 * @type {number} 0 to 255
 	 */
-	fps:number
+	fps?:number
 
 	/** `true` if LEDs are 4-channel (RGBW). */
-	rgbw:boolean
+	rgbw?:boolean
 
 	/** `true` if a white channel slider should be displayed. */
-	whiteValueInput:boolean
+	whiteValueInput?:boolean
 
 	/**
 	 * One or more LED strip pins.
 	 * @deprecated Will be removed in 0.13
 	 */
-	pin:[number]&number[]
+	pin?:[number]&number[]
 
 	/**
 	 * Current LED power usage in milliamps as determined by the ABL. `0` if ABL is disabled.
 	 * @type {number} 0 to 65000
 	 */
-	currentPower:number
+	currentPower?:number
 
 	/**
 	 * Maximum power budget in milliamps for the ABL. `0` if ABL is disabled.
 	 * @type {number} 0 to 65000
 	 */
-	maxPower:number
+	maxPower?:number
 
 	/** Maximum number of segments supported by this version. */
-	maxSegments:number
+	maxSegments?:number
 }
 
 export interface WLEDClientInfo {
 	/** Device's WLED version name. */
-	version:string
+	version?:string
 
 	/** Device's WLED build ID. (YYMMDDB, B = daily build index) */
-	buildId:number
+	buildId?:number
 
 	/** The producer/vendor of the light. Always `WLED` for standard installations. */
-	brand:string
+	brand?:string
 
 	/** The product name. Always `FOSS` for standard installations. */
-	product:string
+	product?:string
 
 	/** Device's individual name. Intended for display in lists and titles. */
-	name:string
+	name?:string
 
 	/** Name of the platform. */
-	arch:string
+	arch?:string
 
 	/** Version of the underlying (Arduino core) SDK. */
-	core:string
+	core?:string
 
 	/** Bytes of heap memory (RAM) currently available. Problematic if more than `10k`. */
-	freeheap:number
+	freeheap?:number
 
 	/** Time since the last boot/reset in seconds. */
-	uptime:number
+	uptime?:number
 
 	/** The hexadecimal hardware MAC address of the device. Lowercase and without colons. */
-	mac:string
+	mac?:string
 
 	/** The UDP port for realtime packets and WLED broadcast. */
-	udpPort:number
+	udpPort?:number
 
 	/** Info on the device's physical LED setup. */
 	leds:WLEDClientInfoLEDs
 
 	/** If `true`, the software is currently receiving realtime data via UDP or E1.31. */
-	live:boolean
+	live?:boolean
 
 	/** Source of the realtime data. */
-	liveSource:string
+	liveSource?:string
 
 	/** IP of the realtime data source.  */
-	liveIp:string
+	liveIp?:string
 
 	/**
 	 * Number of other WLED devices discovered on the network. `-1` if Node discovery disabled.
 	 * @type {number} -1 to 255
 	 */
-	discoveredDevicesCount:number
+	discoveredDevicesCount?:number
 
 	/**
 	 * Current number of WebSocket clients connected to the device.
 	 * @type {number} -1 to 8
 	 */
-	wsConnectedCount:number
+	wsConnectedCount?:number
 
 	/** Number of effects available on the device. */
-	effectsCount:number
+	effectsCount?:number
 
 	/** Number of color palettes available on the device. */
-	palettesCount:number
+	palettesCount?:number
 
 	/** Info on the device's WiFi connection. */
 	wifi:{
 		/** Basic service set identifier of the currently connected network. */
-		bssid:string
+		bssid?:string
 
 		/** Received signal strength indicator. */
-		rssi:number
+		rssi?:number
 
 		/** Strength of the signal produced. Exists only if debug mode is enabled on the device. */
 		txPower?:number
@@ -455,34 +455,34 @@ export interface WLEDClientInfo {
 		 * Relative signal quality of the current connection.
 		 * @type {number} 0 to 100
 		 */
-		signal:number
+		signal?:number
 
 		/**
 		 * The current WiFi channel.
 		 * @type {number} 1 to 14
 		 */
-		channel:number
+		channel?:number
 	}
 
 	/** Info about the embedded LittleFS filesystem. */
 	fs:{
 		/** Estimate of used filesystem space in kilobytes. */
-		used:number
+		used?:number
 
 		/** Total filesystem size in kilobytes. */
-		total:number
+		total?:number
 
 		/** Unix timestamp for the last modification to the `presets.json` file. Not accurate after boot or after using `/edit`. */
-		presetsModifiedTime:number
+		presetsModifiedTime?:number
 	}
 
 	/**
 	 * If `true`, an UI with only a single button for toggling sync should toggle receive+send, otherwise send only
 	 */
-	syncToggleReceive:boolean
+	syncToggleReceive?:boolean
 
 	/** Bit field of options that WLED is configured with. */
-	options:number
+	options?:number
 
 	/** Reason for reset. Exists only if debug mode is enabled on the device.  */
 	resetReason?:string
@@ -497,7 +497,7 @@ export interface WLEDClientInfo {
 	 * Version of LwIP. `1` or `2` on ESP8266, `0` (does not apply) on ESP32.
 	 * @deprecated Will be removed in 0.14
 	 */
-	 lwip:0|1|2
+	 lwip?:0|1|2
 }
 
 export type WLEDClientEffects = string[]
@@ -519,7 +519,6 @@ export interface WLEDClientLive {
 // Presets
 //
 
-
 export interface WLEDClientCurrentStatePreset {
 	/**
 	 * Name
@@ -537,6 +536,7 @@ export interface WLEDClientCurrentStatePreset {
 	/** Sets flag segmentBounds */
 	segmentBounds?:boolean
 }
+
 export interface WLEDClientPreset {
 	/**
 	 * Name
@@ -581,28 +581,28 @@ export type WLEDClientPresets = { [key:number]: WLEDClientPreset }
 
 export interface WLEDClientDeviceOptions {
 	/** Device has debug mode enabled. */
-	debug:boolean
+	debug?:boolean
 
 	/** Device has support for Alexa. */
-	alexa:boolean
+	alexa?:boolean
 
 	/** Device has support for Blynk IoT platform. */
-	blynk:boolean
+	blynk?:boolean
 
 	/** Device has support for Cronixie clock kit. */
-	cronixie:boolean
+	cronixie?:boolean
 
 	/** Device has filesystem. */
-	filesystem:boolean
+	filesystem?:boolean
 
 	/** Device has support for Hue Sync. */
-	huesync:boolean
+	huesync?:boolean
 
 	/** Device has support for Adalight. */
-	adalight:boolean
+	adalight?:boolean
 
 	/** Device has support for Over The Air updates. */
-	OTA:boolean
+	OTA?:boolean
 }
 
 export interface WLEDClientContext {
