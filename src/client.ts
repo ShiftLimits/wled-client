@@ -401,6 +401,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			 */
 			enable(with_state:number|Omit<Partial<WLEDClientNightlightState>, 'on'> = {}) {
 				if (typeof with_state == 'number') with_state = { duration: with_state }
+				this.state.remaining = this.state.duration
 				return wled.updateState({
 					nightlight: {
 						on: true,
