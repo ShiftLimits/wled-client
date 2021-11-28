@@ -507,7 +507,7 @@ export type WLEDClientPalettes = string[]
 // Live Interface
 //
 
-export interface WLEDClientLive {
+export interface WLEDClientLiveLEDs {
 	/** List of color values from every `n`th LED attached to the device. */
 	leds:string[]
 

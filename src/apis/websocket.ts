@@ -1,5 +1,5 @@
 import { IsomorphicEventEmitter } from '../utils.emitter'
-import { isWLEDContext, isWLEDLive } from '../utils'
+import { isWLEDContext, isWLEDLiveLEDs } from '../utils'
 import { WLEDUpdatableState } from '../types.wled'
 import { WLEDClientOptions } from '../types.client'
 import { WLEDEndpoints } from '../constants'
@@ -52,8 +52,8 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 			if (isWLEDContext(message)) {
 				let { state, info } = message
 				this.emit('update:context', { state, info })
-			} else if(isWLEDLive(message)) {
-				this.emit('live', message)
+			} else if(isWLEDLiveLEDs(message)) {
+				this.emit('live:leds', message)
 			}
 		})
 
@@ -67,6 +67,7 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 			}
 			this.available = false
 		})
+
 		this.websocket.addEventListener('error', (error) => {
 			console.error(`WebSocket Error: ${ error }`)
 			this.emit('error', error)
@@ -100,7 +101,7 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 		})
 	}
 
-	startLiveStream() {
+	startLEDStream() {
 		return new Promise((resolve, reject) => {
 			this.send(JSON.stringify({ lv: true }), (err) => {
 				if (err) reject(err)
@@ -109,7 +110,7 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 		})
 	}
 
-	stopLiveStream() {
+	stopLEDStream() {
 		return new Promise((resolve, reject) => {
 			this.send(JSON.stringify({ lv: false }), (err) => {
 				if (err) reject(err)

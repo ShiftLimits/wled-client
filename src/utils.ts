@@ -5,7 +5,7 @@ export function isWLEDContext(object:any):object is WLEDContext {
 	return !!state && !!info
 }
 
-export function isWLEDLive(object:any):object is WLEDLive {
+export function isWLEDLiveLEDs(object:any):object is WLEDLive {
 	let { leds, n } = object
 	return !!leds && !!n
 }

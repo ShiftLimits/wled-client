@@ -1,4 +1,4 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLive, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions } from './types.client';
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions } from './types.client';
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
@@ -60,7 +60,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		Object.assign(this, initial_context)
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
-		this.WSAPI.on('live', (event) => this.emit<[WLEDClientLive]>('live', event))
+		this.WSAPI.on('live:leds', (event) => this.emit<[WLEDClientLiveLEDs]>('live:leds', event))
 		this.WSAPI.on('update:context', ({ state, info, effects, palettes }) => {
 			let client_state = wledToClientState(state)
 			let client_info = wledToClientInfo(info)
@@ -163,14 +163,14 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		return this.WSAPI.disconnect()
 	}
 
-	/** Start a live stream of LED values from the device via the WebSocket API. Listen to the `live` event (e.g. `wled.addEventListener('live', cb)`). */
-	startLiveStream() {
-		return this.WSAPI.startLiveStream()
+	/** Start a live stream of LED values from the device via the WebSocket API. Listen to the `update:leds` event (e.g. `wled.addEventListener('update:leds', cb)`). */
+	async startLEDStream() {
+		await this.WSAPI.startLEDStream()
 	}
 
 	/** Stop the live stream of LED values from the device. */
-	stopLiveStream() {
-		return this.WSAPI.stopLiveStream()
+	async stopLEDStream() {
+		await this.WSAPI.stopLEDStream()
 	}
 
 	//
