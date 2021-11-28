@@ -1,5 +1,5 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions, WLEDClientLive } from './types.client';
-import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode } from './constants'
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions, WLEDClientLive } from './types.client'
+import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode, DEFAULT_CLIENT_CONTEXT } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
 import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions } from './adapters';
@@ -57,10 +57,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		if (typeof host_or_options == 'string') options = { host: host_or_options } // If `host_or_options` is a string, then it is the device's host
 		else options = host_or_options // Otherwise `host_or_options` is an options object
 
+		Object.assign(this, DEFAULT_CLIENT_CONTEXT) // Initialize 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
-
-		const initial_context = { state: { nightlight: {} }, info: {}, effects: [], palettes: [], presets: {}, deviceOptions: {} }
-		Object.assign(this, initial_context)
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
 		this.WSAPI.on('live:leds', (event) => this.emit<[WLEDClientLiveLEDs]>('live:leds', event))
