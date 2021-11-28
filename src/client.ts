@@ -182,6 +182,12 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.emit('update:live', this.live)
 	}
 
+	/** Start the live stream if it is stopped, or stop the live stream if it is started */
+	toggleLEDStream() {
+		if (this.live.leds) return this.stopLEDStream()
+		return this.startLEDStream()
+	}
+
 	//
 	// Device Power
 
