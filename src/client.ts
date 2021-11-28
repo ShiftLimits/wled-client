@@ -2,10 +2,10 @@ import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, 
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode, DEFAULT_CLIENT_CONTEXT } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
-import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions } from './adapters';
-import { RGBWColor, RGBColor } from './types'
+import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions } from './adapters'
+import { RGBWColor, RGBColor, RequireAtLeastOne } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
-import { deepMerge, deepClone } from './utils';
+import { deepMerge, deepClone } from './utils'
 
 
 /**
@@ -504,6 +504,27 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		return this.updateState({
 			liveDataOverride: WLEDLiveDataOverride.OFF
 		})
+	}
+
+	//
+	// UDP Sync
+
+	enableUDPSync(options?:RequireAtLeastOne<WLEDClientState['udpSync']>) {
+		if (!options) {
+			options = { send:true }
+			if (this.info.syncToggleReceive) options.receive = true
+		}
+
+		return this.updateState({
+			udpSync: options as WLEDClientState['udpSync']
+		})
+	}
+
+	disableUDPSync() {
+		let udpSync:WLEDClientState['udpSync'] = { send: false }
+		if (this.info.syncToggleReceive) udpSync.receive = false
+
+		return this.updateState({ udpSync })
 	}
 
 	//
