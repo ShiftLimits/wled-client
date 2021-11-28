@@ -5,7 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-Nothing yet.
+Filling in the client API more and improving dev experience.
+
+### Added
+- Add `setEffectSpeed` and `setEffectIntensity` methods
+- Add `reboot` method
+- UPD Sync methods added
+- Add `live` property to WLED Context with an object containing the different types of live data
+- Add defaults for all nested objects or arrays in WLED Client's context
+
+### Changed
+- **Breaking:** Rename `live` event to `live:leds` to be more specific with what exactly the live data is
+- **Breaking:** Rename `startLiveStream` and `stopLiveStream` to `startLEDStream` and `stopLEDStream` respectively
+- WLED and WLED Client interfaces now match defaults so most keys can be `undefined`
+- Fix `info.syncToggleReceive` not being set correctly
 
 ## [0.12.0-0.3]- 2021-11-22
 Getting close to feature parity with the 0.12.0 API.
