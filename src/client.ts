@@ -1,4 +1,4 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions } from './types.client';
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions, WLEDClientLive } from './types.client';
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
@@ -29,6 +29,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 	/** Options that are set on the device. */
 	public readonly deviceOptions:WLEDClientDeviceOptions
+
+	/** Live streaming data sources currently sending data. */
+	public readonly live:WLEDClientLive
 
 	/** Promise that is resolved when a successful connection has been made and the state has been retrieved. */
 	public readonly isReady:Promise<boolean>
@@ -71,7 +74,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				info: client_info,
 				effects: client_effects,
 				palettes: client_palettes,
-				presets: this.presets
+				presets: this.presets,
+				live: this.live
 			}
 
 			Object.assign(this, { ...context, deviceOptions: wledToClientDeviceOptions(client_info.options) })
@@ -107,7 +111,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			info: client_info,
 			effects: client_effects,
 			palettes: client_palettes,
-			presets: client_presets
+			presets: client_presets,
+			live: this.live
 		}
 
 		Object.assign(this, { ...context, deviceOptions: wledToClientDeviceOptions(client_info.options) })
@@ -166,11 +171,15 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	/** Start a live stream of LED values from the device via the WebSocket API. Listen to the `update:leds` event (e.g. `wled.addEventListener('update:leds', cb)`). */
 	async startLEDStream() {
 		await this.WSAPI.startLEDStream()
+		this.live.leds = true
+		this.emit('update:live', this.live)
 	}
 
 	/** Stop the live stream of LED values from the device. */
 	async stopLEDStream() {
 		await this.WSAPI.stopLEDStream()
+		this.live.leds = false
+		this.emit('update:live', this.live)
 	}
 
 	//

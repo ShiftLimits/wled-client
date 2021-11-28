@@ -507,6 +507,11 @@ export type WLEDClientPalettes = string[]
 // Live Interface
 //
 
+export interface WLEDClientLive {
+	/** Live stream of LED data. Start with `startLEDStream()`. */
+	leds:boolean
+}
+
 export interface WLEDClientLiveLEDs {
 	/** List of color values from every `n`th LED attached to the device. */
 	leds:string[]
@@ -616,6 +621,8 @@ export interface WLEDClientContext {
 	palettes:WLEDClientPalettes
 	/** List of presets saved on the device. */
 	presets:WLEDClientPresets
+	/** Live streaming data sources currently sending data. */
+	live:WLEDClientLive
 }
 
 /**
