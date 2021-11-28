@@ -175,6 +175,11 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	//
 	// Device Power
 
+	/** Hard reboot the device. */
+	reboot() {
+		return this.updateState({ reboot: true })
+	}
+
 	/** Set the device's power state to on. */
 	turnOn(options?:WLEDClientSendOptions) {
 		return this.updateState({ on: true }, options)
