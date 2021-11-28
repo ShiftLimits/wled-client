@@ -2,6 +2,7 @@
   "name": "wled-client",
   "version": "0.12.0-0.4",
   "author": "Jeff Schofield <jeff@jeffschofield.com>",
+  "keywords": ["wled", "isomorphic"],
   "license": "MIT",
   "type": "module",
   "exports": {
