@@ -75,10 +75,11 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				effects: client_effects,
 				palettes: client_palettes,
 				presets: this.presets,
+				deviceOptions: wledToClientDeviceOptions(info.opt),
 				live: this.live
 			}
 
-			Object.assign(this, { ...context, deviceOptions: wledToClientDeviceOptions(client_info.options) })
+			Object.assign(this, { ...context })
 			this.emit<[WLEDClientContext]>('update:context', context)
 			this.emit<[WLEDClientState]>('update:state', client_state)
 			this.emit<[WLEDClientInfo]>('update:info', client_info)
@@ -112,10 +113,11 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			effects: client_effects,
 			palettes: client_palettes,
 			presets: client_presets,
+			deviceOptions: wledToClientDeviceOptions(info.opt),
 			live: this.live
 		}
 
-		Object.assign(this, { ...context, deviceOptions: wledToClientDeviceOptions(client_info.options) })
+		Object.assign(this, { ...context })
 		this.emit<[WLEDClientContext]>('update:context', context)
 		this.emit<[WLEDClientState]>('update:state', client_state)
 		this.emit<[WLEDClientInfo]>('update:info', client_info)

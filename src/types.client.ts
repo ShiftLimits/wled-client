@@ -621,6 +621,8 @@ export interface WLEDClientContext {
 	palettes:WLEDClientPalettes
 	/** List of presets saved on the device. */
 	presets:WLEDClientPresets
+	/** Options parsed from `info.opt` */
+	deviceOptions:WLEDClientDeviceOptions
 	/** Live streaming data sources currently sending data. */
 	live:WLEDClientLive
 }
