@@ -70,6 +70,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.WSAPI.on('update:context', this.setContext.bind(this)) // Listen for updates on the WebSocket
 
 		this.JSONAPI = new WLEDJSONAPI(resolved_options) // Initialize the JSON API
+		this.JSONAPI.on('error', (event) => this.emit('error', event)) // Relay error events
 
 		let initializing = resolved_options.websocket ? [this.refreshContext(), this.WSAPI.connect()] : [this.refreshContext()]
 		let isReady = Promise.allSettled(initializing)
