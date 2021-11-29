@@ -63,32 +63,13 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		Object.assign(this, DEFAULT_CLIENT_CONTEXT) // Initialize 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
 
-		this.WSAPI = new WLEDWebsocketAPI(resolved_options)
-		this.WSAPI.on('live:leds', (event) => this.emit<[WLEDClientLiveLEDs]>('live:leds', event))
-		this.WSAPI.on('update:context', ({ state, info, effects, palettes }) => {
-			let client_state = wledToClientState(state)
-			let client_info = wledToClientInfo(info)
-			let client_effects = effects ? effects : this.effects // Use old effects list if new ones were not passed
-			let client_palettes = palettes ? palettes : this.palettes // Use old palettes list if new ones were not passed
-			let context:WLEDClientContext = {
-				state: client_state,
-				info: client_info,
-				effects: client_effects,
-				palettes: client_palettes,
-				presets: this.presets,
-				deviceOptions: wledToClientDeviceOptions(info.opt),
-				live: this.live
-			}
+		this.WSAPI = new WLEDWebsocketAPI(resolved_options) // Initialize the WS API
+		this.WSAPI.on('error', (event) => this.emit('error', event)) // Relay error events
+		this.WSAPI.on('close', (event) => this.emit('close', event)) // Relay close events
+		this.WSAPI.on('live:leds', (event) => this.emit<[WLEDClientLiveLEDs]>('live:leds', event)) // Relay live LEDs event
+		this.WSAPI.on('update:context', this.setContext) // Listen for updates on the WebSocket
 
-			Object.assign(this, { ...context })
-			this.emit<[WLEDClientContext]>('update:context', context)
-			this.emit<[WLEDClientState]>('update:state', client_state)
-			this.emit<[WLEDClientInfo]>('update:info', client_info)
-			if (effects) this.emit<[WLEDClientContext]>('update:effects', client_effects)
-			if (palettes) this.emit<[WLEDClientPalettes]>('update:palettes', client_palettes)
-		})
-
-		this.JSONAPI = new WLEDJSONAPI(resolved_options)
+		this.JSONAPI = new WLEDJSONAPI(resolved_options) // Initialize the JSON API
 
 		let isReady:Promise<any>
 		if (resolved_options.websocket) isReady = Promise.allSettled([this.refreshContext(), this.WSAPI.connect()])
@@ -99,14 +80,20 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 	/** Get the latest state from the device. */
 	async refreshContext() {
-		let { state, info, effects, palettes } = await this.JSONAPI.getAll()
-		let presets = await this.JSONAPI.getPresets()
+		const [context, presets] = await Promise.all([
+			this.JSONAPI.getAll(),
+			this.JSONAPI.getPresets()
+		])
 
-		let client_state = wledToClientState(state)
-		let client_info = wledToClientInfo(info)
-		let client_effects = effects ? effects : this.effects // Use old effects list if new ones were not passed
-		let client_palettes = palettes ? palettes : this.palettes // Use old palettes list if new ones were not passed
-		let client_presets = wledToClientPresets(presets)
+		this.setContext({ ...context, presets })
+	}
+
+	private setContext({ state, info, effects, palettes, presets }:WLEDContext&{presets:WLEDPresets}) {
+		let client_state = state ? wledToClientState(state) : this.state
+		let client_info = info ? wledToClientInfo(info) : this.info
+		let client_effects = effects ? effects : this.effects
+		let client_palettes = palettes ? palettes : this.palettes
+		let client_presets = presets ? wledToClientPresets(presets) : this.presets
 
 		let context:WLEDClientContext = {
 			state: client_state,
@@ -120,11 +107,11 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		Object.assign(this, { ...context })
 		this.emit<[WLEDClientContext]>('update:context', context)
-		this.emit<[WLEDClientState]>('update:state', client_state)
-		this.emit<[WLEDClientInfo]>('update:info', client_info)
-		this.emit<[WLEDClientEffects]>('update:effects', client_effects as any)
-		this.emit<[WLEDClientPalettes]>('update:palettes', client_palettes as any)
-		this.emit<[WLEDClientPresets]>('update:presets', client_palettes as any)
+		if (state) this.emit<[WLEDClientState]>('update:state', client_state)
+		if (info) this.emit<[WLEDClientInfo]>('update:info', client_info)
+		if (effects) this.emit<[WLEDClientEffects]>('update:effects', client_effects)
+		if (palettes) this.emit<[WLEDClientPalettes]>('update:palettes', client_palettes)
+		if (presets) this.emit<[WLEDClientPresets]>('update:presets', client_presets)
 	}
 
 	/**
