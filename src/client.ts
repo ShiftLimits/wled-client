@@ -76,7 +76,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		let isReady = Promise.allSettled(initializing)
 
 		this.isReady = isReady.then(([json_result, ws_result]) => {
-			if (ws_result.status == 'rejected' && json_result.status == 'rejected') {
+			if ((ws_result && ws_result.status == 'rejected') && json_result.status == 'rejected') {
 				this.emit('error', json_result.reason)
 				return Promise.reject(json_result.reason)
 			}
