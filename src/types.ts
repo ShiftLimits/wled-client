@@ -1,3 +1,5 @@
+import { WLEDClientSegment, WLEDClientUpdatableState, WLEDClientUpdatableSegment } from './types.client'
+
 export type RGBColor = [number,number,number]
 export type RGBWColor = [number,number,number,number]
 
@@ -6,3 +8,5 @@ export type RGBWColor = [number,number,number,number]
 export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
 							Pick<T, Exclude<keyof T, Keys>> &
 							{ [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>> }[Keys]
+
+export type BuildStateFn = ((segment?:WLEDClientSegment)=>(WLEDClientUpdatableState|WLEDClientUpdatableSegment))

@@ -1,4 +1,5 @@
 import { WLEDContext, WLEDLive } from './types.wled'
+import { BuildStateFn } from './types'
 
 export function isWLEDContext(object:any):object is WLEDContext {
 	let { state, info } = object
@@ -8,6 +9,10 @@ export function isWLEDContext(object:any):object is WLEDContext {
 export function isWLEDLiveLEDs(object:any):object is WLEDLive {
 	let { leds, n } = object
 	return !!leds && !!n
+}
+
+export function isBuildStateFunction(state:any):state is BuildStateFn {
+	return typeof state === 'function'
 }
 
 export function deepMerge(target:object, ...sources:object[]) {

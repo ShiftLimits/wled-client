@@ -643,3 +643,9 @@ export interface WLEDClientSendOptions {
 	/** Choose which API to use. */
 	method?: 'ws'|'json'
 }
+
+/** Optional properties relating to the segment this method will affect. */
+export interface WLEDClientSendSegmentOptions {
+	/** Segment ID or an array of Segment IDs to target with this command. */
+	segmentId?:number|number[]
+}
