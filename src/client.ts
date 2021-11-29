@@ -140,8 +140,6 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		if ((!use_method || use_method != 'json') && this.WSAPI.available) {
 			try {
 				await this.WSAPI.updateState(wled_state)
-				deepMerge(this.state, state)
-				this.emit<[WLEDClientState]>('update:state', this.state)
 				return
 			} catch(e) {
 				this.emit('error', e)
