@@ -143,7 +143,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				this.emit<[WLEDClientState]>('update:state', this.state)
 				return
 			} catch(e) {
-				console.error(e)
+				this.emit('error', e)
 			}
 		}
 
