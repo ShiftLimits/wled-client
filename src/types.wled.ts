@@ -438,6 +438,14 @@ export interface WLEDInfo {
 export type WLEDEffects = string[]
 export type WLEDPalettes = string[]
 
+export type WLEDPaletteData = RGBColor|RGBWColor[]
+export type WLEDPalettesData = { [id:string]:WLEDPaletteData }
+
+export interface WLEDPaletteDataPage {
+	m:number
+	p:WLEDPalettesData
+}
+
 //
 // Live Interface
 //
