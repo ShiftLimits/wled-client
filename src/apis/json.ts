@@ -1,4 +1,4 @@
-import { WLEDState, WLEDPalettes, WLEDEffects, WLEDInfo, WLEDUpdatableState, WLEDLive, WLEDContext, WLEDPresets } from '../types.wled';
+import { WLEDState, WLEDPalettes, WLEDEffects, WLEDInfo, WLEDUpdatableState, WLEDLive, WLEDContext, WLEDPresets, WLEDPaletteDataPage } from '../types.wled';
 import { WLEDClientOptions } from '../types.client'
 import { WLEDEndpoints } from '../constants'
 import { fetch } from '@js-bits/fetch'
@@ -62,6 +62,12 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 		let response = await fetch(`${this.authority}/presets.json`).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDPresets
+	}
+
+	async getPalettesDataPage(page:number = 0) {
+		let response = await fetch(`${this.api_endpoint}/palx?page=${page}`).then(this.handleErrors)
+		let object = await response.json()
+		return object as WLEDPaletteDataPage
 	}
 
 	async updateState(state:WLEDUpdatableState) {
