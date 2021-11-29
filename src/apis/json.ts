@@ -72,7 +72,8 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 			body: JSON.stringify(state)
 		}).then(this.handleErrors)
 
-		let new_state = await result.json()
-		return new_state as WLEDState
+		let context = await result.json()
+		if (state.v) return context as WLEDContext
+		return context as { sucess:boolean }
 	}
 }
