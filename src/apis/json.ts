@@ -15,7 +15,10 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 	}
 
 	handleErrors(response:Response) {
-		if (!response.ok) throw new Error('Response not OK.')
+		if (!response.ok) {
+			this.emit('error', response)
+			throw response
+		}
 		return response
 	}
 
