@@ -58,7 +58,7 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 		})
 
 		this.websocket.addEventListener('close', (event) => {
-			console.log(`WebSocket Closed`)
+			this.emit('close', event)
 			if (!event.wasClean) {
 				console.log('UNCLEAN CLOSE', event)
 				if (this.reconnect) setTimeout(() => {
