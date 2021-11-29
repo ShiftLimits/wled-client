@@ -147,9 +147,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		}
 
 		if (!use_method || use_method != 'ws') {
-			await this.JSONAPI.updateState(wled_state)
-			deepMerge(this.state, state)
-			this.emit<[WLEDClientState]>('update:state', this.state)
+			let new_context = await this.JSONAPI.updateState({ ...wled_state, v: true }) as WLEDContext
+			return this.setContext(new_context)
 		}
 	}
 
