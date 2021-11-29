@@ -6,6 +6,7 @@ import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPre
 import { RGBWColor, RGBColor, RequireAtLeastOne, BuildStateFn } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
 import { isBuildStateFunction } from './utils'
+import { WLEDContext, WLEDPresets, WLEDPalettesData } from './types.wled'
 
 
 /**
@@ -271,6 +272,32 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 */
 	setPalette(paletteId:number, { segmentId, ...options}:WLEDClientSendOptions&WLEDClientSendSegmentOptions={}) {
 		return this.updateState(this.buildStateWithSegments({ paletteId }, segmentId||0), options)
+	}
+
+	private paletteDataCache:WLEDPalettesData
+	async getPalettesData(page?:number) {
+		let palettes_data:WLEDPalettesData = {}
+
+		if (page) {
+			const { p } = await this.JSONAPI.getPalettesDataPage(page) // If we want a specific page, just forward the request
+			Object.assign(palettes_data, p)
+		} else if(this.paletteDataCache) {
+			palettes_data = this.paletteDataCache // Return cached result
+		} else {
+			let max_page = 1 // Initialize with 1, will be updated after each request using the `m` property
+
+			page = 0
+			while (page <= max_page || page > 100) { // Just in case, hard cap at 100 page iterations
+				let { m, p } = await this.JSONAPI.getPalettesDataPage(page)
+				Object.assign(palettes_data, p)
+				max_page = m
+				page++
+			}
+
+			this.paletteDataCache = palettes_data // Cache the result in memory to optimize future calls 
+		}
+
+		return palettes_data
 	}
 
 	//
