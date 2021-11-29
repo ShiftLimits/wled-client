@@ -36,6 +36,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	/** Promise that is resolved when a successful connection has been made and the state has been retrieved. */
 	public readonly isReady:Promise<boolean>
 
+	/** The ready state of the WebSocket instance. */
+	get wsReadyState() { return this.WSAPI.websocket.readyState }
+
 	private JSONAPI:WLEDJSONAPI
 	private WSAPI:WLEDWebsocketAPI
 
