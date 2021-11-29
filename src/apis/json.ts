@@ -2,12 +2,14 @@ import { WLEDState, WLEDPalettes, WLEDEffects, WLEDInfo, WLEDUpdatableState, WLE
 import { WLEDClientOptions } from '../types.client'
 import { WLEDEndpoints } from '../constants'
 import { fetch } from '@js-bits/fetch'
+import { IsomorphicEventEmitter } from '../utils.emitter';
 
-export class WLEDJSONAPI {
+export class WLEDJSONAPI extends IsomorphicEventEmitter {
 	private readonly api_endpoint:string
 	private readonly authority:string
 
 	constructor({ secure, host, port }:WLEDClientOptions) {
+		super()
 		this.authority = `${secure ? 'https':'http'}://${host}${port ? ':'+port : ''}`
 		this.api_endpoint = `${this.authority}/${ WLEDEndpoints.JSON }`
 	}
