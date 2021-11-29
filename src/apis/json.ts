@@ -20,7 +20,7 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 	}
 
 	async getAll() {
-		let response = await fetch(this.api_endpoint)
+		let response = await fetch(this.api_endpoint).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDContext
 	}
