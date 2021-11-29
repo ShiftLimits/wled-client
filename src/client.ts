@@ -108,7 +108,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			effects: client_effects,
 			palettes: client_palettes,
 			presets: client_presets,
-			deviceOptions: wledToClientDeviceOptions(info.opt),
+			deviceOptions: info ? wledToClientDeviceOptions(info.opt) : this.deviceOptions,
 			live: this.live
 		}
 
