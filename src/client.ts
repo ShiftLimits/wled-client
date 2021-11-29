@@ -60,8 +60,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		if (typeof host_or_options == 'string') options = { host: host_or_options } // If `host_or_options` is a string, then it is the device's host
 		else options = host_or_options // Otherwise `host_or_options` is an options object
 
-		Object.assign(this, DEFAULT_CLIENT_CONTEXT) // Initialize 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
+		Object.assign(this, DEFAULT_CLIENT_CONTEXT) // Initialize the default context
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options) // Initialize the WS API
 		this.WSAPI.on('error', (event) => this.emit('error', event)) // Relay error events
