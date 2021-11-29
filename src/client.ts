@@ -67,7 +67,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.WSAPI.on('error', (event) => this.emit('error', event)) // Relay error events
 		this.WSAPI.on('close', (event) => this.emit('close', event)) // Relay close events
 		this.WSAPI.on('live:leds', (event) => this.emit<[WLEDClientLiveLEDs]>('live:leds', event)) // Relay live LEDs event
-		this.WSAPI.on('update:context', this.setContext) // Listen for updates on the WebSocket
+		this.WSAPI.on('update:context', this.setContext.bind(this)) // Listen for updates on the WebSocket
 
 		this.JSONAPI = new WLEDJSONAPI(resolved_options) // Initialize the JSON API
 
