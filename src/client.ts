@@ -5,7 +5,7 @@ import { WLEDWebsocketAPI } from './apis/websocket'
 import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions } from './adapters'
 import { RGBWColor, RGBColor, RequireAtLeastOne } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
-import { deepMerge, deepClone } from './utils'
+import { WLEDContext, WLEDPresets } from './types.wled';
 
 
 /**
