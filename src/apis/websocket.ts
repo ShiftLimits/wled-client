@@ -69,13 +69,7 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 		})
 
 		this.websocket.addEventListener('error', (error) => {
-			console.error(`WebSocket Error: ${ error }`)
 			this.emit('error', error)
-			this.available = false
-
-			if (this.reconnect) setTimeout(() => {
-				this.connect()
-			}, 100)
 		})
 	}
 
