@@ -18,6 +18,7 @@ Filling in the client API more and improving dev experience.
 - **Breaking:** Rename `live` event to `live:leds` to be more specific with what exactly the live data is
 - **Breaking:** Rename `startLiveStream` and `stopLiveStream` to `startLEDStream` and `stopLEDStream` respectively
 - WLED and WLED Client interfaces now match defaults so most keys can be `undefined`
+- Made examples easily executable and moved them to [their own repository](https://github.com/ShiftLimits/wled-client-examples) so as not to pollute dependencies
 - Fix `info.syncToggleReceive` not being set correctly
 
 ## [0.12.0-0.3]- 2021-11-22
