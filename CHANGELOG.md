@@ -8,16 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Filling in the client API more and improving dev experience.
 
 ### Added
+- Add `getPalettesData` method for getting all color palette data, or optionally a specific page of palette data
 - Add `setEffectSpeed` and `setEffectIntensity` methods
+- Add `enableUDPSync` and `disableUDPSync` methods
 - Add `reboot` method
-- UPD Sync methods added
-- Add `live` property to WLED Context with an object containing the different types of live data
+- Add `live` property to WLED Context containing booleans indicating what live data is being sent over WebSocket, such as the current state of the device's LEDs indicated by `live.leds` and received by the `live:leds` event
+- Add `wsReadyState` property to return the WebSocket instance's ready state
+- Add `buildStateWithSegments` function to help build an updatable state object to be applied to all desired segments, or to be applied per desired segment if a function is passed
 - Add defaults for all nested objects or arrays in WLED Client's context
 
 ### Changed
 - **Breaking:** Rename `live` event to `live:leds` to be more specific with what exactly the live data is
 - **Breaking:** Rename `startLiveStream` and `stopLiveStream` to `startLEDStream` and `stopLEDStream` respectively
-- WLED and WLED Client interfaces now match defaults so most keys can be `undefined`
+- Update `turnOn`, `turnOff`, `toggle`, `setBrightness`, `set[Ordinal]Color`, `setEffect`, and `setPalette` to support specifically targeting one or more segments
+- Update initialization procedure to properly emit errors and reject the `isReady` promise when a problem was encountered
+- Update `updateState` method to properly emit and throw errors encountered when attempting the operation
+- Update JSON API to be an event emitter and set WLED Client to relay error events
+- Update JSON API to throw and emit a Fetch Response object if the response is not OK, allowing for fetch errors to be handled as you please
+- Centralize client context updates
+- WLED and WLED Client interfaces now match their defaults, so keys will be properly typed as possibly `undefined` while the device context has yet to be fetched
 - Made examples easily executable and moved them to [their own repository](https://github.com/ShiftLimits/wled-client-examples) so as not to pollute dependencies
 - Fix `info.syncToggleReceive` not being set correctly
 
