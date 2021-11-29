@@ -150,6 +150,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			let new_context = await this.JSONAPI.updateState({ ...wled_state, v: true }) as WLEDContext
 			return this.setContext(new_context)
 		}
+
+		throw new Error('No transport available to handle state update.')
 	}
 
 	/** Connect to the device's WebSocket API. */
