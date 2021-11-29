@@ -95,7 +95,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.setContext({ ...context, presets })
 	}
 
-	private setContext({ state, info, effects, palettes, presets }:WLEDContext&{presets:WLEDPresets}) {
+	private setContext({ state, info, effects, palettes, presets }:Partial<WLEDContext>&{presets?:WLEDPresets}) {
 		let client_state = state ? wledToClientState(state) : this.state
 		let client_info = info ? wledToClientInfo(info) : this.info
 		let client_effects = effects ? effects : this.effects
