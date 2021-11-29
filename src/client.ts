@@ -71,11 +71,17 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		this.JSONAPI = new WLEDJSONAPI(resolved_options) // Initialize the JSON API
 
-		let isReady:Promise<any>
-		if (resolved_options.websocket) isReady = Promise.allSettled([this.refreshContext(), this.WSAPI.connect()])
-		else isReady = this.refreshContext()
+		let initializing = resolved_options.websocket ? [this.refreshContext(), this.WSAPI.connect()] : [this.refreshContext()]
+		let isReady = Promise.allSettled(initializing)
 
-		this.isReady = isReady.then(() => this.emit('ready')).then(() => true)
+		this.isReady = isReady.then(([json_result, ws_result]) => {
+			if (ws_result.status == 'rejected' && json_result.status == 'rejected') {
+				this.emit('error', json_result.reason)
+				return Promise.reject(json_result.reason)
+			}
+			this.emit('ready')
+			return true
+		})
 	}
 
 	/** Get the latest state from the device. */
