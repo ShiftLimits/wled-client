@@ -5,7 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-Filling in the client API more and improving dev experience.
+Nothing yet.
+
+## [0.12.0-0.4]- 2021-11-29
+The concept of "live data" in WLED Client is now generic and encompasses any possible live data instead of just LED state. LED state has been implemented into this generic concept.
+
+Some better error handling has been implemented as well, with the `error` event now being utilized. Additionally most of the main methods can now optionally target one or more segments.
+
+Otherwise filling in the client API more and improving dev experience. First implementation of support for fetching palette data as well!
 
 ### Added
 - Add `getPalettesData` method for getting all color palette data, or optionally a specific page of palette data
@@ -25,6 +32,7 @@ Filling in the client API more and improving dev experience.
 - Update `updateState` method to properly emit and throw errors encountered when attempting the operation
 - Update JSON API to be an event emitter and set WLED Client to relay error events
 - Update JSON API to throw and emit a Fetch Response object if the response is not OK, allowing for fetch errors to be handled as you please
+- Reconnect time for WS API is now 1 second
 - Centralize client context updates
 - WLED and WLED Client interfaces now match their defaults, so keys will be properly typed as possibly `undefined` while the device context has yet to be fetched
 - Made examples easily executable and moved them to [their own repository](https://github.com/ShiftLimits/wled-client-examples) so as not to pollute dependencies
