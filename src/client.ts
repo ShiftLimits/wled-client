@@ -35,7 +35,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	public readonly live:WLEDClientLive
 
 	/** Promise that is resolved when a successful connection has been made and the state has been retrieved. */
-	public readonly isReady:Promise<boolean>
+
+	private options:WLEDClientOptions
 
 	/** The ready state of the WebSocket instance. */
 	get wsReadyState() { return this.WSAPI.websocket.readyState }
@@ -62,6 +63,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		else options = host_or_options // Otherwise `host_or_options` is an options object
 
 		const resolved_options = Object.assign(DEFAULT_OPTIONS, options) // Build final options by assigning passed options over the default options
+		this.options = resolved_options // Store options
+
 		Object.assign(this, DEFAULT_CLIENT_CONTEXT) // Initialize the default context
 
 		this.WSAPI = new WLEDWebsocketAPI(resolved_options) // Initialize the WS API
