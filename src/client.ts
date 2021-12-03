@@ -35,7 +35,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	public readonly live:WLEDClientLive
 
 	/** Promise that is resolved when a successful connection has been made and the state has been retrieved. */
-	public isReady:Promise<boolean>
+	private isReady:Promise<boolean>
 
 	private options:WLEDClientOptions
 
