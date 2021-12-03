@@ -35,6 +35,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	public readonly live:WLEDClientLive
 
 	/** Promise that is resolved when a successful connection has been made and the state has been retrieved. */
+	public isReady:Promise<boolean>
 
 	private options:WLEDClientOptions
 
@@ -76,7 +77,13 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.JSONAPI = new WLEDJSONAPI(resolved_options) // Initialize the JSON API
 		this.JSONAPI.on('error', (event) => this.emit('error', event)) // Relay error events
 
-		let initializing = resolved_options.websocket ? [this.refreshContext(), this.WSAPI.connect()] : [this.refreshContext()]
+		this.init()
+	}
+
+	async init() {
+		if (this.isReady) return this.isReady
+
+		let initializing = this.options.websocket ? [this.refreshContext(), this.WSAPI.connect()] : [this.refreshContext()]
 		let isReady = Promise.allSettled(initializing)
 
 		this.isReady = isReady.then(([json_result, ws_result]) => {
