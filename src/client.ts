@@ -77,7 +77,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		this.JSONAPI = new WLEDJSONAPI(resolved_options) // Initialize the JSON API
 		this.JSONAPI.on('error', (event) => this.emit('error', event)) // Relay error events
 
-		this.init()
+		if (resolved_options.immediate) this.init()
 	}
 
 	async init() {

@@ -1,6 +1,7 @@
 import { WLEDClientOptions, WLEDClientContext } from './types.client'
 
 export const DEFAULT_OPTIONS:WLEDClientOptions = {
+	immediate: true,
 	websocket: { reconnect: true },
 	secure: false,
 	host: ''
