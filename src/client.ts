@@ -5,7 +5,7 @@ import { WLEDWebsocketAPI } from './apis/websocket'
 import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions } from './adapters'
 import { RGBWColor, RGBColor, RequireAtLeastOne, BuildStateFn } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
-import { isBuildStateFunction } from './utils'
+import { isBuildStateFunction, sleep } from './utils'
 import { WLEDContext, WLEDPresets, WLEDPalettesData } from './types.wled'
 
 
@@ -298,10 +298,15 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 			page = 0
 			while (page <= max_page || page > 100) { // Just in case, hard cap at 100 page iterations
-				let { m, p } = await this.JSONAPI.getPalettesDataPage(page)
-				Object.assign(palettes_data, p)
-				max_page = m
-				page++
+				let result = await this.JSONAPI.getPalettesDataPage(page)
+				if (result != null) {
+					let { m, p } = result
+					Object.assign(palettes_data, p)
+					max_page = m
+					page++
+				} else {
+					await sleep(100) // If we're getting a NULL response, the device might be overloaded. Give the device some time to rest before trying again.
+				}
 			}
 
 			this.paletteDataCache = palettes_data // Cache the result in memory to optimize future calls 
