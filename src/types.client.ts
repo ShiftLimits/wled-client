@@ -32,6 +32,9 @@ export interface WLEDClientOptions {
 		/** Attempt to reconnect if connection is lost. */
 		reconnect?:boolean
 	}
+
+	/** Immediately initiates a context refresh and ws connection */
+	immediate:boolean
 }
 
 //
