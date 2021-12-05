@@ -246,12 +246,6 @@ export interface WLEDClientNightlightState {
 	duration?:number
 
 	/**
-	 * If `true`, the light will gradually dim over the course of the nightlight duration. If `false`, it will instantly turn to the target brightness once the duration has elapsed.
-	 * @deprecated Will be removed in 0.13, use `mode` instead
-	 */
-	fade?:boolean
-
-	/**
 	 * Nightlight mode
 	 * @type {WLEDNightlightMode} 0: Instant, 1: Fade, 2: Color fade, 3: Sunrise
 	 */

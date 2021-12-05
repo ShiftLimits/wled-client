@@ -104,7 +104,6 @@ const WLED_TO_CLIENT_STATE_MAP = {
 	'nl': 'nightlight',
 	'nl.on': 'nightlight.on',
 	'nl.dur': 'nightlight.duration',
-	'nl.fade': 'nightlight.fade',
 	'nl.mode': 'nightlight.mode',
 	'nl.tbri': 'nightlight.targetBrightness',
 	'nl.rem': 'nightlight.remaining',
