@@ -9,7 +9,6 @@ export const DEFAULT_OPTIONS:WLEDClientOptions = {
 
 export const DEFAULT_CLIENT_CONTEXT:WLEDClientContext = {
 	state: {
-		presetCycle: {},
 		nightlight: {},
 		udpSync: {},
 		segments: []
