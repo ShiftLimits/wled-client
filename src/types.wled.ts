@@ -172,12 +172,6 @@ export interface WLEDStateReceiveOnly {
 	}
 }
 
-export interface WLEDPresetCycleState {
-	min:number
-	max:number
-	time:number
-}
-
 export interface WLEDNightlightState {
 	/** Whether or not nightlight is currently active. */
 	on:boolean
@@ -225,12 +219,6 @@ export interface WLEDExchangeableState {
 
 	/** ID of the device's current playlist. */
 	pl:number
-
-	/**
-	 * Preset Cycle state object.
-	 * @deprecated Will be removed in 0.13, use playlists instead
-	 */
-	ccnf:WLEDPresetCycleState
 
 	/** Nightlight feature state object. */
 	nl:WLEDNightlightState
