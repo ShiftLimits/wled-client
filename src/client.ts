@@ -20,13 +20,13 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	public readonly info:WLEDClientInfo
 
 	/** List of effects available for this device. */
-	public readonly effects:WLEDClientEffects = []
+	public readonly effects:WLEDClientEffects
 
 	/** List of color palettes available for this device. */
-	public readonly palettes:WLEDClientPalettes = []
+	public readonly palettes:WLEDClientPalettes
 
 	/** List of presets save on this device. */
-	public readonly presets:WLEDClientPresets = {}
+	public readonly presets:WLEDClientPresets
 
 	/** Options that are set on the device. */
 	public readonly deviceOptions:WLEDClientDeviceOptions
