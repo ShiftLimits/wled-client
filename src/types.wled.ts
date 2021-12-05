@@ -271,12 +271,6 @@ export interface WLEDInfoLEDs {
 	wv:boolean
 
 	/**
-	 * One or more LED strip pins.
-	 * @deprecated Will be removed in 0.13
-	 */
-	pin:[number]&number[]
-
-	/**
 	 * Current LED power usage in milliamps as determined by the ABL. `0` if ABL is disabled.
 	 * @type {number} 0 to 65000
 	 */
