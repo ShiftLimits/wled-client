@@ -5,7 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-Nothing yet.
+After some further consideration, I have decided to decouple this project's versioning from WLED in order to better adhere to the expected behavior of a package in the NPM ecosystem. As of this release, WLED Client will be bumped up to **0.20.0** and further releases will update the version number according to standard Semantic Versioning. We are moving up to 0.20 to help avoid confusing the client's version with WLED's version.
+
+Starting with this version (0.20.0) WLED Client will target WLED 0.13.0 for API compatibility. Moving forward, WLED Client will bump major versions when there is a breaking change in the API that you consume in your projects. This may happen when WLED introduces a breaking change, or if there comes a need to restructure WLED Client.
+
+### Added
+- Add `id` and `name` property to segments
+- Add ability to stop the client from initializing the connection, allowing for the client to be initialized but will not fetch the context or connect to the WebSocket until `wled.init()` is called
+
+### Changed
+- **Breaking:** The `isReady` promise is now private and should no longer be used
+  - Use `wled.init()` which will return a promise with the same behavior
+- **Breaking:** Remove deprecated `info.leds.pins` property as it is no longer available in WLED 0.13.0
+- **Breaking:** Remove deprecated `state.nightlight.fade` property as it is no longer available in WLED 0.13.0
+- **Breaking:** Remove deprecated `state.presetCycle` property as it is no longer available in WLED 0.13.0
+- If `null` is returned when trying to fetch palette data WLED Client will retry instead of bailing out
 
 ## [0.12.0-0.4]- 2021-11-29
 The concept of "live data" in WLED Client is now generic and encompasses any possible live data instead of just LED state. LED state has been implemented into this generic concept.
