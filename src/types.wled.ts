@@ -39,6 +39,9 @@ export interface WLEDSegment {
 	 */
 	len:number
 
+	/** Offset of this segment. */
+	of:number
+
 	/**
 	 * Grouping - how many consecutive LEDs of the same segment will be grouped to the same color.
 	 * @type {number} 0 to 255
