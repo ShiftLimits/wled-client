@@ -60,6 +60,9 @@ export interface WLEDClientSegmentSendOnly {
  * @typedef {Object} WLEDClientSegment
  */
 export interface WLEDClientSegment {
+	/** The ID of this segment. */
+	id?:number
+
 	/** The name of this segment. */
 	name?:string
 

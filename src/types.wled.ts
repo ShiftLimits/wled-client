@@ -15,6 +15,9 @@ export interface WLEDSegmentSendOnly {
 }
 
 export interface WLEDSegment {
+	/** The ID of this segment. */
+	id:number
+
 	/** The name of this segment. */
 	n:string
 
