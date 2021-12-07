@@ -142,6 +142,9 @@ export interface WLEDClientSegment {
 	/** Sets the brightness of the individual segment. */
 	brightness?:number
 
+	/** The correlated color temperature of this segment. */
+	cct?:number
+
 	/** Mirrors the individual segment. */
 	mirror?:boolean
 

@@ -122,6 +122,7 @@ const WLED_TO_CLIENT_STATE_MAP = {
 	'seg.*.grp': 'segments.*.grouping',
 	'seg.*.spc': 'segments.*.spacing',
 	'seg.*.col': 'segments.*.colors',
+	'seg.*.cct': 'segments.*.cct',
 	'seg.*.fx': 'segments.*.effectId',
 	'seg.*.sx': 'segments.*.effectSpeed',
 	'seg.*.ix': 'segments.*.effectIntensity',
