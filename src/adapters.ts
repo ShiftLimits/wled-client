@@ -114,6 +114,7 @@ const WLED_TO_CLIENT_STATE_MAP = {
 	'mainseg': 'mainSegmentId',
 	'seg': 'segments',
 	'seg.*.id': 'segments.*.id',
+	'seg.*.n': 'segments.*.name',
 	'seg.*.start': 'segments.*.start',
 	'seg.*.stop': 'segments.*.stop',
 	'seg.*.len': 'segments.*.length',

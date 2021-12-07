@@ -60,6 +60,9 @@ export interface WLEDClientSegmentSendOnly {
  * @typedef {Object} WLEDClientSegment
  */
 export interface WLEDClientSegment {
+	/** The name of this segment. */
+	name?:string
+
 	/**
 	 * LED index that the segment starts at.
 	 * @type {number} 0 to `info.leds.count`-1
