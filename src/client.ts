@@ -277,6 +277,14 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	}
 
 	/**
+	 * Set the correlated color temperature of the device's main segment.
+	 * @param {number} kelvin The desired temperature in Kevlin
+	 */
+	setCCT(kelvin:number, { segmentId, ...options}:WLEDClientSendOptions&WLEDClientSendSegmentOptions={}) {
+		return this.updateState(this.buildStateWithSegments({ cct: kelvin }, segmentId||0), options)
+	}
+
+	/**
 	 * Set the palette applied to the device's main segment.
 	 * @param {number} paletteId ID of the desired palette, as found in `palettes`
 	 */
