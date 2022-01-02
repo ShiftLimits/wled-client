@@ -1,4 +1,4 @@
-import { WLEDState, WLEDPalettes, WLEDEffects, WLEDInfo, WLEDUpdatableState, WLEDLive, WLEDContext, WLEDPresets, WLEDPaletteDataPage } from '../types.wled';
+import { WLEDState, WLEDPalettes, WLEDEffects, WLEDInfo, WLEDUpdatableState, WLEDLive, WLEDContext, WLEDPresets, WLEDPaletteDataPage, WLEDConfig, WLEDUpdatableConfig } from '../types.wled';
 import { WLEDClientOptions } from '../types.client'
 import { WLEDEndpoints } from '../constants'
 import { fetch } from '@js-bits/fetch'
@@ -64,6 +64,12 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 		return object as WLEDPresets
 	}
 
+	async getConfig() {
+		let response = await fetch(`${this.api_endpoint}/cfg`).then(this.handleErrors)
+		let object = await response.json()
+		return object as WLEDConfig
+	}
+
 	async getPalettesDataPage(page:number = 0) {
 		let response = await fetch(`${this.api_endpoint}/palx?page=${page}`).then(this.handleErrors)
 		let object = await response.json()
@@ -81,5 +87,17 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 		let context = await result.json()
 		if (state.v) return context as WLEDContext
 		return context as { sucess:boolean }
+	}
+
+	async updateConfig(config:WLEDUpdatableConfig) {
+		let result = await fetch(`${this.api_endpoint}/cfg`, {
+			method: 'POST',
+			cache: 'no-cache',
+			headers: { 'Content-Type': 'application/json'	},
+			body: JSON.stringify(config)
+		}).then(this.handleErrors)
+
+		let context = await result.json()
+		return context as WLEDConfig
 	}
 }

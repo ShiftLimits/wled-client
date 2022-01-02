@@ -1,12 +1,12 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions, WLEDClientLive, WLEDClientSendSegmentOptions } from './types.client'
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions, WLEDClientLive, WLEDClientSendSegmentOptions, WLEDClientConfig, WLEDClientUpdatableConfig } from './types.client';
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode, DEFAULT_CLIENT_CONTEXT } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
-import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions } from './adapters'
+import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions, wledToClientConfig, clientToWLEDConfig } from './adapters';
 import { RGBWColor, RGBColor, RequireAtLeastOne, BuildStateFn } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
 import { isBuildStateFunction, sleep } from './utils'
-import { WLEDContext, WLEDPresets, WLEDPalettesData } from './types.wled'
+import { WLEDContext, WLEDPresets, WLEDPalettesData, WLEDConfig } from './types.wled';
 
 
 /**
@@ -27,6 +27,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 	/** List of presets save on this device. */
 	public readonly presets:WLEDClientPresets
+
+	/**  */
+	public readonly config:WLEDClientConfig
 
 	/** Options that are set on the device. */
 	public readonly deviceOptions:WLEDClientDeviceOptions
@@ -98,20 +101,22 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 	/** Get the latest state from the device. */
 	async refreshContext() {
-		const [context, presets] = await Promise.all([
+		const [context, presets, config] = await Promise.all([
 			this.JSONAPI.getAll(),
-			this.JSONAPI.getPresets()
+			this.JSONAPI.getPresets(),
+			this.JSONAPI.getConfig()
 		])
 
-		this.setContext({ ...context, presets })
+		this.setContext({ ...context, presets, config })
 	}
 
-	private setContext({ state, info, effects, palettes, presets }:Partial<WLEDContext>&{presets?:WLEDPresets}) {
+	private setContext({ state, info, effects, palettes, presets, config }:Partial<WLEDContext>&{presets?:WLEDPresets, config?:WLEDConfig}) {
 		let client_state = state ? wledToClientState(state) : this.state
 		let client_info = info ? wledToClientInfo(info) : this.info
 		let client_effects = effects ? effects : this.effects
 		let client_palettes = palettes ? palettes : this.palettes
 		let client_presets = presets ? wledToClientPresets(presets) : this.presets
+		let client_config = config ? wledToClientConfig(config) : this.config
 
 		let context:WLEDClientContext = {
 			state: client_state,
@@ -120,7 +125,8 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			palettes: client_palettes,
 			presets: client_presets,
 			deviceOptions: info ? wledToClientDeviceOptions(info.opt) : this.deviceOptions,
-			live: this.live
+			live: this.live,
+			config: client_config
 		}
 
 		Object.assign(this, { ...context })
@@ -130,6 +136,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		if (effects) this.emit<[WLEDClientEffects]>('update:effects', client_effects)
 		if (palettes) this.emit<[WLEDClientPalettes]>('update:palettes', client_palettes)
 		if (presets) this.emit<[WLEDClientPresets]>('update:presets', client_presets)
+		if (config) this.emit<[WLEDClientConfig]>('update:config', client_config)
 	}
 
 	/**
@@ -163,6 +170,16 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		}
 
 		throw new Error('No transport available to handle state update.')
+	}
+
+	/**
+	 * Make an update to the config object with multiple values.
+	 * @param {WLEDClientUpdatableConfig} config Partial config object of values to update
+	 */
+	async updateConfig(config:WLEDClientUpdatableConfig) {
+		const wled_config = clientToWLEDConfig(config)
+		const new_config = await this.JSONAPI.updateConfig(wled_config)
+		return this.setContext({ config: new_config })
 	}
 
 	/**

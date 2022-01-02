@@ -3,6 +3,8 @@ import { WLEDClientSegment, WLEDClientUpdatableState, WLEDClientUpdatableSegment
 export type RGBColor = [number,number,number]
 export type RGBWColor = [number,number,number,number]
 
+export type IPV4 = [number, number, number, number]
+
 // Credit: KPD
 // Source: https://stackoverflow.com/questions/40510611/typescript-interface-require-one-of-two-properties-to-exist/49725198#49725198
 export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =

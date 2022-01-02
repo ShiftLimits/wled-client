@@ -1,5 +1,5 @@
-import { WLEDNightlightMode, WLEDLiveDataOverride } from './constants'
-import { RGBColor, RGBWColor } from './types'
+import { WLEDNightlightMode, WLEDLiveDataOverride, WLEDAPOpenBehavior, WLEDAutoWhiteMode, WLEDBusType, WLEDBusColorOrder, WLEDButtonType, WLEDIRRemoteType, WLEDPaletteBlendingMode, WLEDDMXMode, WLEDClockOverlay } from './constants';
+import { RGBColor, RGBWColor, IPV4 } from './types';
 import { PartialDeep } from 'type-fest'
 
 //
@@ -601,6 +601,650 @@ export interface WLEDClientDeviceOptions {
 	OTA?:boolean
 }
 
+//
+// Device Config
+
+export interface WLEDClientConfigSendOnly {
+	network?:{
+		instances?:{
+			/** Pre-shared key */
+			psk?:string
+		}[]
+	}
+
+	accessPoint?:{
+		/** Pre-shared key */
+		psk?:string
+	}
+
+	interfaces?:{
+		mqtt?:{
+			/** Pre-shared key */
+			psk?:string
+		}
+	}
+
+	ota?: {
+		/** Pre-shared key */
+		psk?:string
+	}
+
+	/** Reboot device */
+	reboot?:boolean
+}
+export interface WLEDClientConfigReceiveOnly {
+	/** Ethernet */
+	ethernet?: {
+		/** Ethernet pins */
+		pins?:number[]
+	}
+
+	/**
+	 * Settings revision
+	 * @type {[number, number]} [Major, minor]
+	 */
+	revision?:[number, number]
+
+	/** Version ID */
+	versionId?:number
+
+	network?: {
+		instances?: {
+			/** Length of the pre-shared key */
+			pskLength?:number
+		}[]
+	}
+
+	accessPoint?: {
+		/** IP address */
+		ip?:IPV4
+
+		/** Length of the pre-shared key */
+		pskLength?:number
+	}
+
+	hardware?: {
+		led?: {
+			/**
+			 * Total number of LEDs
+			 *
+			 * No longer read, but provided for compatibility on downgrade.
+			 */
+			total?:number
+		}
+	}
+
+	interfaces?:{
+		mqtt?:{
+			/** Length of the pre-shared key */
+			pskLength?:number
+		}
+	}
+
+	ota?: {
+		/** Length of the pre-shared key */
+		pskLength?:number
+	}
+}
+
+export interface WLEDClientExchangeableConfig {
+	/** Ethernet */
+	ethernet?: {
+		/** Ethernet type */
+		type?:number
+	}
+
+	/** Identity */
+	id?: {
+		/** Multicast DNS hostname */
+		mdns?:string
+
+		/** Device name */
+		name?:string
+
+		/** Alexa invocation name */
+		invocationName?:string
+	}
+
+	/** Network */
+	network?: {
+		/** Instances */
+		instances?: {
+			/** Service set identifier (Network ID) */
+			ssid?:string
+
+			/** Static IP address */
+			ip?:IPV4
+
+			/** Static gateway */
+			gateway?:IPV4
+
+			/** Static subnet */
+			subnet?:IPV4
+		}[]
+	}
+
+	/** WiFi access point */
+	accessPoint?: {
+		/** Service set identifier (Network ID) */
+		ssid?:string
+
+		/** Channel */
+		chan?:number
+
+		/** Hide SSID from broadcast */
+		hide?:number
+
+		/** AP open behavior */
+		openBehavior?:WLEDAPOpenBehavior
+	}
+
+	/** WiFi firmware */
+	wifi?: {
+		/** WiFi sleep is enabled */
+		sleep?:boolean
+	}
+
+	/** Hardware Settings */
+	hardware?: {
+		/** LED */
+		led?: {
+			/** Maximum current for the whole strip in milliamps */
+			maxCurrent?:number
+
+			/** Maximum current per LED in milliamps */
+			maxCurrentPerLED?:number
+
+			/** Auto white mode */
+			autoWhiteMode?:WLEDAutoWhiteMode
+
+			/** White temperature correction */
+			cctCorrection?:boolean
+
+			/** Enable CCT calculation from RGB */
+			cctFromRGB?:boolean
+
+			/** CCT blending */
+			cctBlending?:number
+
+			/** Target FPS */
+			fps?:number
+
+			/** Bus instances (strips, busses, channels?) */
+			instances?:{
+				/** Type of LEDs attached to this bus (eg. WS2812b, SK6812 etc.) */
+				type?:WLEDBusType
+
+				/** Starting LED */
+				start?:number
+
+				/** Length of bus in number of LEDs */
+				length?:number
+
+				/** Skip first N LEDs (offset) */
+				skip?:number
+
+				/** Color order */
+				colorOrder?:WLEDBusColorOrder
+
+				/** Bus pins */
+				pins?:number[]
+
+				/** Bus requires off refresh */
+				offRefresh?:boolean
+
+				/** Reverse bus */
+				reverse?:boolean
+
+				/** Bus is RGBW */
+				rgbw?:boolean
+			}[]
+		}
+
+		/** Button */
+		button?: {
+			/** Maximum number of buttons */
+			max?:number
+
+			/** Button instances */
+			instances?:{
+				/** Button type */
+				type?:WLEDButtonType
+
+				/** Button pin */
+				pin?:[number]
+
+				/** Button macros (interactions) */
+				macros?:[
+					/** Short press */
+					number,
+					/** Long press */
+					number,
+					/** Double press */
+					number
+				]
+			}[]
+
+			/** Touch threshold */
+			touchThreshold?:number
+
+			/** Publish to MQTT */
+			mqtt?:boolean
+		}
+
+		/** Infrared */
+		ir?: {
+			/** Pin used by the IR sensor */
+			pin?:number
+
+			/** Type of IR remote */
+			type?:WLEDIRRemoteType
+		}
+
+		/** Relay */
+		relay?: {
+			/** Pin used by the relay */
+			pin?:number
+
+			/** Reverse the relay */
+			reverse?:boolean
+		}
+	}
+
+	/** Light */
+	light?: {
+		/** Brightness multiplier */
+		scaleBrightness?:number
+
+		/** Palette blending mode */
+		paletteBlendingMode?:WLEDPaletteBlendingMode
+
+		/** Auto segments is enabled */
+		autoSegments?:boolean
+
+		/** Gamma correction */
+		gammaCorrection?: {
+			/**
+			 * Brightness gamma correction
+			 * @type {number} 2.8 if on, 1.0 if off
+			 */
+			brightness?:number
+
+			/**
+			 * Color gamma correction
+			 * @type {number} 2.8 if on, 1.0 if off
+			 */
+			color?:number
+		}
+
+		/** Transitions */
+		transition?: {
+			/** Transitions are enabled */
+			enabled?:boolean
+
+			/** Transition duration in milliseconds */
+			duration?:number
+
+			/** Transitions between palettes is enabled */
+			palettes?:boolean
+		}
+
+		/** Nightlight */
+		nightlight?: {
+			/** Default nightlight mode */
+			mode?:WLEDNightlightMode
+
+			/** Default duration of the nightlight in minutes */
+			duration?:number
+
+			/** Default target brightness of the nightlight */
+			targetBrightness?:number
+		}
+	}
+
+	/** Defaults */
+	defaults?: {
+		/** Apply specified preset */
+		preset?:number
+
+		/** Turn LEDs on */
+		on?:boolean
+
+		/** Set target brightness */
+		brightness?:number
+	}
+
+	/** Interfaces */
+	interfaces?: {
+		/** Blynk */
+		blynk?:{
+			/** Blynk host */
+			host?:string
+
+			/** Blynk port */
+			port?:number
+
+			/** Blynk token */
+			token?:string
+		}
+
+		/** Hue Sync */
+		hue?:{
+			/** Hue Sync polling is enabled */
+			enabled?:boolean
+
+			/** Light ID */
+			id?:number
+
+			/** Hue IP */
+			ip?:IPV4
+
+			/** Polling interval */
+			interval?:number
+
+			/** Receive from Hue */
+			receive?: {
+				/** Receive on/off notifications */
+				on?:boolean
+
+				/** Receive brightness notifications */
+				brightness?:boolean
+
+				/** Receive color notifications */
+				color?:boolean
+			}
+		}
+
+		/** Live */
+		live?:{
+			/** DMX */
+			dmx?: {
+				/** DMX Address */
+				address?:number
+
+				/** DMX Mode */
+				mode?:WLEDDMXMode
+
+				/** e131 skip out of sequence */
+				sequenceSkip?:boolean
+
+				/** e131 universe */
+				universe?:number
+			}
+
+			/** e131 multicast */
+			multicast?:boolean
+
+			/** e131 port */
+			port?:number
+
+			/** Receive direct notifications */
+			enabled?:boolean
+
+			/** arlsForceMaxBri */
+			maxBrightness?:boolean
+
+			/** arlsDisableGammaCorrection */
+			noGammaCorrection?:boolean
+
+			/** arlsOffset */
+			offset?:number
+
+			/** Real-time timeout duration  */
+			timeout?:number
+		}
+
+		/** MQTT */
+		mqtt?:{
+			/** MQTT is enabled */
+			enabled?:boolean
+
+			/** Broker host */
+			broker?:string
+
+			/** Broker port */
+			port?:number
+
+			/** Client ID */
+			clientId?:string
+
+			/** Username */
+			user?:string
+
+			/** MQTT Topics */
+			topics?: {
+				/** Device topic */
+				device?:string
+
+				/** Group topic */
+				group?:string
+			}
+		}
+
+		/** Nodes */
+		nodes?:{
+			/** Listen for other WLED nodes */
+			list?:boolean
+
+			/** Broadcast existence to other WLED nodes */
+			broadcast?:boolean
+		}
+
+		/** Network Time Protocol */
+		ntp?:{
+			/** NTP is enabled */
+			enabled?:boolean
+
+			/** NTP host address */
+			host?:string
+
+			/** Use AM/PM instead of 24 hour time */
+			ampm?:boolean
+
+			/** Timezone */
+			timezone?:number
+
+			/** Longitude */
+			lon?:number
+
+			/** Latitude */
+			lat?:number
+
+			/** Time offset in seconds */
+			offset?:number
+		}
+
+		/** Synchronize */
+		sync?:{
+			/** UDP port */
+			port0?:number
+
+			/** UDP port */
+			port1?:number
+
+			/** Sync receive */
+			receive?: {
+				/** Receive notifications for brightness */
+				brightness?:boolean
+
+				/** Receive notifications for color */
+				color?:boolean
+
+				/** Receive notifications for effects */
+				effects?:boolean
+
+				/** Receive groups */
+				groups?:number
+			}
+
+			/** Sync send */
+			send?: {
+				/** Send button input notifications */
+				button?:boolean
+
+				/** Send direct notifications */
+				direct?:boolean
+
+				/** Send Hue notifications */
+				hue?:boolean
+
+				/** Send Macro notifications */
+				macro?:boolean
+
+				/** Send Alexa notifications */
+				alexa?:boolean
+
+				/** Send notifications twice */
+				twice?:boolean
+
+				/** Send groups */
+				groups?:number
+			}
+		}
+
+		/** Alexa */
+		alexa?:{
+			/** Alexa enabled */
+			enabled?:boolean
+
+			/** Alexa macros */
+			macros?:[
+				/** Alexa On macro */
+				number,
+				/** Alexa Off macro */
+				number
+			]
+		}
+	}
+
+	/** Overlay */
+	overlay?: {
+		/**
+		 * Clock overlay mode
+		 * @type {WLEDClockOverlay}
+		 */
+		clock?:WLEDClockOverlay
+
+		/** Countdown mode enabled */
+		countdown?:boolean
+
+		/** First LED index used by the analog clock */
+		min?:number
+
+		/** Last LED index used by the analog clock */
+		max?:number
+
+		/** LED index for the "12" in the analog clock */
+		show12LED?:number
+
+		/** Show 5 minute marks */
+		show5MinuteMarks?:boolean
+
+		/** Show seconds trail */
+		showSecondsTrail?:boolean
+	}
+
+	/** Timers */
+	timers?: {
+		/** Countdown */
+		countdown?: {
+			/** Goal for the timer as datetime */
+			goal?:[
+				/** Year */
+				number,
+				/** Month */
+				number,
+				/** Day */
+				number,
+				/** Hour */
+				number,
+				/** Minute */
+				number,
+				/** Second */
+				number
+			]
+
+			/** Countdown macro */
+			macro?:number
+		}
+
+		/** Active timer instances */
+		instances?:{
+			/** Timer is enabled */
+			enabled?:boolean
+
+			/** Hour */
+			hour?:number
+
+			/** Minute */
+			minute?:number
+
+			/** Day of Week */
+			dayOfWeek?:number
+
+			/** Preset ID */
+			macro?:number
+
+			/** Timer start date */
+			start?: {
+				/** Start month */
+				month?:number
+
+				/** Start day */
+				day?:number
+			}
+
+			/** Timer end date */
+			end?: {
+				/** End month */
+				month?:number
+
+				/** End day */
+				day?:number
+			}
+		}[]
+	}
+
+	/** Over-The-Air */
+	ota?: {
+		/** Arduino OTA is enabled */
+		arduinoOTA?:boolean
+
+		/** Lock OTA software updates */
+		lock?:boolean
+
+		/** Lock changes to WiFi settings */
+		lockWiFi?:boolean
+	}
+
+	/** DMX */
+	dmx?: {
+		/** Channel */
+		channel?:number
+
+		/** Gap */
+		gap?:number
+
+		/** Start */
+		start?:number
+
+		/** Start LED */
+		startLED?:number
+
+		/** Fixture map */
+		fixtureMap?:number[]
+
+		/** e131 proxy universe */
+		e131Proxy?:boolean
+	}
+
+	/** User mods */
+	usermods?:{[key:string]:any}
+}
+
+export type WLEDClientUpdatableConfig = PartialDeep<WLEDClientExchangeableConfig & WLEDClientConfigSendOnly>
+export type WLEDClientConfig = WLEDClientExchangeableConfig & WLEDClientConfigReceiveOnly
+
 export interface WLEDClientContext {
 	/** WLED Client state object. */
 	state:WLEDClientState
@@ -616,6 +1260,8 @@ export interface WLEDClientContext {
 	deviceOptions:WLEDClientDeviceOptions
 	/** Live streaming data sources currently sending data. */
 	live:WLEDClientLive
+	/**  */
+	config:WLEDClientConfig
 }
 
 /**
