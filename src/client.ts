@@ -178,8 +178,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 */
 	async updateConfig(config:WLEDClientUpdatableConfig) {
 		const wled_config = clientToWLEDConfig(config)
-		const new_config = await this.JSONAPI.updateConfig(wled_config)
-		return this.setContext({ config: new_config })
+		const { success } = await this.JSONAPI.updateConfig(wled_config)
+		if (success) this.refreshContext()
+		return success
 	}
 
 	/**
