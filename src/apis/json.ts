@@ -98,6 +98,6 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 		}).then(this.handleErrors)
 
 		let context = await result.json()
-		return context as WLEDConfig
+		return context as { success:boolean }
 	}
 }
