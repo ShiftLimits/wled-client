@@ -99,7 +99,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		})
 	}
 
-	/** Get the latest state from the device. */
+	/** Get the latest context from the device. */
 	async refreshContext() {
 		const [context, presets, config] = await Promise.all([
 			this.JSONAPI.getAll(),
@@ -108,6 +108,42 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		])
 
 		this.setContext({ ...context, presets, config })
+	}
+
+	/** Get the latest state from the device. */
+	async refreshState() {
+		const state = await this.JSONAPI.getState()
+		this.setContext({ state })
+	}
+
+	/** Get the latest info from the device. */
+	async refreshInfo() {
+		const info = await this.JSONAPI.getInfo()
+		this.setContext({ info })
+	}
+
+	/** Get the latest effects from the device. */
+	async refreshEffects() {
+		const effects = await this.JSONAPI.getEffects()
+		this.setContext({ effects })
+	}
+
+	/** Get the latest palettes from the device. */
+	async refreshPalettes() {
+		const palettes = await this.JSONAPI.getPalettes()
+		this.setContext({ palettes })
+	}
+
+	/** Get the latest presets from the device. */
+	async refreshPresets() {
+		const presets = await this.JSONAPI.getPresets()
+		this.setContext({ presets })
+	}
+
+	/** Get the latest config from the device. */
+	async refreshConfig() {
+		const config = await this.JSONAPI.getConfig()
+		this.setContext({ config })
 	}
 
 	private setContext({ state, info, effects, palettes, presets, config }:Partial<WLEDContext>&{presets?:WLEDPresets, config?:WLEDConfig}) {
