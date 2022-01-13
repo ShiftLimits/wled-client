@@ -345,6 +345,9 @@ export interface WLEDClientInfoLEDs {
 	/** `true` if LEDs are 4-channel (RGBW). */
 	rgbw?:boolean
 
+	/** `true` if device has cct support. */
+	cct?:boolean
+
 	/** `true` if a white channel slider should be displayed. */
 	whiteValueInput?:boolean
 

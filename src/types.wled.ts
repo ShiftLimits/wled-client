@@ -282,6 +282,9 @@ export interface WLEDInfoLEDs {
 	/** `true` if a white channel slider should be displayed. */
 	wv:boolean
 
+	/** `true` if device has cct support. */
+	cct:boolean
+
 	/**
 	 * Current LED power usage in milliamps as determined by the ABL. `0` if ABL is disabled.
 	 * @type {number} 0 to 65000

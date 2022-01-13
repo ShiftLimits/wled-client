@@ -30,6 +30,7 @@ const WLED_TO_CLIENT_INFO_MAP = {
 	'leds.count': 'leds.count',
 	'leds.fps': 'leds.fps',
 	'leds.rgbw': 'leds.rgbw',
+	'leds.cct': 'leds.cct',
 	'leds.wv': 'leds.whiteValueInput',
 	'leds.pwr': 'leds.currentPower',
 	'leds.maxpwr': 'leds.maxPower',
