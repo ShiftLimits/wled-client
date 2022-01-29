@@ -3,7 +3,7 @@
   <h1>WLED Client</h1>
 </a>
 <p>A friendly JS interface for controlling your <a href="https://github.com/Aircoookie/WLED">WLED</a> devices from Node.js or the browser.</p>
-<p><strong>Note</strong>: This is under early active development and may be subject to breaking changes until it reaches a stable version <strong>0.12.0-1.0</strong>.</p>
+<p><strong>Note</strong>: This is under early active development and may be subject to breaking changes until it reaches a stable version <strong>1.0.0</strong>.</p>
 
 <a href="#about" id="about" style="color: inherit; text-decoration: none;">
   <h2>About</h2>
@@ -46,12 +46,6 @@
 <p>Under the hood, WLED Client uses the <code>fetch</code>, <code>WebSocket</code>, and <code>EventTarget</code> APIs to achieve the desired behavior. WLED Client is primarily meant to be used in the browser where these APIs are provided by the browser&#39;s execution environment. In order to work on node, each API has been polyfilled.</p>
 <p>If your execution environment includes these APIs, you can use the browser script out of the box. Otherwise you&#39;ll need to add your own polyfills to make WLED Client work in your desired environment.</p>
 
-<a href="#versioning" id="versioning" style="color: inherit; text-decoration: none;">
-  <h3>Versioning</h3>
-</a>
-<p>WLED Client&#39;s versioning tracks WLED&#39;s version to determine what WLED API features are supported. If you have a device with WLED <code>0.12.0</code> installed, you will need WLED Client version starting with <code>0.12.0-*</code> to guarantee support.</p>
-<p>The version format for WLED Client looks like <code>[WLED Version]-[MAJOR].[MINOR]</code> and follows Semantic Versioning. This library began with support for WLED starting at version 0.12.0.</p>
-
 <a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
   <h2>Usage</h2>
 </a>
@@ -81,6 +75,12 @@
 </a>
 <p>There is a wonderfully done documentation for the WLED JSON API to be found at the <a href="https://kno.wled.ge/interfaces/json-api/">WLED knowledge base</a>. WLED Client implements this with only slightly more verbose key names. </p>
 <p>See the <a href="https://shiftlimits.github.io/wled-client/">API documentation</a> page for a detailed run down of WLED Client&#39;s structure. The <a href="https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html">WLEDClient class</a> docs has a quick list of properties and methods you can use. It may also help to check out the type definitions for <a href="https://github.com/ShiftLimits/wled-client/blob/main/src/types.client.ts">WLED Client</a> and compare them to the type definitions for <a href="https://github.com/ShiftLimits/wled-client/blob/main/src/types.wled.ts">WLED itself</a>.</p>
+
+<a href="#versioning" id="versioning" style="color: inherit; text-decoration: none;">
+  <h3>Versioning</h3>
+</a>
+<p>In order to adhere to the NPM ecosystem, WLED Client follows semantic versioning. WLED Client will bump major versions when there is a breaking change in the API that you consume in your projects. This may happen when WLED introduces a breaking change in its API, or if there comes a need to restructure parts of WLED Client.</p>
+<p>Otherwise, we will bump minor versions every time we introduce support for new WLED features as the WLED project progresses. WLED Client aims to support whatever the latest stable version of WLED is.</p>
 
 <a href="#license" id="license" style="color: inherit; text-decoration: none;">
   <h2>License</h2>
