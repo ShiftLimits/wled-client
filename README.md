@@ -54,12 +54,6 @@ Under the hood, WLED Client uses the `fetch`, `WebSocket`, and `EventTarget` API
 
 If your execution environment includes these APIs, you can use the browser script out of the box. Otherwise you'll need to add your own polyfills to make WLED Client work in your desired environment.
 
-### Versioning
-
-WLED Client's versioning tracks WLED's version to determine what WLED API features are supported. If you have a device with WLED `0.12.0` installed, you will need WLED Client version starting with `0.12.0-*` to guarantee support.
-
-The version format for WLED Client looks like `[WLED Version]-[MAJOR].[MINOR]` and follows Semantic Versioning. This library began with support for WLED starting at version 0.12.0.
-
 ## Usage
 
 Create a new instance of the `WLEDClient` class and pass in the IP of your WLED device:
@@ -125,6 +119,12 @@ To see how WLED Client handles various use cases, there are several example scri
 There is a wonderfully done documentation for the WLED JSON API to be found at the [WLED knowledge base](https://kno.wled.ge/interfaces/json-api/). WLED Client implements this with only slightly more verbose key names. 
 
 See the [API documentation](https://shiftlimits.github.io/wled-client/) page for a detailed run down of WLED Client's structure. The [WLEDClient class](https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html) docs has a quick list of properties and methods you can use. It may also help to check out the type definitions for [WLED Client](https://github.com/ShiftLimits/wled-client/blob/main/src/types.client.ts) and compare them to the type definitions for [WLED itself](https://github.com/ShiftLimits/wled-client/blob/main/src/types.wled.ts).
+
+### Versioning
+
+In order to adhere to the NPM ecosystem, WLED Client follows semantic versioning. WLED Client will bump major versions when there is a breaking change in the API that you consume in your projects. This may happen when WLED introduces a breaking change in its API, or if there comes a need to restructure parts of WLED Client.
+
+Otherwise, we will bump minor versions every time we introduce support for new WLED features as the WLED project progresses. WLED Client aims to support whatever the latest stable version of WLED is.
 
 ## License
 
