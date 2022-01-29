@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-After some further consideration, I have decided to decouple this project's versioning from WLED in order to better adhere to the expected behavior of a package in the NPM ecosystem. As of this release, WLED Client will be bumped up to **0.20.0** and further releases will update the version number according to standard Semantic Versioning. We are moving up to 0.20 to help avoid confusing the client's version with WLED's version.
+
+Nothing yet.
+
+## [0.20.0]- 2022-01-29
+After some further consideration, I have decided to decouple this project's versioning from WLED in order to better adhere to the expected behavior of a package in the NPM ecosystem. As of this release, WLED Client has been bumped up to **0.20.0** and further releases will update the version number according to standard Semantic Versioning. We moved up to 0.20 to help avoid confusing the client's version with WLED's version.
 
 Starting with this version (0.20.0) WLED Client will target WLED 0.13.0 for API compatibility. Moving forward, WLED Client will bump major versions when there is a breaking change in the API that you consume in your projects. This may happen when WLED introduces a breaking change, or if there comes a need to restructure WLED Client.
 
