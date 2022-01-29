@@ -10,6 +10,8 @@ After some further consideration, I have decided to decouple this project's vers
 Starting with this version (0.20.0) WLED Client will target WLED 0.13.0 for API compatibility. Moving forward, WLED Client will bump major versions when there is a breaking change in the API that you consume in your projects. This may happen when WLED introduces a breaking change, or if there comes a need to restructure WLED Client.
 
 ### Added
+- Add major support for getting and setting config values
+- Add `setCCT` method for setting the correlated color temperature of the white channel
 - Add `id` and `name` property to segments
 - Add ability to stop the client from initializing the connection, allowing for the client to be initialized but will not fetch the context or connect to the WebSocket until `wled.init()` is called
 
