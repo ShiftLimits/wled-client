@@ -2,7 +2,7 @@
 
 A friendly JS interface for controlling your [WLED](https://github.com/Aircoookie/WLED) devices from Node.js or the browser.
 
-**Note**: This is under early active development and may be subject to breaking changes until it reaches a stable version **0.12.0-1.0**.
+**Note**: This is under early active development and may be subject to breaking changes until it reaches a stable version **1.0.0**.
 
 ## About
 
