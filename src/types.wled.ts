@@ -59,6 +59,11 @@ export interface WLEDSegment {
 	 */
 	rpt:boolean
 
+	/**
+	 * If true the segment's contents will not be refreshed
+	 */
+	frz?:boolean
+
 	/** Array that has up to 3 color arrays as elements, the primary, secondary (background) and tertiary colors of the segment. Each color is an array of 3 or 4 bytes, which represent an RGB(W) color. */
 	col:(RGBColor|RGBWColor)[]
 

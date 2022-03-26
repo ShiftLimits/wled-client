@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add `repeat` property to segments
+- Add `freeze` property to segments
 
 ## [0.20.0]- 2022-01-29
 After some further consideration, I have decided to decouple this project's versioning from WLED in order to better adhere to the expected behavior of a package in the NPM ecosystem. As of this release, WLED Client has been bumped up to **0.20.0** and further releases will update the version number according to standard Semantic Versioning. We moved up to 0.20 to help avoid confusing the client's version with WLED's version.
