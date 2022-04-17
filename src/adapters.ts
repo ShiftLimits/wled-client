@@ -217,7 +217,7 @@ export function wledToClientDeviceOptions(options:WLEDInfo['opt']):WLEDClientDev
 		debug: !!(options & WLEDDeviceOptionMasks.DEBUG),
 		alexa: !!(options & WLEDDeviceOptionMasks.DISABLE_ALEXA),
 		blynk: !!(options & WLEDDeviceOptionMasks.DISABLE_BLYNK),
-		cronixie: !!(options & WLEDDeviceOptionMasks.DISABLE_CRONIXIE),
+		cronixie: !!(options & WLEDDeviceOptionMasks.USERMOD_CRONIXIE),
 		filesystem: !!(options & WLEDDeviceOptionMasks.DISABLE_FILESYSTEM),
 		huesync: !!(options & WLEDDeviceOptionMasks.DISABLE_HUESYNC),
 		adalight: !(options & WLEDDeviceOptionMasks.ENABLE_ADALIGHT),

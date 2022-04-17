@@ -64,7 +64,7 @@ export const WLEDDeviceOptionMasks = {
 	DEBUG: 0x80,
 	DISABLE_ALEXA: 0x40,
 	DISABLE_BLYNK: 0x20,
-	DISABLE_CRONIXIE: 0x10,
+	USERMOD_CRONIXIE: 0x10,
 	DISABLE_FILESYSTEM: 0x08,
 	DISABLE_HUESYNC: 0x04,
 	ENABLE_ADALIGHT: 0x02,
@@ -154,8 +154,7 @@ export enum WLEDPaletteBlendingMode {
 export enum WLEDClockOverlay {
 	NONE,
 	ANALOG,
-	DIGITAL,
-	CRONIXIE
+	DIGITAL
 }
 
 export enum WLEDDMXMode {
