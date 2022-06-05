@@ -375,7 +375,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				}
 			}
 
-			this.paletteDataCache = palettes_data // Cache the result in memory to optimize future calls 
+			this.paletteDataCache = palettes_data // Cache the result in memory to optimize future calls
 		}
 
 		return palettes_data

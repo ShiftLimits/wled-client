@@ -6,7 +6,7 @@ import { WLEDDeviceOptionMasks, WLEDLightCapabilityMasks } from './constants'
 const key_regexes = {}
 function keyTransformer(transform_map:{[key:string]:any}) {
 	return (key:string, value:any, path?:string):[string, any] => {
-		const current_key_path = ((path ? path+'.' : '')+key)//.replaceAll(/\[[0-9]+\]/g, '[]') 
+		const current_key_path = ((path ? path+'.' : '')+key)//.replaceAll(/\[[0-9]+\]/g, '[]')
 
 		const transform_map_key = Object.keys(transform_map).find((transform_key) => {
 			if (!key_regexes[transform_key]) key_regexes[transform_key] = new RegExp('^'+(transform_key).replaceAll('.', '\\.').replaceAll('*', '[^_]+')+'$', 'm')
