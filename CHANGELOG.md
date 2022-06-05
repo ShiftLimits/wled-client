@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for reading segment light capabilities via `info.leds.segmentLightCapabilities` and `info.leds.lightCapabilities`
 - Add `lightCapabilities` object to main client class which holds the parsed values for `rgb`, `white`, and `cct` from the info
 
+### Changed
+- *Breaking* Cronixie is now supported via usermod so references to Cronixie have been removed with the exception of the device option, which has been renamed to `USERMOD_CRONIXIE`
+
 ### Deprecated
 - Deprecated `rgbw`, `whiteValueInput`, and `cct` properties from `info.leds`, use the new `lightCapabilities` object on the client instance eg. `const client = new WLEDClient('x.x.x.x'), console.log(client.lightCapabilities)`
 
