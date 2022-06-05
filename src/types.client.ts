@@ -352,14 +352,33 @@ export interface WLEDClientInfoLEDs {
 	 */
 	fps?:number
 
-	/** `true` if LEDs are 4-channel (RGBW). */
+	/**
+	 * `true` if LEDs are 4-channel (RGBW).
+	 * @deprecated use info.leds.segmentLightCapabilities
+	 */
 	rgbw?:boolean
 
-	/** `true` if device has cct support. */
+	/**
+	 * `true` if device has cct support.
+	 * @deprecated use info.leds.segmentLightCapabilities
+	 */
 	cct?:boolean
 
-	/** `true` if a white channel slider should be displayed. */
+	/**
+	 * `true` if a white channel slider should be displayed.
+	 * @deprecated use info.leds.segmentLightCapabilities
+	 */
 	whiteValueInput?:boolean
+
+	/**
+	 * Capabilities of the busses included in each segment in ascending ID order up to last active segment (0 for non-active segment).
+	 */
+	segmentLightCapabilities?:number[]
+
+	/**
+	 * Combined light capabilities across all segments.
+	 */
+	lightCapabilities?:number
 
 	/**
 	 * Current LED power usage in milliamps as determined by the ABL. `0` if ABL is disabled.
@@ -612,6 +631,20 @@ export interface WLEDClientDeviceOptions {
 
 	/** Device has support for Over The Air updates. */
 	OTA?:boolean
+}
+
+//
+// Device Capabilities
+
+export interface WLEDClientLightCapabilities {
+	/** Supports color temperature. */
+	cct?:boolean
+
+	/** Supports white channel. */
+	white?:boolean
+
+	/** Supports RGB color. */
+	rgb?:boolean
 }
 
 //
@@ -1271,6 +1304,8 @@ export interface WLEDClientContext {
 	presets:WLEDClientPresets
 	/** Options parsed from `info.opt` */
 	deviceOptions:WLEDClientDeviceOptions
+	/** Lighting capabilities of the device. */
+	lightCapabilities:WLEDClientLightCapabilities
 	/** Live streaming data sources currently sending data. */
 	live:WLEDClientLive
 	/**  */

@@ -22,6 +22,7 @@ export const DEFAULT_CLIENT_CONTEXT:WLEDClientContext = {
 	palettes: [],
 	presets: {},
 	deviceOptions: {},
+	lightCapabilities: {},
 	live: {
 		leds: false
 	},
@@ -69,6 +70,12 @@ export const WLEDDeviceOptionMasks = {
 	DISABLE_HUESYNC: 0x04,
 	ENABLE_ADALIGHT: 0x02,
 	DISABLE_OTA: 0x01
+}
+
+export const WLEDLightCapabilityMasks = {
+	CCT: 0x04,
+	WHITE: 0x02,
+	RGB: 0x01
 }
 
 //

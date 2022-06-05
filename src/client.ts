@@ -1,8 +1,8 @@
-import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions, WLEDClientLive, WLEDClientSendSegmentOptions, WLEDClientConfig, WLEDClientUpdatableConfig } from './types.client';
+import { WLEDClientOptions, WLEDClientState, WLEDClientInfo, WLEDClientEffects, WLEDClientPalettes, WLEDClientUpdatableState, WLEDClientUpdatableSegment, WLEDClientPlaylist, WLEDClientContext, WLEDClientLiveLEDs, WLEDClientNightlightState, WLEDClientSendOptions, WLEDClientPresets, WLEDClientPreset, WLEDClientCurrentStatePreset, WLEDClientDeviceOptions, WLEDClientLive, WLEDClientSendSegmentOptions, WLEDClientConfig, WLEDClientUpdatableConfig, WLEDClientLightCapabilities } from './types.client';
 import { DEFAULT_OPTIONS, WLEDLiveDataOverride, WLEDNightlightMode, DEFAULT_CLIENT_CONTEXT } from './constants'
 import { WLEDJSONAPI } from './apis/json'
 import { WLEDWebsocketAPI } from './apis/websocket'
-import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions, wledToClientConfig, clientToWLEDConfig } from './adapters';
+import { wledToClientState, wledToClientInfo, clientToWLEDState, wledToClientPresets, wledToClientDeviceOptions, wledToClientConfig, clientToWLEDConfig, wledToClientLightCapabilities } from './adapters';
 import { RGBWColor, RGBColor, RequireAtLeastOne, BuildStateFn } from './types'
 import { IsomorphicEventEmitter } from './utils.emitter'
 import { isBuildStateFunction, sleep } from './utils'
@@ -33,6 +33,9 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 	/** Options that are set on the device. */
 	public readonly deviceOptions:WLEDClientDeviceOptions
+
+	/** Lighting capabilities of the device. */
+	public readonly lightCapabilities:WLEDClientLightCapabilities
 
 	/** Live streaming data sources currently sending data. */
 	public readonly live:WLEDClientLive
@@ -161,6 +164,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 			palettes: client_palettes,
 			presets: client_presets,
 			deviceOptions: info ? wledToClientDeviceOptions(info.opt) : this.deviceOptions,
+			lightCapabilities: info ? wledToClientLightCapabilities(info.leds.lc) : this.lightCapabilities,
 			live: this.live,
 			config: client_config
 		}

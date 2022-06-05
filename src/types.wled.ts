@@ -286,14 +286,33 @@ export interface WLEDInfoLEDs {
 	 */
 	fps:number
 
-	/** `true` if LEDs are 4-channel (RGBW). */
+	/**
+	 * `true` if LEDs are 4-channel (RGBW).
+	 * @deprecated use info.leds.lc
+	 */
 	rgbw:boolean
 
-	/** `true` if a white channel slider should be displayed. */
+	/**
+	 * `true` if a white channel slider should be displayed.
+	 * @deprecated use info.leds.lc
+	 */
 	wv:boolean
 
-	/** `true` if device has cct support. */
+	/**
+	 * `true` if device has cct support.
+	 * @deprecated use info.leds.lc
+	 */
 	cct:boolean
+
+	/**
+	 * Capabilities of the busses included in each segment in ascending ID order up to last active segment (0 for non-active segment)
+	 */
+	seglc:number[]
+
+	/**
+	 * Combined light capabilities across all segments.
+	 */
+	lc:number
 
 	/**
 	 * Current LED power usage in milliamps as determined by the ABL. `0` if ABL is disabled.

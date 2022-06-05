@@ -1,7 +1,7 @@
-import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState, WLEDClientPresets, WLEDClientDeviceOptions, WLEDClientConfig, WLEDClientUpdatableConfig } from './types.client';
+import { WLEDClientState, WLEDClientInfo, WLEDClientUpdatableState, WLEDClientPresets, WLEDClientDeviceOptions, WLEDClientLightCapabilities, WLEDClientConfig, WLEDClientUpdatableConfig } from './types.client';
 import { deepCloneTransform } from './utils'
 import { WLEDPresets, WLEDInfo, WLEDConfig } from './types.wled';
-import { WLEDDeviceOptionMasks } from './constants'
+import { WLEDDeviceOptionMasks, WLEDLightCapabilityMasks } from './constants'
 
 const key_regexes = {}
 function keyTransformer(transform_map:{[key:string]:any}) {
@@ -21,6 +21,17 @@ function keyTransformer(transform_map:{[key:string]:any}) {
 }
 
 //
+// Device Capabilities
+
+export function wledToClientLightCapabilities(options:number):WLEDClientLightCapabilities {
+	return {
+		cct: !!(options & WLEDLightCapabilityMasks.CCT),
+		white: !!(options & WLEDLightCapabilityMasks.WHITE),
+		rgb: !!(options & WLEDLightCapabilityMasks.RGB)
+	}
+}
+
+//
 // Info Adapters
 
 const WLED_TO_CLIENT_INFO_MAP = {
@@ -32,6 +43,8 @@ const WLED_TO_CLIENT_INFO_MAP = {
 	'leds.rgbw': 'leds.rgbw',
 	'leds.cct': 'leds.cct',
 	'leds.wv': 'leds.whiteValueInput',
+	'leds.lc': 'leds.lightCapabilities',
+	'leds.seglc': 'leds.segmentLightCapabilities',
 	'leds.pwr': 'leds.currentPower',
 	'leds.maxpwr': 'leds.maxPower',
 	'leds.maxseg': 'leds.maxSegments',
