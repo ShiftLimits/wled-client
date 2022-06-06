@@ -4,6 +4,11 @@
   "author": "Jeff Schofield <jeff@jeffschofield.com>",
   "keywords": ["wled", "client", "isomorphic", "led"],
   "license": "MIT",
+	"repository": "github:ShiftLimits/wled-client",
+	"bugs": {
+		"url": "https://github.com/ShiftLimits/wled-client/issues",
+		"email": "jeff@jeffschofield.com"
+	},
   "type": "module",
   "exports": {
     "node": {
