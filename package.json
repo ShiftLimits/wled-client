@@ -22,7 +22,7 @@
   "types": "dist/node/wled-client.d.ts",
   "files": [
     "dist/**/*",
-    "readme.md"
+		"CHANGELOG.md"
   ],
   "scripts": {
     "gen:docs": "typedoc",
