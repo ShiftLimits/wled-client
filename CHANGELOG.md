@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `lightCapabilities` object to main client class which holds the parsed values for `rgb`, `white`, and `cct` from the info
 
 ### Changed
+- *Breaking* Peek feature now uses a binary format and the `live:leds` event will now return an array of RGB values for LED data instead of the original object `{ n, leds }`
 - *Breaking* Cronixie is now supported via usermod so references to Cronixie have been removed with the exception of the device option, which has been renamed to `USERMOD_CRONIXIE`
 
 ### Deprecated

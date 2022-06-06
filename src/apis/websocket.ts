@@ -32,6 +32,8 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 		if (this.websocket && this.websocket.readyState == this.websocket.OPEN) return Promise.resolve(true) // Connection is already open
 
 		this.websocket = new WebSocket(this.api_endpoint)
+		this.websocket.binaryType = "arraybuffer"
+
 		return new Promise((resolve, reject) => {
 			this.websocket.addEventListener('error', reject)
 			this.websocket.addEventListener('open', () => {
@@ -46,14 +48,31 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 	private init() {
 		this.available = true
 
-		this.websocket.addEventListener('message', (event) => {
-			let message = JSON.parse((event as any as MessageEvent).data)
+		this.websocket.addEventListener('message', ({ data }) => {
+			if (data instanceof ArrayBuffer) {
+				const header = new Uint8Array(data.slice(0,2))
+				const type = String.fromCharCode(header[0])
+				const version = header[1]
 
-			if (isWLEDContext(message)) {
-				let { state, info } = message
-				this.emit('update:context', { state, info })
-			} else if(isWLEDLiveLEDs(message)) {
-				this.emit('live:leds', message)
+				if (type == 'L') switch (version) {
+					case 1:
+					default:
+						const leds:Uint8Array[] = []
+
+						const raw_leds = data.slice(2)
+						for (let i = 0; i < raw_leds.byteLength/3; i++) leds.push(new Uint8Array(raw_leds.slice(i, i + 3)))
+
+						this.emit('live:leds', leds)
+				}
+			} else if (typeof data == 'string') {
+				let message = JSON.parse(data)
+
+				if (isWLEDContext(message)) {
+					let { state, info } = message
+					this.emit('update:context', { state, info })
+				} else if(isWLEDLiveLEDs(message)) {
+					this.emit('live:leds', message.leds)
+				}
 			}
 		})
 
