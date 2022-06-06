@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.21.0]- 2022-06-05
+
+WLED 0.13.1 compatibility update.
+
 ### Added
 - Add `repeat` property to segments
 - Add `freeze` property to segments
