@@ -535,13 +535,7 @@ export interface WLEDClientLive {
 	leds:boolean
 }
 
-export interface WLEDClientLiveLEDs {
-	/** List of color values from every `n`th LED attached to the device. */
-	leds:string[]
-
-	/** If the number of LEDs is more than device's supported number of live LEDs, then WLED will send every `n`th LED. */
-	n:number
-}
+export type WLEDClientLiveLEDs = Uint8Array[]
 
 //
 // Presets
