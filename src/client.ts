@@ -90,7 +90,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	async init() {
 		if (this.isReady) return this.isReady
 
-		let initializing = this.options.websocket ? [this.refreshContext(), this.WSAPI.connect()] : [this.refreshContext()]
+		let initializing = this.options.websocket ? [this.refreshContext(this.options.init), this.WSAPI.connect()] : [this.refreshContext(this.options.init)]
 		let isReady = Promise.allSettled(initializing)
 
 		this.isReady = isReady.then(([json_result, ws_result]) => {
@@ -114,11 +114,12 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	}
 
 	/** Get the latest context from the device. */
-	async refreshContext() {
+	async refreshContext(options:{presets?:boolean, config?:boolean} = {}) {
+		const {presets: get_presets = true, config: get_config = true} = options
 		const [context, presets, config] = await Promise.all([
 			this.JSONAPI.getAll(),
-			this.JSONAPI.getPresets(),
-			this.JSONAPI.getConfig()
+			get_presets ? this.JSONAPI.getPresets() : Promise.resolve({}),
+			get_config ? this.JSONAPI.getConfig() : Promise.resolve({})
 		])
 
 		this.setContext({ ...context, presets, config })

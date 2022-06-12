@@ -35,6 +35,15 @@ export interface WLEDClientOptions {
 
 	/** Immediately initiates a context refresh and ws connection */
 	immediate:boolean
+
+	/** Choose what information to fetch on initialization */
+	init?: {
+		/** Fetch device presets on init */
+		presets?:boolean
+
+		/** Fetch device config on init */
+		config?:boolean
+	}
 }
 
 //
