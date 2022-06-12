@@ -39,6 +39,7 @@ export class WLEDWebsocketAPI extends IsomorphicEventEmitter {
 			this.websocket.addEventListener('open', () => {
 				this.websocket.removeEventListener('error', reject)
 
+				this.emit('open')
 				this.init()
 				resolve(true)
 			})
