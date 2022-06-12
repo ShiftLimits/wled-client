@@ -69,7 +69,7 @@ When WLED Client has successfully fetched the device context, the promise at `wl
 ```js
 async function init() {
 	const wled = new WLEDClient('192.168.0.123')
-	await wled.isReady
+	await wled.init()
 
 	console.log(wled.info.version) // 0.12.0
 }
@@ -81,7 +81,7 @@ If you're familiar with WLED's JSON API, you can make an update to the device st
 ```js
 async function init() {
 	const wled = new WLEDClient('192.168.0.123')
-	await wled.isReady
+	await wled.init()
 
 	console.log(wled.state.brightness) // 255
 	await wled.updateState({
@@ -97,7 +97,7 @@ If you'd rather be more direct, WLED Client offers simple methods to execute com
 ```js
 async function init() {
 	const wled = new WLEDClient('192.168.0.123')
-	await wled.isReady
+	await wled.init()
 
 	console.log(wled.state.brightness) // 255
 	await wled.setBrightness(128)
@@ -116,7 +116,7 @@ To see how WLED Client handles various use cases, there are several example scri
 
 ## Documentation
 
-There is a wonderfully done documentation for the WLED JSON API to be found at the [WLED knowledge base](https://kno.wled.ge/interfaces/json-api/). WLED Client implements this with only slightly more verbose key names. 
+There is a wonderfully done documentation for the WLED JSON API to be found at the [WLED knowledge base](https://kno.wled.ge/interfaces/json-api/). WLED Client implements this with only slightly more verbose key names.
 
 See the [API documentation](https://shiftlimits.github.io/wled-client/) page for a detailed run down of WLED Client's structure. The [WLEDClient class](https://shiftlimits.github.io/wled-client/classes/client.WLEDClient.html) docs has a quick list of properties and methods you can use. It may also help to check out the type definitions for [WLED Client](https://github.com/ShiftLimits/wled-client/blob/main/src/types.client.ts) and compare them to the type definitions for [WLED itself](https://github.com/ShiftLimits/wled-client/blob/main/src/types.wled.ts).
 
