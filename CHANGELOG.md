@@ -6,7 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+- Add timeout option for any fetch request to JSON API
+- Expose `open` event from WebSocket
+- Add events reporting the progress of a state update
+  - Add `error` event when JSON API fails
+  - Add `loading` event when a state update request is sent to an available transport
+  - Add `success` event when a state update request is successful on any transport, with a payload of `{ transport: 'ws'|'http' }`
+  - Add `success:http` when a state update request is successful on the HTTP transport
+  - Add `success:ws` when a state update request is successful on the WebSocket transport
+
+### Fixed
+- Fix live LEDs type not updated to new `Uint8Array` format
 
 ## [0.21.0]- 2022-06-05
 
