@@ -4,6 +4,10 @@ import { WLEDEndpoints } from '../constants'
 import { fetch, AbortController } from '@js-bits/fetch'
 import { IsomorphicEventEmitter } from '../utils.emitter';
 
+export interface JSONAPIFetchOptions {
+	timeout?:number
+}
+
 export class WLEDJSONAPI extends IsomorphicEventEmitter {
 	private readonly api_endpoint:string
 	private readonly authority:string
@@ -36,66 +40,78 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 		return response
 	}
 
-	async getAll() {
-		let response = await this.fetch(this.api_endpoint).then(this.handleErrors)
+	async getAll(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(this.api_endpoint, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDContext
 	}
 
-	async getPalettes() {
-		let response = await this.fetch(`${this.api_endpoint}/pal`).then(this.handleErrors)
+	async getPalettes(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.api_endpoint}/pal`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDPalettes
 	}
 
-	async getEffects() {
-		let response = await this.fetch(`${this.api_endpoint}/eff`).then(this.handleErrors)
+	async getEffects(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.api_endpoint}/eff`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDEffects
 	}
 
-	async getInfo() {
-		let response = await this.fetch(`${this.api_endpoint}/info`).then(this.handleErrors)
+	async getInfo(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.api_endpoint}/info`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDInfo
 	}
 
-	async getState() {
-		let response = await this.fetch(`${this.api_endpoint}/state`).then(this.handleErrors)
+	async getState(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.api_endpoint}/state`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDState
 	}
 
-	async getLive() {
-		let response = await this.fetch(`${this.api_endpoint}/live`).then(this.handleErrors)
+	async getLive(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.api_endpoint}/live`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDLive
 	}
 
-	async getPresets() {
-		let response = await this.fetch(`${this.authority}/presets.json`).then(this.handleErrors)
+	async getPresets(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.authority}/presets.json`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDPresets
 	}
 
-	async getConfig() {
-		let response = await this.fetch(`${this.api_endpoint}/cfg`).then(this.handleErrors)
+	async getConfig(options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.api_endpoint}/cfg`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDConfig
 	}
 
-	async getPalettesDataPage(page:number = 0) {
-		let response = await this.fetch(`${this.api_endpoint}/palx?page=${page}`).then(this.handleErrors)
+	async getPalettesDataPage(page:number = 0, options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+		let response = await this.fetch(`${this.api_endpoint}/palx?page=${page}`, { timeout }).then(this.handleErrors)
 		let object = await response.json()
 		return object as WLEDPaletteDataPage
 	}
 
-	async updateState(state:WLEDUpdatableState) {
+	async updateState(state:WLEDUpdatableState, options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+
 		let result = await this.fetch(this.api_endpoint, {
 			method: 'POST',
 			cache: 'no-cache',
 			headers: { 'Content-Type': 'application/json'	},
-			body: JSON.stringify(state)
+			body: JSON.stringify(state),
+			timeout
 		}).then(this.handleErrors)
 
 		let context = await result.json()
@@ -103,12 +119,15 @@ export class WLEDJSONAPI extends IsomorphicEventEmitter {
 		return context as { success:boolean }
 	}
 
-	async updateConfig(config:WLEDUpdatableConfig) {
+	async updateConfig(config:WLEDUpdatableConfig, options:JSONAPIFetchOptions = {}) {
+		const { timeout } = options
+
 		let result = await this.fetch(`${this.api_endpoint}/cfg`, {
 			method: 'POST',
 			cache: 'no-cache',
 			headers: { 'Content-Type': 'application/json'	},
-			body: JSON.stringify(config)
+			body: JSON.stringify(config),
+			timeout
 		}).then(this.handleErrors)
 
 		let context = await result.json()
