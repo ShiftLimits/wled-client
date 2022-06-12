@@ -1321,6 +1321,9 @@ export interface WLEDClientSendOptions {
 
 	/** Choose which API to use. */
 	method?: 'ws'|'json'
+
+	/** Set a timeout on this request for **JSON API only** */
+	timeout?:number
 }
 
 /** Optional properties relating to the segment this method will affect. */

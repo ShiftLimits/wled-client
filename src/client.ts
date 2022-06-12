@@ -186,12 +186,14 @@ export class WLEDClient extends IsomorphicEventEmitter {
 	 */
 	async updateState(state:WLEDClientUpdatableState, options?:WLEDClientSendOptions) {
 		let use_method:'ws'|'json'|undefined
+		let timeout:number|undefined
 		if (options) { // Handle options passed for this call only
-			const { transition, noSync, method } = options
+			const { transition, noSync, method, timeout: o_timeout } = options
 
 			if (transition) state.temporaryTransition = transition
 			if (noSync) state.udpSync = { ...(state.udpSync || {}), noSync }
 			if (method) use_method = method
+			if (timeout) timeout = o_timeout
 		}
 
 		const wled_state = clientToWLEDState(state) // Transform the client state object into the WLED API state object
@@ -211,7 +213,7 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		if (!use_method || use_method != 'ws') {
 			try {
 				this.emit('loading')
-				let new_context = await this.JSONAPI.updateState({ ...wled_state, v: true }) as WLEDContext
+				let new_context = await this.JSONAPI.updateState({ ...wled_state, v: true }, { timeout }) as WLEDContext
 				this.emit('success', { transport: 'http' })
 				this.emit('success:http')
 				return this.setContext(new_context)
