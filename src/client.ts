@@ -198,7 +198,10 @@ export class WLEDClient extends IsomorphicEventEmitter {
 
 		if ((!use_method || use_method != 'json') && this.WSAPI.available) {
 			try {
+				this.emit('loading')
 				await this.WSAPI.updateState(wled_state)
+				this.emit('success', { transport: 'ws' })
+				this.emit('success:ws')
 				return
 			} catch(e) {
 				this.emit('error', e)
@@ -206,8 +209,15 @@ export class WLEDClient extends IsomorphicEventEmitter {
 		}
 
 		if (!use_method || use_method != 'ws') {
-			let new_context = await this.JSONAPI.updateState({ ...wled_state, v: true }) as WLEDContext
-			return this.setContext(new_context)
+			try {
+				this.emit('loading')
+				let new_context = await this.JSONAPI.updateState({ ...wled_state, v: true }) as WLEDContext
+				this.emit('success', { transport: 'http' })
+				this.emit('success:http')
+				return this.setContext(new_context)
+			} catch(e) {
+				this.emit('error', e)
+			}
 		}
 
 		throw new Error('No transport available to handle state update.')
