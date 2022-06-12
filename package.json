@@ -2,13 +2,18 @@
   "name": "wled-client",
   "version": "0.21.0",
   "author": "Jeff Schofield <jeff@jeffschofield.com>",
-  "keywords": ["wled", "client", "isomorphic", "led"],
+  "keywords": [
+    "wled",
+    "client",
+    "isomorphic",
+    "led"
+  ],
   "license": "MIT",
-	"repository": "github:ShiftLimits/wled-client",
-	"bugs": {
-		"url": "https://github.com/ShiftLimits/wled-client/issues",
-		"email": "jeff@jeffschofield.com"
-	},
+  "repository": "github:ShiftLimits/wled-client",
+  "bugs": {
+    "url": "https://github.com/ShiftLimits/wled-client/issues",
+    "email": "jeff@jeffschofield.com"
+  },
   "type": "module",
   "exports": {
     "node": {
@@ -22,7 +27,7 @@
   "types": "dist/node/wled-client.d.ts",
   "files": [
     "dist/**/*",
-		"CHANGELOG.md"
+    "CHANGELOG.md"
   ],
   "scripts": {
     "gen:docs": "typedoc",
