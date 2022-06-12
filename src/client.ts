@@ -98,6 +98,16 @@ export class WLEDClient extends IsomorphicEventEmitter {
 				this.emit('error', json_result.reason)
 				return Promise.reject(json_result.reason)
 			}
+
+			if (json_result.status == 'fulfilled') {
+				this.emit('success', { transport: 'http' })
+				this.emit('success:http')
+			}
+			if (ws_result && ws_result.status == 'fulfilled') {
+				this.emit('success', { transport: 'ws' })
+				this.emit('success:ws')
+			}
+
 			this.emit('ready')
 			return true
 		})
