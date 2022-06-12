@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.22.0]- 2022-06-12
+
 ### Added
 - Add `init` object to client options for disabling the fetching of some device information on client initialize (can help with lower power devices)
-- Add `timeout` to client options for any fetch request to JSON API
+- Add `timeout` to client options for any fetch request to JSON API, requests now timeout after 5 seconds by default
 - Expose `open` event from WebSocket
 - Add events reporting the progress of a state update
   - Add `error` event when JSON API fails
