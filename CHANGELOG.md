@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet.
 
+## [0.22.1]- 2022-10-30
+
+### Fixed
+- Fix syntax error when using require in Node, caused by minifying during build
+- Ensure Node uses the correct entry point when importing from an ES module (fixes #4)
+
 ## [0.22.0]- 2022-06-12
 
 ### Added
