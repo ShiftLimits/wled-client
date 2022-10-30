@@ -4,7 +4,7 @@ export const tsup:Options = {
 	dts: true,
   splitting: true,
   sourcemap: true,
-	minify: true,
+	minify: false,
 	outDir: 'dist/node',
 	format: ['cjs', 'esm'],
   entryPoints: {
