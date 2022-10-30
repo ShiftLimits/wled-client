@@ -17,7 +17,7 @@
   "type": "module",
   "exports": {
     "node": {
-      "module": "./dist/node/wled-client.js",
+      "import": "./dist/node/wled-client.js",
       "require": "./dist/node/wled-client.cjs"
     },
     "script": "./dist/browser/wled-client.js",
